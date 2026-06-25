@@ -1,5 +1,18 @@
 # Chapter 5 — Recurrent Networks for Text
 
+:::{admonition} 🔗 Notebooks for this chapter
+:class: seealso dropdown
+Open in Colab and **Runtime → Run all** — data loads from a stable link, nothing to upload.
+
+- **1 using word embeddings UPDATED Small Data** &nbsp; [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module5/6_1_using_word_embeddings_UPDATED_SmallData.ipynb) &nbsp; [GitHub](https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module5/6_1_using_word_embeddings_UPDATED_SmallData.ipynb)
+- **2 understanding recurrent neural networks** &nbsp; [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module5/6_2_understanding_recurrent_neural_networks.ipynb) &nbsp; [GitHub](https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module5/6_2_understanding_recurrent_neural_networks.ipynb)
+- **Dave s GLo VE Example** &nbsp; [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module5/Dave_s_GLoVE_Example.ipynb) &nbsp; [GitHub](https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module5/Dave_s_GLoVE_Example.ipynb)
+- **EDA ML Storms** &nbsp; [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module5/EDA_ML_Storms.ipynb) &nbsp; [GitHub](https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module5/EDA_ML_Storms.ipynb)
+- **Tokenizer FFNN Storms** &nbsp; [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module5/Tokenizer_FFNN_Storms.ipynb) &nbsp; [GitHub](https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module5/Tokenizer_FFNN_Storms.ipynb)
+- **Updated Scraping Bill Gates** &nbsp; [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module5/Updated_ScrapingBillGates.ipynb) &nbsp; [GitHub](https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module5/Updated_ScrapingBillGates.ipynb)
+:::
+
+
 We arrived at text on purpose *last*. Everything from Chapter 4 — sequences fed one step at a time, a hidden state carried forward, LSTM/GRU/bidirectional layers — applies directly to words. The one genuinely new problem is that **a computer can't read words**; it can only do math on numbers. So most of this chapter is about turning language into numbers three different ways, from naive to powerful: **bag-of-words → TF-IDF → embeddings**.
 
 Our running examples are real and a little fun: National Weather Service **storm narratives** (hail and flash-flood event descriptions), **Trump vs. Obama tweets** (who wrote it?), and **IMDB** movie-review sentiment.

@@ -1,5 +1,14 @@
 # Chapter 6 — Special Topics
 
+:::{admonition} 🔗 Notebooks for this chapter
+:class: seealso dropdown
+Open in Colab and **Runtime → Run all** — data loads from a stable link, nothing to upload.
+
+- **Deep Recommendations** &nbsp; [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module6/Deep_Recommendations.ipynb) &nbsp; [GitHub](https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module6/Deep_Recommendations.ipynb)
+- **oxford pets image segmentation** &nbsp; [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module6/oxford_pets_image_segmentation.ipynb) &nbsp; [GitHub](https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module6/oxford_pets_image_segmentation.ipynb)
+:::
+
+
 This is the cherry on top — two applications that recombine everything you've built. **Image segmentation** takes the autoencoder idea and turns it into picture-to-picture prediction with **U-Nets**. **Deep recommender systems** take the embedding idea from text and use it to learn who you are. Both also introduce the **Functional API**, the more flexible way to wire up Keras models when a simple stack won't do.
 
 ## 6.1 Image segmentation with U-Nets

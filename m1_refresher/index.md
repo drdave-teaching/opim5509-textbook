@@ -1,5 +1,18 @@
 # Chapter 1 — Refresher: EDA & the ML Methodology
 
+:::{admonition} 🔗 Notebooks for this chapter
+:class: seealso dropdown
+Open in Colab and **Runtime → Run all** — data loads from a stable link, nothing to upload.
+
+- **General EDA Template** &nbsp; [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module1/0_General_EDA_Template.ipynb) &nbsp; [GitHub](https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module1/0_General_EDA_Template.ipynb)
+- **Boston EDA** &nbsp; [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module1/1_Boston_EDA.ipynb) &nbsp; [GitHub](https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module1/1_Boston_EDA.ipynb)
+- **All The Models Boston Housing Regression** &nbsp; [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module1/2_AllTheModels_BostonHousing_Regression.ipynb) &nbsp; [GitHub](https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module1/2_AllTheModels_BostonHousing_Regression.ipynb)
+- **All The Models Boston Housing Classification** &nbsp; [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module1/3_AllTheModels_BostonHousing_Classification.ipynb) &nbsp; [GitHub](https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module1/3_AllTheModels_BostonHousing_Classification.ipynb)
+- **Assignment1 OPIM5509** &nbsp; [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module1/Assignment1_OPIM5509.ipynb) &nbsp; [GitHub](https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module1/Assignment1_OPIM5509.ipynb)
+- **M1 California Housing EDA Regression** &nbsp; [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/M1_CaliforniaHousing_EDA_Regression.ipynb) &nbsp; [GitHub](https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/M1_CaliforniaHousing_EDA_Regression.ipynb)
+:::
+
+
 Let me level-set. This course assumes you arrive with **strong data-wrangling skills** and a working background in **machine-learning concepts**. So this first chapter isn't new material — it's a deliberate refresher to make sure we *all* share the same foundation before we transition into deep learning. If this chapter feels overwhelming, that's a useful signal: shore up the data-science fundamentals (or take OPIM 5512) before going further, because deep learning sits *on top* of everything here. Building deep models when you can't summarize a dataset or describe what's happening in a business is like flying a plane before you can ride a bike.
 
 Here's the whole methodology in one breath — and it's the same five steps whether the model is a random forest or a 20-layer neural network:

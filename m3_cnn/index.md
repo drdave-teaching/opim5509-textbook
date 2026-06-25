@@ -1,5 +1,19 @@
 # Chapter 3 — Convolutional Neural Networks
 
+:::{admonition} 🔗 Notebooks for this chapter
+:class: seealso dropdown
+Open in Colab and **Runtime → Run all** — data loads from a stable link, nothing to upload.
+
+- **Autoencoders for Images** &nbsp; [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module3/Autoencoders_for_Images.ipynb) &nbsp; [GitHub](https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module3/Autoencoders_for_Images.ipynb)
+- **DW 5 2 using convnets with small datasets Colab compatible** &nbsp; [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module3/DW_5_2_using_convnets_with_small_datasets_Colab_compatible.ipynb) &nbsp; [GitHub](https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module3/DW_5_2_using_convnets_with_small_datasets_Colab_compatible.ipynb)
+- **DW 5 3 using a pretrained convnet** &nbsp; [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module3/DW_5_3_using_a_pretrained_convnet.ipynb) &nbsp; [GitHub](https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module3/DW_5_3_using_a_pretrained_convnet.ipynb)
+- **Lots of Bing images** &nbsp; [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module3/Lots_of_Bing_images.ipynb) &nbsp; [GitHub](https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module3/Lots_of_Bing_images.ipynb)
+- **Save MNIST to Drive and Model** &nbsp; [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module3/Save_MNIST_to_Drive_and_Model.ipynb) &nbsp; [GitHub](https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module3/Save_MNIST_to_Drive_and_Model.ipynb)
+- **Simple Size and Param** &nbsp; [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module3/Simple_Size_and_Param.ipynb) &nbsp; [GitHub](https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module3/Simple_Size_and_Param.ipynb)
+- **softcode DW 5 2 using convnets with small datasets Colab compatible** &nbsp; [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module3/softcode_DW_5_2_using_convnets_with_small_datasets_Colab_compatible.ipynb) &nbsp; [GitHub](https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module3/softcode_DW_5_2_using_convnets_with_small_datasets_Colab_compatible.ipynb)
+:::
+
+
 Convolutional neural networks (ConvNets) are one of the coolest places to start in deep learning, and here's the good news up front: once you understand **convolution**, ConvNets are mostly straightforward, and **everything from Chapter 2 — dense layers, ReLU, softmax, backprop — just attaches onto the end.** The new idea is a smarter front end that does **automated feature engineering** on images.
 
 A note on intuition before the math: a fantastic free resource for *seeing* convolution is the image-kernels explainer at [setosa.io/ev/image-kernels](https://setosa.io/ev/image-kernels). Play with it for five minutes; it makes this whole chapter click.
