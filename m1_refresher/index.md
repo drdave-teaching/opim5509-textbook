@@ -166,3 +166,65 @@ Everything in this chapter — read, split, **scale on train only**, fit a basel
 - Always evaluate **quantitatively and visually**, and always compare **train vs. test** to catch overfitting.
 - Know your **library geography** (`preprocessing`, `model_selection`, `ensemble`, `tree`) — fluency beats Googling the basics.
 ```
+
+
+---
+
+## 📌 Lecture key points
+
+*Distilled takeaways from the video lectures behind this chapter — click each to expand.*
+
+
+:::{admonition} Setting up Colaboratory on your Google Drive (M1.1)
+:class: note dropdown
+- Use **Google Colab** — cloud-based so there are no local hardware/install headaches; "if you can get online and have a Gmail, you'll succeed."
+- Make a **dedicated class Gmail/Drive** (e.g., `davesdeeplearning@gmail.com`) for 15 GB of free, shareable storage; academic Gmail can block easy sharing.
+- Organize a class folder with **per-module subfolders**; connect Colab and use **Chrome**.
+- Colab gives a free Python 3 runtime (~12 GB RAM, ~100 GB disk) — no setup cost to start modeling.
+- The whole course is built so everything **runs from Drive** — reproducibility and shareability first.
+:::
+
+:::{admonition} Accessing books from the UConn library and notebooks from GitHub (M1.2)
+:class: note dropdown
+- **Don't buy textbooks** — get them free via `lib.uconn.edu` with your NetID (Manning/O'Reilly access).
+- Core books: **Trask, *Grokking Deep Learning*** (best for the intuition-building start) and **Chollet, *Deep Learning with Python***.
+- Spend the saved money on a **second monitor** instead — biggest productivity upgrade.
+- Pull reference **notebooks from GitHub** straight into Colab.
+- Build the habit of reading source books + running their notebooks alongside lecture.
+:::
+
+:::{admonition} Performing an EDA on Boston Housing — Part 1 (M1.3)
+:class: note dropdown
+- **Level-set:** you need strong wrangling + ML fundamentals before deep learning ("fly a plane only after you can ride a bike").
+- Always interrogate **shape, columns, and dtypes** first; `df.info()` gives shape + dtypes + missing values in one call.
+- A stray character flips a numeric column to **object** ("can't do math on it") — fix dtypes *before* modeling.
+- **Track row counts** through the pipeline (split, missing-value drops) and be able to explain every change.
+- EDA = summary stats + plots/tables to *understand* the data before modeling.
+:::
+
+:::{admonition} Performing an EDA on Boston Housing — Part 2 (M1.4)
+:class: note dropdown
+- Be **brave**: "Runtime → Run all"; you won't break anything, and restart-and-run-all always recovers.
+- Standard imports every time: `pandas as pd`, `numpy as np`, `matplotlib.pyplot as plt`.
+- Compute **statistics** (mean, median, percentiles) and make **plots** (boxplots, histograms, KDE, scatter).
+- Read data from a **gdown shareable link** rather than mounting Drive (cleaner, no PII exposure).
+- Reusable **EDA template** — same skeleton applied to any dataset.
+:::
+
+:::{admonition} Fitting Regression Models with Sci-kit Learn (Boston Housing) (M1.5)
+:class: note dropdown
+- The **5 steps**: read/clean → split → **min-max scale (fit_transform on train, transform on test)** → fit → evaluate.
+- Fit a **baseline (LinearRegression)** plus tree models (DecisionTree, RandomForest, GradientBoosting); fitting is ~3 lines.
+- Evaluate **quantitatively** (R², MSE, MAE) **and visually** (predicted-vs-actual on the 45° line).
+- **R² of 1.0 + perfect line = overfitting**, especially if train ≠ test.
+- Know your **library geography** (`preprocessing`, `model_selection`, `ensemble`, `tree`) — fluency beats Googling basics.
+:::
+
+:::{admonition} Fitting Classification Models with Sci-kit Learn (Boston Housing) (M1.6)
+:class: note dropdown
+- Classification ≈ regression workflow; swap `RandomForestRegressor` → `Classifier` — the **evaluation** is what differs.
+- **Recode** `medv` to a balanced 0/1 at the **median** (~50/50) so accuracy is meaningful.
+- Baseline shifts from linear → **logistic regression**.
+- Metrics come from the **confusion matrix**: accuracy, **precision, recall, F1** (all rearrangements of TP/TN/FP/FN).
+- **Balanced data matters for honest metrics** (the "always sunny in SoCal = 90% accuracy" trap).
+:::

@@ -96,3 +96,110 @@ With this stack you can do real tasks in a few lines: classify **who tweeted** (
 - **`Embedding → Flatten → Dense`** ignores order; **`Embedding → LSTM`** uses it — the Chapter-4 recurrent engine, now reading words.
 - Always **fit vectorizers/tokenizers on train only** — the same anti-leakage discipline from Chapter 1.
 ```
+
+
+---
+
+## 📌 Lecture key points
+
+*Distilled takeaways from the video lectures behind this chapter — click each to expand.*
+
+
+:::{admonition} Basic NLP processing techniques
+:class: note dropdown
+- **Corpus** = whole sample; **document** = individual sample.
+- Lowercase everything so "Hail"/"hail" are one token.
+- Strip non-letters (punctuation, @, $, %) → replace with spaces.
+- Goal: turn text into something a computer can model.
+- Done on the storm (hail) narratives as the running example.
+:::
+
+:::{admonition} CountVectorizer and Bag of Words
+:class: note dropdown
+- **Bag-of-words** counts word occurrences; `CountVectorizer` builds the matrix.
+- Remove **stop words**; optionally **stem** (best when too many words, too few rows).
+- **Tokenize** into indexed words (e.g., 13,512 unique → indices 1–13,512).
+- Reusable script if you name things generically (`df`).
+- A little EDA: common words, bar plot, word cloud.
+:::
+
+:::{admonition} Build a model with TF-IDF and the keras tokenizer
+:class: note dropdown
+- **TF-IDF** up-weights distinctive words, down-weights ubiquitous ones.
+- Keras **`Tokenizer(num_words=...)`** learns the vocabulary and indexes words.
+- `fit_on_texts` on train; inspect `word_index`, `word_counts`, `document_count`.
+- `num_words` caps vocabulary (try 1k/10k).
+- Feed vectors into a model for classification.
+:::
+
+:::{admonition} Building and evaluating models with BoW and TF-IDF
+:class: note dropdown
+- Compare BoW vs TF-IDF representations on the same task.
+- Feed into standard classifiers; evaluate with the usual metrics.
+- Strong, fast **baselines** before deep models.
+- Watch dimensionality with n-grams.
+- Fit vectorizers on **train only**.
+:::
+
+:::{admonition} Intro to NLP topics with ML
+:class: note dropdown
+- Overview of the classic NLP pipeline (preprocess → vectorize → model).
+- Naive representations: presence (one-hot) and frequency (counts).
+- **n-grams** (unigram/bigram/trigram) smuggle back some word order.
+- Larger n → bigger feature space → dimensionality risk.
+- Sets up why embeddings are better.
+:::
+
+:::{admonition} Taking a DL approach to structured NLP data
+:class: note dropdown
+- Move from sparse BoW/TF-IDF to **dense** learned representations.
+- Prep tokenized, padded sequences for a network.
+- Bridge from classic ML to deep text models.
+- Same preprocessing, different downstream model.
+- Motivates embeddings next.
+:::
+
+:::{admonition} Exploring embeddings (flattened) in dense layers
+:class: note dropdown
+- An **`Embedding`** layer = trainable lookup table (word → dense vector).
+- **Flatten → Dense** consumes embeddings but **loses word order** (bag of vectors).
+- Fast and simple; a stepping stone.
+- Embedding dimension is a hyperparameter.
+- Words gain *meaning* vs arbitrary indices.
+:::
+
+:::{admonition} Introduction to embeddings for text sequences
+:class: note dropdown
+- A computer must convert words to numbers; naive one-hot/counts lack **sequence**.
+- Embeddings place words in n-D space where similar words sit nearby.
+- Numeric sequences taught first **on purpose** — text is the harder generalization.
+- Recall the recurrent machinery: read one token at a time, update hidden state.
+- Can **import (GloVe)** or **learn** embeddings for your task.
+:::
+
+:::{admonition} Using embeddings in recurrent layers
+:class: note dropdown
+- **`Embedding → LSTM/GRU`** *uses* order (vs flatten→dense which ignores it).
+- The Chapter-4 recurrent engine, now reading **word-vectors**.
+- All advanced tricks transfer (stacking, bidirectional, Conv1D).
+- The strongest classic text model in the course.
+- Applies to sentiment/authorship tasks.
+:::
+
+:::{admonition} Monster! Text analytics + the kitchen sink
+:class: note dropdown
+- A capstone notebook combining preprocessing + embeddings + recurrent layers.
+- Throw the full toolkit at a real text problem.
+- Shows how the pieces assemble end-to-end.
+- Manage complexity with clean, reusable code.
+- Evaluate honestly (train-only fits, proper test).
+:::
+
+:::{admonition} Put it all together! Download data, process it, model it
+:class: note dropdown
+- Full pipeline: **scrape/download → process → model** (e.g., Trump vs Obama tweets, GetOldTweets).
+- Authorship/sentiment classification from raw text.
+- Reinforces reproducible, end-to-end workflow.
+- Real, messy data.
+- Capstone for text RNNs.
+:::

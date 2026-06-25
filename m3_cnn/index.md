@@ -128,3 +128,110 @@ So the humble "predict yourself" model is the conceptual seed of generative and 
 - With little data, **transfer learning** (VGG16, `include_top=False`) wins — feature-extract or fine-tune.
 - **Autoencoders** compress to a latent space and reconstruct — the seed of denoising, colorization, and U-Net segmentation.
 ```
+
+
+---
+
+## 📌 Lecture key points
+
+*Distilled takeaways from the video lectures behind this chapter — click each to expand.*
+
+
+:::{admonition} Getting a feel for image kernels
+:class: note dropdown
+- Images are **tensors**: grayscale = 2-D, color = 3-D (H×W×3 RGB, values 0–255).
+- A **kernel/filter** slides over the image; multiply-and-sum = **convolution** → a **feature map**.
+- Feature maps are always **lower resolution** than the input.
+- Use the **setosa.io image-kernels** explainer to build intuition before the math.
+- Once convolution clicks, "everything from Module 2 just attaches onto the end."
+:::
+
+:::{admonition} ConvNet Theory — Part 1 & 2
+:class: note dropdown
+- **Convolution** = light, learned feature extraction; **pooling** = aggressive downsampling.
+- A ConvNet **learns its kernels** (automated feature engineering) instead of you hand-designing them.
+- Pooling grants **spatial invariance** — no need for perfectly-centered images.
+- Same architecture does **classification or regression** by changing the final activation.
+- Stacked conv/pool layers build a hierarchy: edges → textures → parts → objects.
+:::
+
+:::{admonition} ConvNet Size and Trainable Parameters — Parts 1–3
+:class: note dropdown
+- Conv params $=(M\cdot M\cdot C+1)\cdot F$ (kernel×channels+bias, per filter).
+- Valid-convolution output side $=L-(M-1)$ — **not** $L-M-1$ (the pixel everyone loses).
+- **Max pooling halves spatial size and has zero trainable parameters.**
+- Work a full Conv→pool→Conv→pool→flatten→dense example by hand.
+- Use a cheat sheet first, then do it unaided until the summary is predictable.
+:::
+
+:::{admonition} Cats and Dogs — Parts 1–4
+:class: note dropdown
+- The **"hello world" of computer vision**: binary cats vs dogs.
+- Architecture: **Conv2D+MaxPooling tower → Flatten → Dense → sigmoid**.
+- Stream images with **`ImageDataGenerator`**, `rescale=1./255`, resize to 150×150, `flow_from_directory`.
+- **Data augmentation** (zoom/shift/shear/flip) on **train only** = free data, fights overfitting.
+- Evaluate generator-based models with `steps_per_epoch` and the usual curves/metrics.
+:::
+
+:::{admonition} MNIST and multiclass classification with ConvNets — Parts 1–3
+:class: note dropdown
+- Write MNIST to Drive; **prep images for ConvNets** (reshape, scale).
+- Build with dropout + early stopping; ~5k train / 1k test for speed.
+- Evaluate fit; store results in a **pandas DataFrame**; confusion matrix + classification report.
+- ConvNets beat dense nets on images by respecting spatial structure.
+- Multiclass head = softmax over 10 digits.
+:::
+
+:::{admonition} An introduction to transfer learning with ConvNets
+:class: note dropdown
+- Real vision needs **big data**; you rarely have it (e.g., 300 furnace images/class).
+- **Steal filters** from networks trained on millions of images (1000-class problems).
+- The learned convolutional filters are **general** (edges/textures useful anywhere).
+- Keep the pretrained **convolutional base**, replace the classifier head.
+- Lets you build strong models from a few hundred images.
+:::
+
+:::{admonition} Our first transfer-learning model
+:class: note dropdown
+- Load **VGG16** with `weights='imagenet'`, **`include_top=False`**, `input_shape=(150,150,3)`.
+- **Feature extraction:** freeze the base, run images through once for rich feature vectors.
+- Train a small dense classifier on those features — fast, great for tiny data.
+- Confirm `conv_base.summary()` shows the frozen feature extractor.
+- Huge accuracy jump over from-scratch on small datasets.
+:::
+
+:::{admonition} Fine-tuning a convolutional neural network
+:class: note dropdown
+- **Unfreeze the top few** conv layers and train them at a **very low learning rate**.
+- Adapts general filters to your specific domain without destroying them.
+- Do feature-extraction first, then fine-tune for the last bit of performance.
+- Watch for overfitting; keep most of the base frozen.
+- The standard transfer-learning two-step.
+:::
+
+:::{admonition} Introduction to autoencoders
+:class: note dropdown
+- An autoencoder **recreates its own input** through a narrow **latent** bottleneck.
+- 28×28 (784) → `Dense(32)` → 784 ≈ **95% compression** with reconstruction.
+- Generalizes to **denoising** and **colorization** (B&W→color pairs).
+- Latent space = a compact learned representation.
+- Conceptual seed of **image segmentation (U-Nets)** and generative models.
+:::
+
+:::{admonition} Deep autoencoders and convolutional autoencoders
+:class: note dropdown
+- Use **conv layers** in encoder/decoder for image-aware compression.
+- Deeper encoders learn richer latent codes.
+- Encoder–decoder = picture-to-picture mapping.
+- Foundation for segmentation and image generation.
+- Demonstrates upsampling back to original dimensions.
+:::
+
+:::{admonition} (optional, M3opt) StackOverflow ConvNet params; Weather ConvNets Pt 1–4
+:class: note dropdown
+- Extra worked examples of **trainable-params & output-shape** (stride, filter size, channels).
+- **Weather ConvNets**: a real applied pipeline — problem overview → data prep → predict temperature → predict wind direction.
+- Shows ConvNets on non-photo gridded data.
+- Reinforces the parameter arithmetic on fresh examples.
+- Optional/advanced enrichment.
+:::

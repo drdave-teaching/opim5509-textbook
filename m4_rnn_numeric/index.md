@@ -103,3 +103,155 @@ A `Bidirectional(LSTM(3))` produces 3 forward units and 3 backward units, concat
 - Always beat **mean / persistence / linear** baselines.
 - Advanced add-ons stack: **Conv1D+pooling, recurrent dropout, stacking (`return_sequences`), and Bidirectional**; many-to-many predicts multiple targets/horizons.
 ```
+
+
+---
+
+## 📌 Lecture key points
+
+*Distilled takeaways from the video lectures behind this chapter — click each to expand.*
+
+
+:::{admonition} A first look at recurrent neural network architecture
+:class: note dropdown
+- The **window method** destroys temporal structure (lags as features) → lets any model fit.
+- RNNs **preserve the sequence** and learn temporal features for you (like CNNs did for images).
+- Start with **numbers, not text** (text adds embeddings → confusing); Chollet starting with text is "a mistake."
+- For unstructured data, effort shifts from feature engineering to **getting data into the right shape**.
+- Resources: PPT, script, and an Excel sheet to follow along.
+:::
+
+:::{admonition} Simple RNN: Vanilla recurrent neural networks
+:class: note dropdown
+- An RNN reads time steps **one at a time**, carrying a **hidden state** from t−1 into t.
+- The hidden state is the network's **memory** of everything seen so far.
+- That recurrence is the whole new idea vs a dense net.
+- SimpleRNN ≈ performance of the window-method dense net.
+- It struggles with **long-range** dependencies (vanishing gradients) → LSTM/GRU.
+:::
+
+:::{admonition} Trainable parms and output shapes of SimpleRNN, intro to LSTM
+:class: note dropdown
+- Recurrent layer **output shape = H** (hidden size), independent of look-back.
+- General params formula $G[H(H+I)+H]$ with $G=1$ (RNN), $3$ (GRU), $4$ (LSTM).
+- $G$=# nets in the cell, $H$=hidden units, $I$=input features.
+- Tiny example: $H=2,I=3$ → 12 params in the cell + 3 for a dense head = 15.
+- One formula covers every recurrent flavor.
+:::
+
+:::{admonition} Detailed LSTM calculations and intro to GRU
+:class: note dropdown
+- **LSTM** ($G=4$) adds input/forget/output **gates** to learn what to keep/discard over long sequences.
+- **GRU** ($G=3$) is a lighter cousin, often just as good.
+- Swap one word in Keras (`SimpleRNN`→`LSTM`→`GRU`), everything else stays.
+- Gates solve the SimpleRNN's long-memory problem.
+- Work the gate math by hand to internalize parameter counts.
+:::
+
+:::{admonition} Stacking recurrent layers
+:class: note dropdown
+- Feed one recurrent layer into another with **`return_sequences=True`**.
+- The first layer must pass its **full sequence** forward, not just the last state.
+- **More layers isn't always better** — it's a hyperparameter, not a virtue.
+- Deeper stacks can capture more complex temporal structure.
+- Watch for overfitting as depth grows.
+:::
+
+:::{admonition} Univariate time series modeling (regression)
+:class: note dropdown
+- Predict the next value of a single series from its recent history.
+- Prep with **`split_sequence`** → 3-D tensor `(samples, look-back, features=1)`.
+- **Reshape** to add the trailing feature dimension.
+- Baselines: mean-only, **persistence**, linear regression — beat them first.
+- SimpleRNN/LSTM as the model.
+:::
+
+:::{admonition} Multivariate time series modeling (classification)
+:class: note dropdown
+- Multiple input features per time step (the 3-D tensor's last dim > 1).
+- Main change is the `split_sequences` function for multivariate data.
+- Can frame as classification (e.g., room occupancy).
+- Stack LSTM layers for richer patterns.
+- Same shape discipline, more features.
+:::
+
+:::{admonition} Practical implementation of DL time series models with stock prices
+:class: note dropdown
+- Pull stock data via an **API**, prep as sequences.
+- Try **different configurations** (look-back, units, layers).
+- Real-world, noisy series — manage expectations vs baselines.
+- Demonstrates the end-to-end RNN workflow on finance data.
+- Careful with leakage across the time split.
+:::
+
+:::{admonition} RNN implementation — univariate Parts 1–3
+:class: note dropdown
+- **Pt 1:** `split_sequences()` → 3-D tensor; note the **reshape**.
+- **Pt 2:** run the first RNN; controlling layers; SimpleRNN ≈ window-method DNN.
+- **Pt 3:** LSTM model; establish **baselines** (mean, persistence, linear).
+- Australian temperature as the running univariate example.
+- Compare RNN vs baseline rigorously.
+:::
+
+:::{admonition} RNN implementation — multivariate Parts 1–2
+:class: note dropdown
+- **Pt 1:** main difference is the `split_sequences` for multiple features.
+- **Pt 2:** LSTM with **2 stacked** recurrent layers (`return_sequences`).
+- Room-occupancy as the multivariate example.
+- Quick baseline discussion.
+- Generalizes univariate machinery to many features.
+:::
+
+:::{admonition} Introduction to advanced methods for RNNs
+:class: note dropdown
+- Overview of four upgrades that **stack**: Conv1D+pooling, recurrent dropout, stacking, bidirectional.
+- Each squeezes more signal from the same series.
+- Sets up the advanced implementation videos.
+- Pull `input_shape` from `X_train`, don't hard-code.
+- Advanced RNN theory notebook as reference.
+:::
+
+:::{admonition} SimpleRNN with Conv1D and MaxPooling1D
+:class: note dropdown
+- **`Conv1D`** slides a learned filter along the **time** axis → a richer transformed series.
+- `MaxPooling1D` downsamples before the recurrent layer.
+- It's `Conv1D` (1-D), **not** `Conv2D`.
+- Same convolution idea as images, in one dimension.
+- Often improves over a bare RNN.
+:::
+
+:::{admonition} Recurrent dropout and stacking convolutional layers
+:class: note dropdown
+- **Recurrent dropout** regularizes the recurrent connection (not just inputs).
+- Mix recurrent layers and stack conv/pooling for richer patterns.
+- Helps generalization on noisy series.
+- Combine with stacking + bidirectional.
+- A hyperparameter to tune.
+:::
+
+:::{admonition} Bidirectional layers and more stacking
+:class: note dropdown
+- Read the sequence **forwards and backwards in parallel** with two independent cells.
+- **Concatenate** the two hidden states (e.g., `Bidirectional(LSTM(3))` → width-6 output).
+- Reading both directions can add surprising predictive power.
+- Wrap with `Bidirectional(...)`; combine with `return_sequences`.
+- Patterns hard to see forward sometimes pop out backward.
+:::
+
+:::{admonition} Implementation of ConvLSTM on univariate and multivariate time series
+:class: note dropdown
+- Combine **Conv1D** feature extraction with LSTM memory.
+- Use `Conv1D` (not Conv2D) and derive `input_shape` from the data.
+- Apply to both univariate and multivariate examples.
+- Strong general-purpose temporal architecture.
+- Tune filters/units/layers.
+:::
+
+:::{admonition} Many-to-many learning with RNNs
+:class: note dropdown
+- Predict **multiple variables at once** (one model, several product lines).
+- Predict **multiple steps into the future** (multi-horizon).
+- A single recurrent model doing a whole forecasting job.
+- Uses `return_sequences`/RepeatVector patterns.
+- The most general sequence-to-sequence setup in the module.
+:::

@@ -156,3 +156,164 @@ The same dense networks even work on **images** (flatten MNIST digits or Fashion
 - **Output layer + loss define the task:** linear+MSE (regression), sigmoid+binary-crossentropy (binary), softmax+categorical-crossentropy (multiclass).
 - Diagnose with **learning curves**; fight overfitting with **early stopping** and **dropout**.
 ```
+
+
+---
+
+## 📌 Lecture key points
+
+*Distilled takeaways from the video lectures behind this chapter — click each to expand.*
+
+
+:::{admonition} ForwardProp — Part 1
+:class: note dropdown
+- A neural net is just **weighted sums**; a weight is a "volume knob" scaling its input.
+- Build up: one input×one weight → 3 inputs·3 weights (a **dot product**) → input·weight-**matrix** = a hidden layer.
+- The "crystal ball" finds **nonlinear** relationships between inputs and target.
+- Goal of the series: see how **one row of data becomes a prediction**, then how weights update.
+- Running example: weather features (temp/humidity/wind) → number of golfers.
+:::
+
+:::{admonition} ForwardProp — Part 2
+:class: note dropdown
+- Stacking dot products: `(1×3)·(3×5)=(1×5)` hidden, then `(1×5)·(5×1)=(1×1)` output.
+- **Golden rule of dot products:** inner dimensions must match and cancel, leaving the outer dims.
+- This rule lets you **design weight-matrix shapes** and predict every layer's output shape.
+- A dot product encodes a kind of **similarity**; the network doesn't need human meaning for it.
+- Mismatched shapes simply **don't compute** — the source of most shape errors.
+:::
+
+:::{admonition} HotCold — Part 1
+:class: note dropdown
+- **Hot-and-cold learning:** nudge a weight up/down, keep the direction that lowers error.
+- Weights start **randomly initialized**; learning = iteratively improving them.
+- A net that memorizes one row is useless; we want weights updated **across all rows** to generalize.
+- Demonstrated on the golf data with the target recoded to 0/1 (majority played or not).
+- This is the intuition that backprop will formalize.
+:::
+
+:::{admonition} HotCold — Part 2
+:class: note dropdown
+- Pro: hot-cold finds the optimum; **con: slow**, and a fixed step size can **skip over** the true value.
+- Better than subtracting a constant: scale the update by **direction and amount**.
+- "Direction and amount" = a function of the **error** and the **size of the input** into that weight.
+- Step-size (learning-rate) choice is critical — too big overshoots, too small crawls.
+- Motivates gradient descent as the principled version of hot-cold.
+:::
+
+:::{admonition} BackProp — Part 1
+:class: note dropdown
+- Gradient-descent steps: **P** (predict) → **E** (squared error) → **weight delta** → update.
+- **Weight delta = (predicted − actual) × the input** that flowed through that weight.
+- Start with no hidden layer, learn one row, then generalize.
+- Inputs of 0 produce no update — the net only adjusts knobs that mattered.
+- Weights randomly initialized; our job is to update them toward accuracy.
+:::
+
+:::{admonition} BackProp — Part 2
+:class: note dropdown
+- **SGD** (update every row) vs **full** (update after all rows) vs **mini-batch** (the sweet spot).
+- **Batch size is a hyperparameter** (5/10/200/500…), problem-dependent, no universal best.
+- Nets learn **correlation** between inputs and output; uncorrelated inputs aren't adjusted.
+- Pure linear stacks can't capture **nonlinear** patterns → need activations.
+- Sets up ReLU and nonlinearity as the next idea.
+:::
+
+:::{admonition} PuttingItAllTogether — NN Learning
+:class: note dropdown
+- Full loop: **forward pass** (dot products → 1×1 prediction) → error → **weight update**.
+- **Big miss → big update; small miss → small update.**
+- Overestimate → shrink positive weights / make negatives more negative; underestimate → the reverse.
+- Ties the by-hand mechanics to the code and matching PPT graphics.
+- This *is* training — repeated across rows and epochs.
+:::
+
+:::{admonition} Best practices for NN regression
+:class: note dropdown
+- "How many layers / hidden units?" → honestly, it's a **grid search** (hyperparameter tuning).
+- You don't know the perfect architecture up front; random init means many good solutions exist.
+- Five strategies: 1 layer = #features; 1 layer = 2×features; deeper/wider variants, etc.
+- Same-quality fit can come from different architectures (1 wide vs 2 narrow layers).
+- Start simple, then tune — don't over-engineer the first model.
+:::
+
+:::{admonition} Our first NN for Regression — Part 1
+:class: note dropdown
+- Import sklearn + keras; read data; handle **dummy variables and missing values**; train/test split.
+- Same 5-step methodology as Chapter-1 ML, now with a network.
+- Mind shapes throughout (rows/features).
+- Scale features (fit on train).
+- Set up X/y for Keras.
+:::
+
+:::{admonition} Our first NN for Regression — Part 2
+:class: note dropdown
+- Build with the **Keras Sequential API**: `Dense(64, relu)` layers.
+- **`input_shape=(X_train.shape[1],)`** = number of feature columns (the golden rule again).
+- Output layer = **1 node, linear** activation for regression.
+- `model.summary()` to read parameter counts/shapes.
+- Architecture is a stack: hidden → hidden → output.
+:::
+
+:::{admonition} Our first NN for Regression — Part 3
+:class: note dropdown
+- **Compile**: optimizer (rmsprop/Adam), `loss='mse'`, `metrics=['mae']`.
+- **Fit** with `validation_data`, `epochs`, `batch_size` (mini-batch GD).
+- Use an **early-stopping callback** to halt when validation stops improving.
+- The choices (loss/metric/batch) map directly to the theory.
+- `fit` returns a **History** object for diagnostics.
+:::
+
+:::{admonition} Our first NN for Regression — Part 4
+:class: note dropdown
+- Evaluate via **learning curves** (training vs validation loss by epoch) **and** traditional metrics.
+- Both curves falling together = healthy; validation turning up = **overfitting**.
+- Plot from `history.history` dict (`loss`, `val_loss`).
+- Complement curves with R²/MAE on test.
+- Diagnose before trusting a model.
+:::
+
+:::{admonition} Our first NN for Regression — Part 5
+:class: note dropdown
+- **Dropout** randomly zeros units during training to fight overfitting.
+- Tune hyperparameters: dropout rate, early-stopping **patience**, # layers, hidden units.
+- These are exactly the knobs you grid-search.
+- Regularization buys generalization at a small training-fit cost.
+- Iterate: architecture + regularization + early stopping.
+:::
+
+:::{admonition} Binary classification with NNs: Titanic — Part 1 & 2
+:class: note dropdown
+- Output layer = **1 sigmoid node**, `loss='binary_crossentropy'`.
+- Prep structured data: numeric-only, **LabelEncoder**/string replacement, handle missing.
+- Evaluate with **confusion matrix + classification report** (with/without early stopping).
+- **Recall reads along the row** of the true class (handy mnemonic).
+- Same Sequential workflow as regression, output+loss changed.
+:::
+
+:::{admonition} Multiclass with NNs: Iris — Part 1 & 2
+:class: note dropdown
+- Output = **one softmax node per class**; `loss='categorical_crossentropy'`.
+- Encode target with **`to_categorical`** (one-hot, e.g. 3 columns for Iris).
+- **Softmax** outputs a probability distribution summing to 1.
+- Take **`argmax`** of predictions to recover the class for the confusion matrix.
+- Add proper train/val/test (`validation_split`, holdout test).
+:::
+
+:::{admonition} DNNs for MNIST images
+:class: note dropdown
+- MNIST = first big DL win (**LeNet**, Bell Labs/USPS, reading handwritten ZIP codes).
+- Flatten each 28×28 image to a 784-vector and **divide by 255** to scale.
+- A dense net *works* on images but ignores spatial structure → **ConvNets are better** (Module 3).
+- Multiclass output: 10 softmax nodes.
+- Great bridge from structured to **unstructured** data.
+:::
+
+:::{admonition} Fashion MNIST and IMDB Movie Reviews
+:class: note dropdown
+- **Fashion-MNIST**: 10 clothing categories, same pipeline as MNIST (centered images, ÷255).
+- **IMDB**: text sentiment — a first taste of unstructured **text** as a dense-net input.
+- Both show the limits of plain dense nets → motivates CNNs (images) and RNNs (text).
+- Same architecture pattern, different data prep.
+- Closes out binary + multiclass classification.
+:::

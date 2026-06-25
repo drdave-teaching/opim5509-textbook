@@ -76,3 +76,65 @@ You now have the whole toolkit: dense networks (Chapter 2), convolution for imag
 - The "advanced" recommender swaps the dot product for **concatenate → dense layers** to learn nonlinear interactions.
 - Frontier models reuse these exact primitives — **embeddings, dot-product similarity, skip connections, gradient descent at scale.**
 ```
+
+
+---
+
+## 📌 Lecture key points
+
+*Distilled takeaways from the video lectures behind this chapter — click each to expand.*
+
+
+:::{admonition} What is image segmentation
+:class: note dropdown
+- ConvNets used the **Sequential API** to distill an image down to one label.
+- **Segmentation = label every pixel** ("which pixels are the cat?").
+- Reverse the funnel: at the bottom, **upsample** to recreate an image (like an autoencoder).
+- Goes from **picture to picture** (image → mask).
+- The seed idea is the autoencoder, scaled up.
+:::
+
+:::{admonition} Introduction to U-Nets and the Functional API
+:class: note dropdown
+- A **U-Net** = contracting encoder + expanding decoder + **skip connections**.
+- Skip connections hand high-res detail across so the mask isn't blurry — needs the **Functional API**.
+- Example: **Oxford Pets** images + **trimap** masks (background/border/pet).
+- Run on a **GPU** runtime; download/unpack with curl/tar.
+- Segmentation = **pixel-wise classification** (softmax per pixel).
+:::
+
+:::{admonition} How did our U-Net do
+:class: note dropdown
+- Evaluate predicted masks against ground-truth trimaps.
+- Visualize input image, true mask, predicted mask side by side.
+- Qualitative + quantitative assessment.
+- Foundation for medical imaging, self-driving, background removal.
+- Wraps the segmentation thread.
+:::
+
+:::{admonition} Introduction to Deep Recommender Systems
+:class: note dropdown
+- Reuse **embeddings**: embed **users** and **items** into a shared latent space.
+- A learned vector encodes attributes (how much action/comedy; old/young).
+- Aligned user/item vectors ⇒ high predicted rating (a **dot product** = matrix factorization).
+- How Netflix predicts what you'll like.
+- Embed *anything*, not just words.
+:::
+
+:::{admonition} Beginner and Advanced Recommender Systems
+:class: note dropdown
+- **Basic:** `Embedding(user)·Embedding(movie)` via `Dot` (Functional API, two inputs).
+- **Advanced:** **concatenate** embeddings → **dense layers** for nonlinear interactions.
+- Regularize embeddings (`l2`); fit with early stopping + MSE.
+- The Functional API enables multi-input graphs.
+- Same evaluate-with-curves-and-metrics discipline.
+:::
+
+:::{admonition} Using a deep approach to embeddings (dense layers)
+:class: note dropdown
+- Replace the plain dot product with a learned **dense** head over concatenated embeddings.
+- More expressive: captures nonlinear user–item interactions.
+- Demonstrates the latent-vector idea generalizing.
+- Closes the loop: embeddings power text *and* recommenders.
+- Frontier models reuse these primitives (embeddings, dot-product similarity, skip connections).
+:::
