@@ -1,0 +1,9 @@
+format: jb-book
+root: intro
+chapters:
+  - file: m1_refresher/index
+  - file: m2_dense/index
+  - file: m3_cnn/index
+  - file: m4_rnn_numeric/index
+  - file: m5_rnn_text/index
+  - file: m6_special/index
