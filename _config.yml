@@ -7,6 +7,7 @@ html:
   use_repository_button: true
   home_page_in_navbar: true
   extra_footer: |
+    <p style="font-size:0.9em;opacity:0.85"><strong>⚠️ Work in progress.</strong> These are living draft materials — actively being written and revised. Expect rough edges, gaps, and changes; this is a teaching companion, not a final or official reference.</p>
     <p><em>OPIM 5509 — Introduction to Deep Learning. Built from Dr. Wanik's lecture
     transcripts and course notebooks. A casual-but-rigorous, code-first textbook.</em></p>
 repository:

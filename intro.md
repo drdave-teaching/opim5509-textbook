@@ -1,5 +1,10 @@
 # Preface
 
+:::{admonition} ⚠️ Work in progress
+:class: warning
+These materials are a **living draft** — actively being written, revised, and expanded from my lecture transcripts and course notebooks. Expect rough edges, gaps, and changes between visits. This is a teaching companion, **not a final or official reference**. Spot something off? That's expected — it's a work in progress!
+:::
+
 Welcome to **Deep Learning — A Graduate Introduction**, the book edition of **OPIM 5509** at the University of Connecticut.
 
 This is not a dry reference manual. It is the course as I actually teach it — casual in voice, serious in content, and **relentlessly code-first**. Every idea in this book is paired with code you can run, because in deep learning the gap between "I understand the concept" and "I can build the model" is exactly where careers are made or lost. We are going to close that gap.
