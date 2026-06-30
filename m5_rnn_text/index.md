@@ -122,7 +122,7 @@ With this stack you can do real tasks in a few lines: classify **who tweeted** (
 :class: note dropdown
 - **Corpus** = whole sample; **document** = individual sample.
 - Lowercase everything so "Hail"/"hail" are one token.
-- Strip non-letters (punctuation, @, $, %) → replace with spaces.
+- Strip non-letters (punctuation, @, \$, %) → replace with spaces.
 - Goal: turn text into something a computer can model.
 - Done on the storm (hail) narratives as the running example.
 :::
