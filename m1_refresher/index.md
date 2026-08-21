@@ -2,18 +2,17 @@
 
 :::{admonition} 🔗 Notebooks for this chapter
 :class: seealso dropdown
-Open in Colab and **Runtime → Run all** — data loads from a stable link, nothing to upload.
-
-- **General EDA Template** &nbsp; [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module1/0_General_EDA_Template.ipynb) &nbsp; [GitHub](https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module1/0_General_EDA_Template.ipynb)
-- **Boston EDA** &nbsp; [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module1/1_Boston_EDA.ipynb) &nbsp; [GitHub](https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module1/1_Boston_EDA.ipynb)
-- **All The Models Boston Housing Regression** &nbsp; [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module1/2_AllTheModels_BostonHousing_Regression.ipynb) &nbsp; [GitHub](https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module1/2_AllTheModels_BostonHousing_Regression.ipynb)
-- **All The Models Boston Housing Classification** &nbsp; [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module1/3_AllTheModels_BostonHousing_Classification.ipynb) &nbsp; [GitHub](https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module1/3_AllTheModels_BostonHousing_Classification.ipynb)
-- **Assignment1 OPIM5509** &nbsp; [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module1/Assignment1_OPIM5509.ipynb) &nbsp; [GitHub](https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module1/Assignment1_OPIM5509.ipynb)
-- **M1 California Housing EDA Regression** &nbsp; [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/M1_CaliforniaHousing_EDA_Regression.ipynb) &nbsp; [GitHub](https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/M1_CaliforniaHousing_EDA_Regression.ipynb)
+- **Welcome & Setup** &nbsp; [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module1/0_Welcome_and_Setup.ipynb) &nbsp; [GitHub](https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module1/0_Welcome_and_Setup.ipynb)
+- **California Housing EDA** &nbsp; [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module1/1_CaliforniaHousing_EDA.ipynb) &nbsp; [GitHub](https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module1/1_CaliforniaHousing_EDA.ipynb)
+- **All The Models — Regression** &nbsp; [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module1/2_AllTheModels_Regression.ipynb) &nbsp; [GitHub](https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module1/2_AllTheModels_Regression.ipynb)
+- **All The Models — Classification** &nbsp; [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module1/3_AllTheModels_Classification.ipynb) &nbsp; [GitHub](https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module1/3_AllTheModels_Classification.ipynb)
+- **General EDA Template** &nbsp; [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module1/4_General_EDA_Template.ipynb) &nbsp; [GitHub](https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module1/4_General_EDA_Template.ipynb)
+- **Appendix — ROC, AUC & Thresholds** *(optional)* &nbsp; [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module1/5_Appendix_ROC_AUC_and_Thresholds.ipynb) &nbsp; [GitHub](https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module1/5_Appendix_ROC_AUC_and_Thresholds.ipynb)
 :::
 
-
 Let me level-set. This course assumes you arrive with **strong data-wrangling skills** and a working background in **machine-learning concepts**. So this first chapter isn't new material — it's a deliberate refresher to make sure we *all* share the same foundation before we transition into deep learning. If this chapter feels overwhelming, that's a useful signal: shore up the data-science fundamentals (or take OPIM 5512) before going further, because deep learning sits *on top* of everything here. Building deep models when you can't summarize a dataset or describe what's happening in a business is like flying a plane before you can ride a bike.
+
+So what *is* deep learning, and why do you need it? Traditional methods like random forests rely on data in a very structured format. Neural networks work with structured data **and** unstructured data — text, time series, images, video, audio. They seem like magic, but at a high level they are just a nonlinear weighted sum of information that gets transformed and creates an output. Over the semester we open the hood on all of it.
 
 Here's the whole methodology in one breath — and it's the same five steps whether the model is a random forest or a 20-layer neural network:
 
@@ -26,7 +25,12 @@ Here's the whole methodology in one breath — and it's the same five steps whet
 5. **Evaluate** quantitatively (metrics) *and* visually (plots) — they catch different problems.
 ```
 
-We'll walk it end to end on the **Boston Housing** dataset, first as a regression problem, then as a classification problem.
+We'll walk it end to end on the **California Housing** dataset, first as a regression problem, then as a classification problem.
+
+```{admonition} Why California Housing, and not Boston?
+:class: note
+Boston Housing was the classic teaching set for decades, and scikit-learn **removed it in version 1.2** because one of its columns was an explicit racial proxy. A current install can't fetch it at all. California Housing loads in one line, has 20,640 rows, is mostly clean with a few excellent gotchas, and has the bonus of being **spatial** — you can plot it by latitude and longitude and color it by value.
+```
 
 ## 1.1 Exploratory data analysis
 
@@ -37,207 +41,236 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+from sklearn.datasets import fetch_california_housing
 
-url = "https://raw.githubusercontent.com/drdave-teaching/OPIM5509Files/refs/heads/main/OPIM5509_Module1_Files/data/BostonHousing.csv"
-df = pd.read_csv(url)
+df = fetch_california_housing(as_frame=True).frame
 
 print("Shape:\n", df.shape, "\n")
 print("Columns:\n", df.columns, "\n")
-print("Dtypes:\n", df.dtypes)
 df.info()   # shape, dtypes, AND a missing-values report in one call
 ```
 
-Why do I harp on **shape**? Because tracking it keeps you honest through the whole pipeline. If you read in 1,000 rows and later your model trains on 843, you should be able to say *why* — maybe 17 rows were dropped for missing values, the rest went to the test partition. Losing track of rows is how silent bugs creep in.
+**Before anything else: what is a row?** In this dataset a row is a **census block**, not a house. Median income, house age, average rooms, average bedrooms — these are summary statistics describing a geographic unit. Students who forget this write nonsense in their write-ups. And the target, median house value, is in a standardized form: you are not going to buy a house for \$4.
 
-And why **dtypes**? Because a single stray character — a stray letter in a numeric column, an erroneous date string — will flip a column from `float64` to `object`, and now you "can't do math on it." `df.info()` is your friend here: it reports dtypes, the row count, *and* the missing values per column in one shot. If you find a misbehaving column, stop and fix it *now*, before modeling — coerce the errors and convert back to numeric.
+Why harp on **shape**? Because tracking it keeps you honest through the whole pipeline. Commit 20,640 rows and 9 columns to memory, and as you move through transformations and aggregations the totals should keep making sense. You never want to silently drop rows, or explode them because of a bad join.
 
-Beyond the basics, a good EDA computes summary statistics (mean, median, percentiles), and makes plots and tables — histograms, boxplots, scatterplots with trend lines, a correlation heatmap. The goal is to *understand* the data before you let a model loose on it.
+And why **dtypes**? Because a single stray character will flip a column from `float64` to `object`, and now you can't do math on it. `df.info()` reports dtypes, the row count, *and* missing values per column in one shot.
+
+Then `.describe()` for summary statistics. Here is the statistical point worth pausing on: **the mean and standard deviation are most meaningful for normally distributed data.** When the standard deviation is bigger than the mean, you probably have skew. For non-normal data, lean on the percentiles — min and max give you the range, the 25th/50th/75th give you the IQR and median. Coming from an engineering background I also like the **1st and 99th percentiles**, because I'm interested in the extremes.
+
+### The two gotchas in this dataset
+
+**The target is right-censored.** Run `value_counts()` on the target and the most common value is 5 — that means \$500,000 *or more* — with **965 rows** sitting on that cap. Anything more expensive got smushed into the ceiling. You'd find it by plotting: the top bin looks wrong. Your model will have a lot of trouble there, and no model can predict past it.
+
+**Average rooms reaches 141 and average occupancy reaches 1,200.** No household has 141 rooms and no house has 1,200 people in it. It happens because those blocks have tiny populations, so the ratio blows up. Not real data problems in the sense of typos — a mechanism you need to understand before deciding what to do.
+
+### Looking at distributions and relationships
+
+A **histogram matrix** shows every feature at once — some columns are roughly normal, others are right-tailed or bimodal. **Boxplots** surface the outliers.
+
+```{admonition} Be careful deleting outliers
+:class: warning
+A lot of people say "I'm going to make a model that fits really well, so I'll get rid of all the outliers." But **the outliers might be the thing that's most important to the business.** Be aware of them, understand where they came from, and only then decide.
+```
+
+**Flag variables** are the simplest feature engineering there is. Compute the median house value, then `np.where` a 1 for above and a 0 for below, and compare the groups. Expensive blocks have higher incomes, slightly older and bigger houses, the same population, and fewer people living in them — which agrees with intuition. That's the **reasonable person test**: try to tell the story of the data without forcing a narrative, and if something comes out backwards, that's exactly what you raise in the meeting.
+
+For **bivariate** work, the correlation matrix (Pearson or Spearman) is symmetric about the diagonal — focus on the target column and tell the story. Income is the strongest driver of house value at about 0.69. Average rooms and average bedrooms are **multicollinear**, which makes sense. And plotting income against house value shows a real linear agreement with plenty of scatter — plus that flat stripe along the top where the data is censored.
+
+### Geography for free
+
+Because the data has latitude and longitude, you have spatial coordinates. Plot one against the other and **the data assembles itself into the shape of California** — no base map required. Color the points by median house value and the coast lights up expensive, the interior goes cheap, with an interesting pocket up near Lake Tahoe.
+
+```{admonition} On your own
+:class: seealso
+Size the bubbles by population as well as coloring by value — and sort so the **biggest bubbles draw underneath**, or the small ones disappear behind them.
+```
+
+Finally, the cleaning decision we can now justify: drop blocks with occupancy above 10 or more than 20 rooms. That removes about 100 rows and the remaining values look sensible.
 
 ## 1.2 Regression with scikit-learn
 
-Now the five steps in code. The target in Boston Housing is `medv` (median home value); everything else is a feature.
+Now the five steps in code. The target is `MedHouseVal`; everything else is a feature.
 
 ```python
-from sklearn.preprocessing import MinMaxScaler
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
-from sklearn.tree import DecisionTreeRegressor
-from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
-from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
-
 # 1. target and features
-Y = df['medv']
-X = df.drop('medv', axis=1)
+Y = df['MedHouseVal']
+X = df.drop('MedHouseVal', axis=1)
 
-# 2. split (80/20)
-X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.20, random_state=42)
+# 2. split (80/20) — shuffle, and set a seed for reproducibility
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(
+    X, Y, test_size=0.20, shuffle=True, random_state=42)
+
+# keep the names BEFORE scaling destroys them
+feature_names = list(X_train.columns)
 
 # 3. scale — fit on TRAIN, transform both
+from sklearn.preprocessing import MinMaxScaler
 scaler = MinMaxScaler()
 X_train = scaler.fit_transform(X_train)
 X_test  = scaler.transform(X_test)
 ```
 
-```{admonition} Key idea — fit the scaler on TRAIN only
-:class: important
-**Min-max scaling** squeezes each feature to $[0,1]$:
+Three things worth calling out.
 
-$$ x' = \frac{x - x_{\min}}{x_{\max} - x_{\min}} $$
+**Nothing mutates `df`.** There is no `inplace=True` anywhere — `df` still has all its rows, so you can re-run cells without surprises.
 
-The `min` and `max` must come from the **training data only**. If you `fit_transform` on the full dataset, information from the test set leaks into training and your evaluation is no longer honest. So: `fit_transform(X_train)`, then `transform(X_test)`. This single discipline — *learn the transformation on train, apply it to test* — will reappear in every chapter of this book.
+**Shuffle and seed.** If the rows carry structure — newest to oldest, say — then chopping off the last 20% gives you a biased sample. Shuffle when there's no time-series component, and set a random seed so your draw is reproducible.
+
+**Save your feature names before you scale.** `MinMaxScaler` hands back a NumPy array and the column names are gone. The *positions* survive, so if you saved the names you can reattach them later for permutation importance. Otherwise it's X1, X2, X3 — and that's hard to explain in a meeting.
+
+```{admonition} Data leakage — the mistake I see every semester
+:class: warning
+Fit the scaler on **train**, then `transform` the test set. Do **not** `fit_transform` both, and do **not** `fit_transform` the whole `X` before splitting — that leaks the distribution, outliers included, into the model. You want to learn patterns on a representative sample and apply them to the held-out set. And note: the test partition will **not** span the full 0–1 range. That's correct, not a bug.
 ```
 
-With curated, scaled data, fitting a model is famously **three lines** — instantiate, fit, predict — so we may as well fit several and compare them against a **baseline** (for regression, a plain linear regression):
+Then fit. Instantiate, fit, predict — three lines, and only line one changes between models:
 
 ```python
-models = {
-    "LinearRegression":          LinearRegression(),
-    "DecisionTreeRegressor":     DecisionTreeRegressor(random_state=42),
-    "RandomForestRegressor":     RandomForestRegressor(random_state=42),
-    "GradientBoostingRegressor": GradientBoostingRegressor(random_state=42),
-}
-
-for name, model in models.items():
-    model.fit(X_train, y_train)
-    preds = model.predict(X_test)
-    print(f"{name:28s}  R2={r2_score(y_test, preds):.3f}  "
-          f"MAE={mean_absolute_error(y_test, preds):.3f}  "
-          f"RMSE={mean_squared_error(y_test, preds, squared=False):.3f}")
+from sklearn.linear_model import LinearRegression
+LR = LinearRegression()
+LR = LR.fit(X_train, y_train)
+train_preds = LR.predict(X_train)
+test_preds  = LR.predict(X_test)
 ```
 
-Notice where things live, because fluency means knowing the library geography cold: `MinMaxScaler` is in `sklearn.preprocessing`, `train_test_split` in `model_selection`, `RandomForestRegressor` in `ensemble`, but `DecisionTreeRegressor` in `tree`. Everyone Googles and copy-pastes — the world runs on Stack Overflow — but if you're Googling the *basics* every time, that's amateur hour. Practice ten minutes a day and this comes out of your fingertips.
+Linear regression gives an MAE around 0.5 and R² around 0.63 — a moderate fit. But a single metric never tells the full story, so write an `evaluate` function and loop a handful of models: linear regression, decision tree, random forest, gradient boosting, k-nearest neighbors.
 
-**Evaluate two ways.** The metrics give you a number to compare on:
+The **decision tree overfits like crazy** on the training partition, because scikit-learn will happily let a single observation sit in a leaf. `min_samples_leaf` is the dial — the more samples you force into a terminal node, the less it overfits, and the hope is it generalizes better.
 
-- **$R^2$** — fraction of variance explained (1.0 is perfect… suspiciously perfect).
-- **MAE** $= \frac{1}{n}\sum|y_i-\hat y_i|$ — average error in the target's units.
-- **RMSE** $= \sqrt{\frac{1}{n}\sum(y_i-\hat y_i)^2}$ — like MAE but punishes large misses.
+**Random forest wins out of the gate**, and there's a reason random forests do so well on tabular data: they fit many small trees, each on a random subset of the rows *and* a random subset of the columns, then average the output of those 100 or 200 trees into a more stable estimate. Where a neural network wins instead is on **unstructured** data, because it does the feature engineering for you.
 
-The plot catches what the number hides. Plot predicted vs. actual; a good model hugs the 45-degree line:
+Then look at the picture, not just the table. Predicted-vs-actual shows the random forest hugging the 45° line while linear regression is more of a cloud — and **both do poorly on the censored data**, which is your EDA finding coming back as residuals.
 
-```python
-import matplotlib.pyplot as plt
-preds = models["RandomForestRegressor"].predict(X_test)
-plt.scatter(y_test, preds, alpha=0.6)
-plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'r--')
-plt.xlabel("Actual medv"); plt.ylabel("Predicted medv"); plt.title("Random Forest — fit")
-plt.show()
+### Interrogating the model
+
+Built-in tree importance sums Gini or entropy down the tree and reports a number. That's fine, but the method **emphasizes high-cardinality features** — a column with many unique values simply offers the forest more places to split.
+
+**Permutation importance** is the better tool. It takes a copy of `X_test`, shuffles one column in place, and asks the model to predict on that corrupted data. If R² barely moves, the model wasn't using that column. If R² collapses from 0.9 to 0.2, the model was leaning on it hard. It relies on nothing internal to the model, so it's **model-agnostic** — you can use it on a decision tree *and* on a neural network and compare fairly.
+
+```{admonition} The standard for this course
+:class: tip
+No longer are you allowed to say "I fit a model, I have no idea how it fit." You have to **interrogate and investigate** the model and show how it did.
 ```
-
-If the training $R^2$ is 1.0 and every point sits exactly on the line *on the training set* but the test set is a mess, you're looking at **overfitting** — a textbook case you can *see* before you can prove it numerically. That's why we always look at both, and always compare train against test.
 
 ## 1.3 Classification with scikit-learn
 
-Here's the big secret of data science: **classification and regression are almost the same workflow.** Swap `RandomForestRegressor` for `RandomForestClassifier`, instantiate–fit–predict exactly as before, and the *only* real difference is the **evaluation**.
-
-Boston Housing is a regression dataset, so to demo classification we recode the target into a balanced binary label — `1` if a home is priced above the **median**, else `0`. Why the median? Because it splits the data roughly 50/50, giving us **balanced classes**:
+I like to take the same problem and recycle it with a twist, so the **technique** stands out and you already understand the data. California Housing is a regression dataset, so recode the target into a balanced binary label — `1` if a block is above the **median**, else `0`. Why the median? Because it splits the data roughly 50/50, giving **balanced classes**:
 
 ```python
-from sklearn.linear_model import LogisticRegression
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import confusion_matrix, classification_report
+median_value = df['MedHouseVal'].median()
+df['EXPENSIVE'] = np.where(df['MedHouseVal'] > median_value, 1, 0)
 
-# recode to a balanced binary target
-df['target'] = (df['medv'] > df['medv'].median()).astype(int)
-print(df['target'].value_counts())   # ~256 vs ~250 — nicely balanced
-
-Y = df['target']
-X = df.drop(['medv', 'target'], axis=1)
-X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.20, random_state=42)
-X_train = scaler.fit_transform(X_train); X_test = scaler.transform(X_test)
-
-clf = RandomForestClassifier(random_state=42).fit(X_train, y_train)
-preds = clf.predict(X_test)
-print(confusion_matrix(y_test, preds))
-print(classification_report(y_test, preds))
+y = df['EXPENSIVE']
+X = df.drop(['EXPENSIVE', 'MedHouseVal'], axis=1)   # drop BOTH
 ```
 
-```{admonition} Why balanced data matters
+```{admonition} Drop the raw value too
 :class: warning
-Picture predicting weather in Southern California: it's sunny ~90% of the time, so a model that *always* says "sunny" scores 90% accuracy while being completely useless — it can't beat **persistence**. That's why **accuracy alone lies** on imbalanced data, and why we look at the **confusion matrix** and the metrics derived from it.
+`EXPENSIVE` was built *from* `MedHouseVal`. Leave the raw column in `X` and you have handed the model the answer — a perfect score and a worthless model. That's **target leakage**.
 ```
 
-For classification, the baseline isn't linear regression — it's a **logistic regression** — and the metrics change from $R^2$/MAE/MSE to **accuracy, precision, recall, and F1**. All of them are just rearrangements of the four cells of the confusion matrix — true positives (TP), true negatives (TN), false positives (FP), false negatives (FN):
+The rest is the same skeleton with different algorithms — logistic regression instead of linear, classifier versions of the trees, KNN — and different metrics, because mean absolute error means nothing here.
 
-$$
-\text{Precision}=\frac{TP}{TP+FP}, \qquad
-\text{Recall}=\frac{TP}{TP+FN}, \qquad
-F_1 = 2\cdot\frac{\text{Precision}\cdot\text{Recall}}{\text{Precision}+\text{Recall}}
-$$
+A classifier gives you two things. `predict()` returns the class, and **`predict_proba()` returns the raw probability of being class 1** — and that score is a confidence reading. A model saying 0.99 is confident; a model that predicts 0.53 for everything is not. You can manipulate those probabilities by moving the threshold to get a better fit.
 
-The `classification_report` hands you all of these per class. (A small mnemonic that saves headaches when you read sklearn's confusion matrix: **recall reads along the row** of the true class.)
+**Accuracy only applies when your classes are balanced.** Better tools are **precision** and **recall**. A mnemonic: recall starts with R, so it's the **row** — true positives divided by (true positives + false negatives). Precision is the **column** — true positives divided by (true positives + false positives). A confusion matrix in seaborn makes both readable; you want the mass on the diagonal.
+
+Which error matters more is a **business** question. In IoT analytics work, of the things that were truly failing, I needed to catch them all — so I ran a model that was a little bit chatty, with some false alarms, because missing a real event was worse. Other problems want the opposite.
+
+```{admonition} On your own
+:class: seealso
+Try manipulating the threshold that turns a predicted probability into a 0 or a 1, and see whether you can get a better fit. The optional appendix notebook builds an ROC curve **by hand** from twelve loan applicants and shows exactly how the false positive rate moves as you slide it.
+```
 
 ## Wrap-up
 
-Everything in this chapter — read, split, **scale on train only**, fit a baseline plus stronger models, evaluate with numbers *and* pictures — is the scaffold we will hang every deep-learning model on. The architectures get fancier; the methodology does not change. If you can do this fluently on Boston Housing, you're ready to build your first neural network.
-
-```{admonition} Key takeaways
-:class: tip
-- The **five-step methodology** is model-agnostic: read → split → scale → fit → evaluate.
-- **Scale on train, transform test** — your first and most important defense against data leakage.
-- **Regression vs. classification** differ mainly in the *evaluation* (R²/MAE/RMSE vs. confusion-matrix metrics).
-- Always evaluate **quantitatively and visually**, and always compare **train vs. test** to catch overfitting.
-- Know your **library geography** (`preprocessing`, `model_selection`, `ensemble`, `tree`) — fluency beats Googling the basics.
-```
-
-
----
+Everything in this chapter — read, split, **scale on train only**, fit a baseline plus stronger models, evaluate with numbers *and* pictures — is the scaffold we will hang every deep-learning model on. The architectures get fancier; the methodology does not change. If you can do this fluently on California Housing, you're ready to build your first neural network.
 
 ## 📌 Lecture key points
 
-*Distilled takeaways from the video lectures behind this chapter — click each to expand.*
+*Nine videos, 51:33. Transcripts and polished scripts: [opim5509-transcripts / fall2026_idl / module1](https://github.com/drdave-teaching/opim5509-transcripts/tree/main/fall2026_idl/module1).*
 
-
-:::{admonition} Setting up Colaboratory on your Google Drive (M1.1)
+:::{admonition} Welcome to IDL from Dr. Dave! (2:55)
 :class: note dropdown
-- Use **Google Colab** — cloud-based so there are no local hardware/install headaches; "if you can get online and have a Gmail, you'll succeed."
-- Make a **dedicated class Gmail/Drive** (e.g., `davesdeeplearning@gmail.com`) for 15 GB of free, shareable storage; academic Gmail can block easy sharing.
-- Organize a class folder with **per-module subfolders**; connect Colab and use **Chrome**.
-- Colab gives a free Python 3 runtime (~12 GB RAM, ~100 GB disk) — no setup cost to start modeling.
-- The whole course is built so everything **runs from Drive** — reproducibility and shareability first.
+- Traditional methods like **random forests need structured tabular data**; neural networks handle structured *and* unstructured — text, time series, images, video, audio.
+- Networks "seem kind of like magic," but they are a **nonlinear weighted sum** of information that gets transformed into an output.
+- Semester arc: ML refresher → neural network bootcamp → ConvNets → RNNs → text sequences.
+- **Time series comes before text** on purpose — going to text first means learning embeddings *and* sequences of embeddings at once.
+- ConvNet fine-tuning is about reusing weights trained on millions of images for your own small-data problem.
 :::
 
-:::{admonition} Accessing books from the UConn library and notebooks from GitHub (M1.2)
+:::{admonition} Google Colaboratory and the UConn Library (2:42)
 :class: note dropdown
-- **Don't buy textbooks** — get them free via `lib.uconn.edu` with your NetID (Manning/O'Reilly access).
-- Core books: **Trask, *Grokking Deep Learning*** (best for the intuition-building start) and **Chollet, *Deep Learning with Python***.
-- Spend the saved money on a **second monitor** instead — biggest productivity upgrade.
-- Pull reference **notebooks from GitHub** straight into Colab.
-- Build the habit of reading source books + running their notebooks alongside lecture.
+- Attach Colab from Drive: **New → More → Connect more apps → search "Colab" → Install**, then refresh.
+- Consider a **dedicated Gmail for class** if you want a clean 20 GB of Drive.
+- The **Chollet** textbook (2021 edition) is free through library.uconn.edu — search, click "full text available," log in with your NetID.
+- Dave hosts materials on GitHub and runs them in Colab; you can use another environment, but Colab is what class demos assume.
 :::
 
-:::{admonition} Performing an EDA on Boston Housing — Part 1 (M1.3)
+:::{admonition} Welcome, Colab and GitHub (7:03)
 :class: note dropdown
-- **Level-set:** you need strong wrangling + ML fundamentals before deep learning ("fly a plane only after you can ride a bike").
-- Always interrogate **shape, columns, and dtypes** first; `df.info()` gives shape + dtypes + missing values in one call.
-- A stray character flips a numeric column to **object** ("can't do math on it") — fix dtypes *before* modeling.
-- **Track row counts** through the pipeline (split, missing-value drops) and be able to explain every change.
-- EDA = summary stats + plots/tables to *understand* the data before modeling.
+- **`File → Save a Copy in Drive`** puts your copy in the *Colab Notebooks* folder, where you can rename and reorganize it.
+- Colab is your computer: **Python 3.12**, package manager behind the scenes, libraries already at stable versions.
+- **Selecting a GPU is not enough** — Runtime → Change runtime type gets you the hardware, but your code has to be written to use it.
+- The Colab runtime is **wiped when you close the browser** — anything you dragged in has to be dragged in again.
+- Python sanity check: lists index from **zero** and `nums[0:3]` stops *before* 3; dictionaries hold network configs cleanly; write a function once instead of pasting code ten times.
 :::
 
-:::{admonition} Performing an EDA on Boston Housing — Part 2 (M1.4)
+:::{admonition} Introduction to EDA on CA Housing (5:11)
 :class: note dropdown
-- Be **brave**: "Runtime → Run all"; you won't break anything, and restart-and-run-all always recovers.
-- Standard imports every time: `pandas as pd`, `numpy as np`, `matplotlib.pyplot as plt`.
-- Compute **statistics** (mean, median, percentiles) and make **plots** (boxplots, histograms, KDE, scatter).
-- Read data from a **gdown shareable link** rather than mounting Drive (cleaner, no PII exposure).
-- Reusable **EDA template** — same skeleton applied to any dataset.
+- **A row is a census block, not a house** — every "average" column is a summary statistic over a geographic unit.
+- 20,640 rows and 9 columns; **commit the shape to memory** so you notice when a join explodes or drops rows.
+- `df.info()` gives dtypes, row count, and missing values in one call.
+- **Mean and standard deviation are most meaningful for normal data.** When the sd exceeds the mean, suspect skew and read the percentiles instead.
+- Add the **1st and 99th percentiles** to `.describe()` — the extremes are where the interesting engineering lives.
 :::
 
-:::{admonition} Fitting Regression Models with Sci-kit Learn (Boston Housing) (M1.5)
+:::{admonition} Outliers, censored data, univariate and bivariate plots (7:00)
 :class: note dropdown
-- The **5 steps**: read/clean → split → **min-max scale (fit_transform on train, transform on test)** → fit → evaluate.
-- Fit a **baseline (LinearRegression)** plus tree models (DecisionTree, RandomForest, GradientBoosting); fitting is ~3 lines.
-- Evaluate **quantitatively** (R², MSE, MAE) **and visually** (predicted-vs-actual on the 45° line).
-- **R² of 1.0 + perfect line = overfitting**, especially if train ≠ test.
-- Know your **library geography** (`preprocessing`, `model_selection`, `ensemble`, `tree`) — fluency beats Googling basics.
+- The target is **right-censored at 5** (= \$500,000 or more) with **965 rows** on the cap. You find it by plotting, and your model will struggle in that bin.
+- **Average rooms hits 141, average occupancy hits 1,200** — an artifact of tiny block populations, not real houses.
+- **Don't reflexively delete outliers** — they are often the most important thing to the business.
+- Flag variables via `np.where`, then group-by: expensive blocks have higher income, slightly older and bigger houses, fewer occupants.
+- The **reasonable person test** — tell the story of the data without forcing a narrative; if something is backwards, raise it in the meeting.
+- Income drives house value (~0.69); average rooms and bedrooms are **multicollinear**.
 :::
 
-:::{admonition} Fitting Classification Models with Sci-kit Learn (Boston Housing) (M1.6)
+:::{admonition} Geographic EDA and final data cleaning (2:33)
 :class: note dropdown
-- Classification ≈ regression workflow; swap `RandomForestRegressor` → `Classifier` — the **evaluation** is what differs.
-- **Recode** `medv` to a balanced 0/1 at the **median** (~50/50) so accuracy is meaningful.
-- Baseline shifts from linear → **logistic regression**.
-- Metrics come from the **confusion matrix**: accuracy, **precision, recall, F1** (all rearrangements of TP/TN/FP/FN).
-- **Balanced data matters for honest metrics** (the "always sunny in SoCal = 90% accuracy" trap).
+- Latitude and longitude are spatial coordinates, so **the data draws California by itself** — no base map needed.
+- Color by median house value: expensive along the coast, cheaper inland, a nice pocket near Lake Tahoe.
+- Bonus: size bubbles by population — and **order biggest-underneath** so small bubbles aren't hidden.
+- Cleaning call: drop occupancy > 10 and rooms > 20, roughly 100 rows.
+:::
+
+:::{admonition} Intro to end-to-end ML for regression (5:50)
+:class: note dropdown
+- Split Y from X **without mutating `df`** — no `inplace=True` anywhere.
+- `train_test_split` with **shuffle** (rows may carry order) and a **random seed** (reproducibility).
+- **Save your feature names before scaling** — the array survives, the names don't, and permutation importance needs them.
+- **Fit the scaler on train, transform test.** Never `fit_transform` the whole `X` before splitting — that leaks the distribution.
+- The test partition **won't span the full 0–1 range**, and that's fine.
+:::
+
+:::{admonition} Fitting and evaluating ML models for regression (9:40)
+:class: note dropdown
+- Instantiate → fit → predict. Linear regression lands near **MAE 0.5, R² 0.63**.
+- **Decision trees overfit like crazy** in scikit-learn — a single observation can sit in a leaf. `min_samples_leaf` is the dial.
+- **Random forests win on tabular data** because many small trees on random subsets of rows *and* columns average into a stable estimate.
+- Neural networks win instead on **unstructured** data, where they do the feature engineering for you.
+- Predicted-vs-actual: the forest hugs the 45° line; **both models fail on the censored rows.**
+- **Permutation importance beats Gini importance** — the built-in kind favors high-cardinality features, while permutation is model-agnostic, so a tree and a neural network can be compared fairly.
+:::
+
+:::{admonition} End-to-end ML for classification (8:39)
+:class: note dropdown
+- Same dataset, recycled with a twist, so the **technique** stands out instead of the data.
+- Recode at the median → ~50/50 balance, and **drop both the flag and the raw house value** from `X`.
+- Regressors become classifiers: logistic regression, decision tree / random forest / gradient boosting classifiers, KNN.
+- **`predict_proba` is a confidence reading** — 0.99 is confident, 0.53 is not — and you can move the threshold to improve the fit.
+- **Accuracy only applies when classes are balanced**; precision and recall are the better tools.
+- Recall starts with R → the **row**: TP / (TP + FN). Precision is the **column**: TP / (TP + FP).
+- Which error costs more is a business call — an IoT model that was "a little bit chatty" was right, because catching every true event mattered.
 :::
