@@ -1,0 +1,864 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 2 — Dense Neural Networks &#8212; Deep Learning — A Graduate Introduction</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"]]}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'm2_dense/index';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Chapter 3 — Convolutional Neural Networks" href="../m3_cnn/index.html" />
+    <link rel="prev" title="Chapter 1 — Refresher: EDA &amp; the ML Methodology" href="../m1_refresher/index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Deep Learning — A Graduate Introduction</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Preface
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../m1_refresher/index.html">Chapter 1 — Refresher: EDA &amp; the ML Methodology</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Chapter 2 — Dense Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../m3_cnn/index.html">Chapter 3 — Convolutional Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../m4_rnn_numeric/index.html">Chapter 4 — Recurrent Networks for Numeric Sequences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../m5_rnn_text/index.html">Chapter 5 — Recurrent Networks for Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../m6_special/index.html">Chapter 6 — Special Topics</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/drdave-teaching/opim5509-textbook" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/m2_dense/index.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Chapter 2 — Dense Neural Networks</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#forward-propagation-a-network-is-just-weighted-sums">2.1 Forward propagation: a network is just weighted sums</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-a-network-learns">2.2 How a network learns</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-we-need-nonlinearity-relu">2.3 Why we need nonlinearity (ReLU)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#your-first-neural-network-regression-in-keras">2.4 Your first neural network — regression in Keras</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classification-binary-multiclass-and-beyond">2.5 Classification — binary, multiclass, and beyond</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wrap-up">Wrap-up</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lecture-key-points">📌 Lecture key points</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="chapter-2-dense-neural-networks">
+<h1>Chapter 2 — Dense Neural Networks<a class="headerlink" href="#chapter-2-dense-neural-networks" title="Link to this heading">#</a></h1>
+<div class="seealso dropdown admonition">
+<p class="admonition-title">🔗 Notebooks for this chapter</p>
+<p>Open in Colab and <strong>Runtime → Run all</strong> — data loads from a stable link, nothing to upload.</p>
+<ul class="simple">
+<li><p><strong>Binary Classification Titanic structured data</strong>   <a class="reference external" href="https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module2/0_BinaryClassification_Titanic_structured_data.ipynb"><img alt="Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>   <a class="reference external" href="https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module2/0_BinaryClassification_Titanic_structured_data.ipynb">GitHub</a></p></li>
+<li><p><strong>Forward Propagation</strong>   <a class="reference external" href="https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module2/1_ForwardPropagation.ipynb"><img alt="Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>   <a class="reference external" href="https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module2/1_ForwardPropagation.ipynb">GitHub</a></p></li>
+<li><p><strong>Multiclass Classification Iris structured data</strong>   <a class="reference external" href="https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module2/1_MulticlassClassification_Iris_structured_data.ipynb"><img alt="Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>   <a class="reference external" href="https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module2/1_MulticlassClassification_Iris_structured_data.ipynb">GitHub</a></p></li>
+<li><p><strong>A First Look at NN with MNIST images</strong>   <a class="reference external" href="https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module2/2_A_FirstLook_atNN_with_MNIST_images.ipynb"><img alt="Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>   <a class="reference external" href="https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module2/2_A_FirstLook_atNN_with_MNIST_images.ipynb">GitHub</a></p></li>
+<li><p><strong>Hot And Cold</strong>   <a class="reference external" href="https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module2/2_HotAndCold.ipynb"><img alt="Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>   <a class="reference external" href="https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module2/2_HotAndCold.ipynb">GitHub</a></p></li>
+<li><p><strong>Back Prop and Re LU</strong>   <a class="reference external" href="https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module2/3_BackProp_and_ReLU.ipynb"><img alt="Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>   <a class="reference external" href="https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module2/3_BackProp_and_ReLU.ipynb">GitHub</a></p></li>
+<li><p><strong>Back Prop and Re LU new Data</strong>   <a class="reference external" href="https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module2/3_BackProp_and_ReLU_newData.ipynb"><img alt="Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>   <a class="reference external" href="https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module2/3_BackProp_and_ReLU_newData.ipynb">GitHub</a></p></li>
+<li><p><strong>Fashion MNIST with fashion images</strong>   <a class="reference external" href="https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module2/3_Fashion_MNIST_with_fashion_images.ipynb"><img alt="Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>   <a class="reference external" href="https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module2/3_Fashion_MNIST_with_fashion_images.ipynb">GitHub</a></p></li>
+<li><p><strong>IMDB Movie Reviews text data</strong>   <a class="reference external" href="https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module2/4_IMDB_Movie_Reviews_text_data.ipynb"><img alt="Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>   <a class="reference external" href="https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module2/4_IMDB_Movie_Reviews_text_data.ipynb">GitHub</a></p></li>
+<li><p><strong>Assignment2</strong>   <a class="reference external" href="https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module2/Assignment2.ipynb"><img alt="Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>   <a class="reference external" href="https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module2/Assignment2.ipynb">GitHub</a></p></li>
+<li><p><strong>Assignment3</strong>   <a class="reference external" href="https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module2/Assignment3.ipynb"><img alt="Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>   <a class="reference external" href="https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module2/Assignment3.ipynb">GitHub</a></p></li>
+<li><p><strong>CA Housing Regression</strong>   <a class="reference external" href="https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module2/CA_Housing_Regression.ipynb"><img alt="Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>   <a class="reference external" href="https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module2/CA_Housing_Regression.ipynb">GitHub</a></p></li>
+<li><p><strong>Cheat Sheet Building FFNNs</strong>   <a class="reference external" href="https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module2/CheatSheet_BuildingFFNNs.ipynb"><img alt="Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>   <a class="reference external" href="https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module2/CheatSheet_BuildingFFNNs.ipynb">GitHub</a></p></li>
+<li><p><strong>BatchNorm FromScratch</strong>   <a class="reference external" href="https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module2/BatchNorm_FromScratch.ipynb"><img alt="Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>   <a class="reference external" href="https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module2/BatchNorm_FromScratch.ipynb">GitHub</a></p></li>
+</ul>
+</div>
+<p>You’ve probably met neural networks before, usually drawn like this: some input data on the left (say Boston Housing), a <strong>crystal ball</strong> in the middle, and the target on the right. The crystal ball is “really good at nonlinear relationships,” there are “hidden layers” and “activation functions,” and maybe you’ve dragged-and-dropped one in JMP. That’s a fine cartoon — but in this chapter we tear the crystal ball open. By the end you’ll know exactly how <strong>one row of a spreadsheet becomes a prediction</strong> (forward propagation), and how the network <strong>updates its weights</strong> from the error so the next prediction is better (backpropagation). Then we’ll build the whole thing in three lines of Keras.</p>
+<p>We’ll use a small, friendly dataset throughout the theory: weather variables (temperature, humidity, wind) predicting how many people are <strong>playing golf</strong> on a given day — 14 rows, easy to hold in your head.</p>
+<section id="forward-propagation-a-network-is-just-weighted-sums">
+<h2>2.1 Forward propagation: a network is just weighted sums<a class="headerlink" href="#forward-propagation-a-network-is-just-weighted-sums" title="Link to this heading">#</a></h2>
+<p>Start as simple as it gets: <strong>one input, one weight.</strong> A prediction is the input scaled by the weight. Think of a weight as a <strong>volume knob</strong> — turn it up, the input counts for more; turn it down, less. Now give the row three features and three weights. The prediction is the <strong>dot product</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{y} = x_1 w_1 + x_2 w_2 + x_3 w_3 = \mathbf{x}\cdot\mathbf{w}
+\]</div>
+<p>A dot product measures a kind of <strong>similarity</strong> between two vectors — but the network doesn’t care about any qualitative meaning; it just multiplies element-wise and sums. Stack a <em>matrix</em> of weights instead of a vector and you transform the input into an intermediate <strong>hidden layer</strong>; dot <em>that</em> with another weight matrix and you get the output. That stack — input → hidden → output — <em>is</em> a neural network.</p>
+<p>The single most useful thing to internalize is the <strong>shape bookkeeping</strong>, because Keras will demand it of you:</p>
+<div class="important admonition">
+<p class="admonition-title">The golden rule of dot products</p>
+<p>A <span class="math notranslate nohighlight">\((1\times m)\)</span> vector dotted with an <span class="math notranslate nohighlight">\((m\times n)\)</span> matrix yields a <span class="math notranslate nohighlight">\((1\times n)\)</span> result — <strong>the inner dimensions must match and they cancel</strong>, leaving the outer dimensions:</p>
+<div class="math notranslate nohighlight">
+\[
+(1\times 4)\cdot(4\times 5)=(1\times 5),\qquad
+(1\times 113)\cdot(113\times 50)=(1\times 50)
+\]</div>
+<p>So a network layer with <span class="math notranslate nohighlight">\(m\)</span> inputs and <span class="math notranslate nohighlight">\(n\)</span> units carries an <span class="math notranslate nohighlight">\((m\times n)\)</span> weight matrix. If the inner numbers don’t line up, the dot product <em>doesn’t compute</em> — and that’s the source of half the shape errors you’ll ever hit. Read your model summary with this rule in hand and the shapes stop being mysterious.</p>
+</div>
+<p>So forward propagation is nothing more than: take a row, dot it with <span class="math notranslate nohighlight">\(W^{(1)}\)</span> to make the hidden layer, (apply an activation — we’ll get there), dot with <span class="math notranslate nohighlight">\(W^{(2)}\)</span> to make the output. We “make an answer across the network.”</p>
+</section>
+<section id="how-a-network-learns">
+<h2>2.2 How a network learns<a class="headerlink" href="#how-a-network-learns" title="Link to this heading">#</a></h2>
+<p>The weights start <strong>randomly initialized</strong>, so the first prediction is basically a guess. Learning is the process of nudging those weights to shrink the error.</p>
+<p><strong>Hot-and-cold learning</strong> is the toy version: try the weight a little bigger — did the error go down? Try it a little smaller — better or worse? Move it in the direction that helps, and repeat. It works for one row, but a network that memorizes one row is useless; we want one whose weights have been updated <strong>iteratively across all the rows</strong> so it <em>generalizes</em>.</p>
+<p><strong>Backpropagation</strong> is the grown-up version of the same idea, and it’s just calculus doing the bookkeeping. For a squared-error loss on one example, the steps are <strong>P, E, and the weight delta</strong>:</p>
+<div class="tip admonition">
+<p class="admonition-title">The gradient-descent update (one weight, by hand)</p>
+<p>With prediction <span class="math notranslate nohighlight">\(\hat{y}=\mathbf{x}\cdot\mathbf{w}\)</span> and squared error <span class="math notranslate nohighlight">\(E=(\hat{y}-y)^2\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\text{weight delta}_i = (\hat{y}-y)\,x_i,
+\qquad
+w_i \leftarrow w_i - \alpha\,(\hat{y}-y)\,x_i
+\]</div>
+<p>In words: the update to each weight is <strong>(predicted − actual) × the input that flowed through that weight</strong>, scaled by the <strong>learning rate</strong> <span class="math notranslate nohighlight">\(\alpha\)</span>. Inputs that didn’t contribute (an <span class="math notranslate nohighlight">\(x_i\)</span> of 0) get no update — the network only adjusts the knobs that mattered for this example. The learning rate controls step size: too big and you overshoot and <em>diverge</em>; too small and you crawl.</p>
+</div>
+<p><strong>When do we update?</strong> Three flavors:</p>
+<ul class="simple">
+<li><p><strong>Stochastic gradient descent (SGD)</strong> — update after <em>every</em> row. Lots of randomness (“stochastic” = random).</p></li>
+<li><p><strong>Full (batch) gradient descent</strong> — track the error across the <em>entire</em> dataset, update once at the end of the epoch. Smooth, but the step can be clunky and slow to converge.</p></li>
+<li><p><strong>Mini-batch gradient descent</strong> — the sweet spot: accumulate the error over <em>B</em> rows, then update. <strong>Batch size <span class="math notranslate nohighlight">\(B\)</span> is a hyperparameter</strong> (5, 10, 200, 500 — depends on your data; there’s no universal best value).</p></li>
+</ul>
+</section>
+<section id="why-we-need-nonlinearity-relu">
+<h2>2.3 Why we need nonlinearity (ReLU)<a class="headerlink" href="#why-we-need-nonlinearity-relu" title="Link to this heading">#</a></h2>
+<p>So far the network is just stacked linear maps — and a stack of linear maps is still… linear. That can only learn straight-line correlation between inputs and output. The real world isn’t linear. The fix is to insert a <strong>nonlinear activation</strong> between layers. The workhorse is <strong>ReLU</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+\text{ReLU}(z)=\max(0,z)
+\]</div>
+<p>It’s almost embarrassingly simple — pass positives through, clamp negatives to zero — but inserting it between dense layers is what lets the network bend, fold, and approximate genuinely nonlinear relationships. (For the <em>output</em> layer we choose the activation to match the task — more on that in a moment.)</p>
+</section>
+<section id="your-first-neural-network-regression-in-keras">
+<h2>2.4 Your first neural network — regression in Keras<a class="headerlink" href="#your-first-neural-network-regression-in-keras" title="Link to this heading">#</a></h2>
+<p>Now the payoff. Everything above becomes a handful of lines with the <strong>Keras Sequential API</strong>. We predict <code class="docutils literal notranslate"><span class="pre">medv</span></code> on Boston Housing — same five-step methodology from Chapter 1 (read → split → scale → fit → evaluate), but the model is now a network.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">keras.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequential</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">keras.layers</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dense</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">'relu'</span><span class="p">,</span> <span class="n">input_shape</span><span class="o">=</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],)))</span>  <span class="c1"># hidden layer 1</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">'relu'</span><span class="p">))</span>                                   <span class="c1"># hidden layer 2</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span>  <span class="n">activation</span><span class="o">=</span><span class="s1">'linear'</span><span class="p">))</span>                                 <span class="c1"># output (regression → linear)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Read that <code class="docutils literal notranslate"><span class="pre">input_shape=(X_train.shape[1],)</span></code> as “the number of feature columns” — it’s the golden rule again, setting the inner dimension of the first weight matrix. The output layer has <strong>one</strong> node with a <strong>linear</strong> activation because we’re predicting a single continuous number.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s1">'rmsprop'</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="s1">'mse'</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">'mae'</span><span class="p">])</span>
+
+<span class="n">history</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span>
+                    <span class="n">validation_data</span><span class="o">=</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">),</span>
+                    <span class="n">epochs</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Three choices worth naming: the <strong>loss</strong> is mean-squared error (regression), the <strong>metric</strong> we watch is MAE (interpretable, in the target’s units), and <code class="docutils literal notranslate"><span class="pre">batch_size=10</span></code> is the mini-batch from §2.2. The call returns a <strong><code class="docutils literal notranslate"><span class="pre">History</span></code></strong> object — a dictionary of what happened every epoch — which we use to draw <strong>learning curves</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">hist</span> <span class="o">=</span> <span class="n">history</span><span class="o">.</span><span class="n">history</span>
+<span class="n">epochs</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">hist</span><span class="p">[</span><span class="s1">'loss'</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">hist</span><span class="p">[</span><span class="s1">'loss'</span><span class="p">],</span> <span class="s1">'bo'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Training loss'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">hist</span><span class="p">[</span><span class="s1">'val_loss'</span><span class="p">],</span> <span class="s1">'orange'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Validation loss'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Epochs'</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'Loss'</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'Training vs. validation loss'</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="important admonition">
+<p class="admonition-title">Read the learning curves like a doctor reads an X-ray</p>
+<ul class="simple">
+<li><p>Both curves falling and hugging each other → healthy learning.</p></li>
+<li><p>Training loss keeps dropping while <strong>validation loss turns back up</strong> → <strong>overfitting</strong>; the model is memorizing.
+The two standard remedies are <strong>early stopping</strong> (halt when validation stops improving) and <strong>dropout</strong> (randomly zero a fraction of units during training so the network can’t lean on any one path). Both, plus the number of layers and hidden units, are <strong>hyperparameters</strong> you tune.</p></li>
+</ul>
+</div>
+<p><strong>Best practices — how many layers, how many units?</strong> The honest answer is <em>it’s a grid search</em> — there’s no formula that’s optimal for every dataset. Reasonable starting points: one hidden layer with as many units as input features, or twice that; then add a second layer; then tune with early stopping and dropout. You might get an equally good model from one wide layer or two narrow ones — different architectures can reach similar fits because the weights are randomly initialized and there are many good solutions.</p>
+</section>
+<section id="classification-binary-multiclass-and-beyond">
+<h2>2.5 Classification — binary, multiclass, and beyond<a class="headerlink" href="#classification-binary-multiclass-and-beyond" title="Link to this heading">#</a></h2>
+<p>The beautiful secret from Chapter 1 holds for networks too: <strong>classification is the same workflow, the output layer and loss change.</strong></p>
+<p><strong>Binary</strong> (e.g., Titanic survived/not): one output node with a <strong>sigmoid</strong> activation, <code class="docutils literal notranslate"><span class="pre">loss='binary_crossentropy'</span></code>, and you read results off a confusion matrix (accuracy, precision, recall, F1).</p>
+<p><strong>Multiclass</strong> (e.g., Iris — three species): <strong>one output node per class</strong> with a <strong>softmax</strong> activation, and <code class="docutils literal notranslate"><span class="pre">loss='categorical_crossentropy'</span></code>. Softmax forces the outputs to be positive and <strong>sum to 1</strong> — a probability distribution over the classes:</p>
+<div class="math notranslate nohighlight">
+\[
+\text{softmax}(z)_k=\frac{e^{z_k}}{\sum_j e^{z_j}}
+\]</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">keras.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">to_categorical</span>
+
+<span class="n">dummy_y</span> <span class="o">=</span> <span class="n">to_categorical</span><span class="p">(</span><span class="n">encoded_Y</span><span class="p">)</span>        <span class="c1"># 0,1,2 → 3 one-hot columns</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="n">input_shape</span><span class="o">=</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],),</span> <span class="n">activation</span><span class="o">=</span><span class="s1">'relu'</span><span class="p">))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span>  <span class="n">activation</span><span class="o">=</span><span class="s1">'softmax'</span><span class="p">))</span>  <span class="c1"># ONE output node per class</span>
+<span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s1">'rmsprop'</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="s1">'categorical_crossentropy'</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">'accuracy'</span><span class="p">])</span>
+<span class="n">history</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">dummy_y</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">validation_split</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Two gotchas worth burning in: encode the target with <code class="docutils literal notranslate"><span class="pre">to_categorical</span></code> so it has <strong>one column per class</strong>, and at prediction time take <code class="docutils literal notranslate"><span class="pre">argmax</span></code> across those columns to recover the predicted class before you build the confusion matrix:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The same dense networks even work on <strong>images</strong> (flatten MNIST digits or Fashion-MNIST into a long vector) and <strong>text</strong> (IMDB movie-review sentiment) — they’ll <em>run</em>, and it’s a great way to see the limits of a plain dense net. But for images a network that respects spatial structure does far better, and for sequences a network with memory wins. Those are exactly the next two chapters.</p>
+</section>
+<section id="wrap-up">
+<h2>Wrap-up<a class="headerlink" href="#wrap-up" title="Link to this heading">#</a></h2>
+<div class="tip admonition">
+<p class="admonition-title">Key takeaways</p>
+<ul class="simple">
+<li><p><strong>Forward propagation</strong> is stacked dot products; the <strong>golden rule</strong> <span class="math notranslate nohighlight">\((1\times m)\cdot(m\times n)=(1\times n)\)</span> governs every layer shape.</p></li>
+<li><p><strong>Learning</strong> = nudging randomly-initialized weights down the error gradient: <span class="math notranslate nohighlight">\(w_i \leftarrow w_i - \alpha(\hat y - y)x_i\)</span>.</p></li>
+<li><p><strong>SGD / full / mini-batch</strong> trade randomness for stability; <strong>batch size</strong> and <strong>learning rate</strong> are hyperparameters.</p></li>
+<li><p><strong>ReLU</strong> between layers buys you nonlinearity; without it a deep net is just a linear model.</p></li>
+<li><p><strong>Output layer + loss define the task:</strong> linear+MSE (regression), sigmoid+binary-crossentropy (binary), softmax+categorical-crossentropy (multiclass).</p></li>
+<li><p>Diagnose with <strong>learning curves</strong>; fight overfitting with <strong>early stopping</strong> and <strong>dropout</strong>.</p></li>
+</ul>
+</div>
+</section>
+<hr class="docutils" />
+<section id="lecture-key-points">
+<h2>📌 Lecture key points<a class="headerlink" href="#lecture-key-points" title="Link to this heading">#</a></h2>
+<p><em>Distilled takeaways from the video lectures behind this chapter — click each to expand.</em></p>
+<div class="note dropdown admonition">
+<p class="admonition-title">ForwardProp — Part 1</p>
+<ul class="simple">
+<li><p>A neural net is just <strong>weighted sums</strong>; a weight is a “volume knob” scaling its input.</p></li>
+<li><p>Build up: one input×one weight → 3 inputs·3 weights (a <strong>dot product</strong>) → input·weight-<strong>matrix</strong> = a hidden layer.</p></li>
+<li><p>The “crystal ball” finds <strong>nonlinear</strong> relationships between inputs and target.</p></li>
+<li><p>Goal of the series: see how <strong>one row of data becomes a prediction</strong>, then how weights update.</p></li>
+<li><p>Running example: weather features (temp/humidity/wind) → number of golfers.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">ForwardProp — Part 2</p>
+<ul class="simple">
+<li><p>Stacking dot products: <code class="docutils literal notranslate"><span class="pre">(1×3)·(3×5)=(1×5)</span></code> hidden, then <code class="docutils literal notranslate"><span class="pre">(1×5)·(5×1)=(1×1)</span></code> output.</p></li>
+<li><p><strong>Golden rule of dot products:</strong> inner dimensions must match and cancel, leaving the outer dims.</p></li>
+<li><p>This rule lets you <strong>design weight-matrix shapes</strong> and predict every layer’s output shape.</p></li>
+<li><p>A dot product encodes a kind of <strong>similarity</strong>; the network doesn’t need human meaning for it.</p></li>
+<li><p>Mismatched shapes simply <strong>don’t compute</strong> — the source of most shape errors.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">HotCold — Part 1</p>
+<ul class="simple">
+<li><p><strong>Hot-and-cold learning:</strong> nudge a weight up/down, keep the direction that lowers error.</p></li>
+<li><p>Weights start <strong>randomly initialized</strong>; learning = iteratively improving them.</p></li>
+<li><p>A net that memorizes one row is useless; we want weights updated <strong>across all rows</strong> to generalize.</p></li>
+<li><p>Demonstrated on the golf data with the target recoded to 0/1 (majority played or not).</p></li>
+<li><p>This is the intuition that backprop will formalize.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">HotCold — Part 2</p>
+<ul class="simple">
+<li><p>Pro: hot-cold finds the optimum; <strong>con: slow</strong>, and a fixed step size can <strong>skip over</strong> the true value.</p></li>
+<li><p>Better than subtracting a constant: scale the update by <strong>direction and amount</strong>.</p></li>
+<li><p>“Direction and amount” = a function of the <strong>error</strong> and the <strong>size of the input</strong> into that weight.</p></li>
+<li><p>Step-size (learning-rate) choice is critical — too big overshoots, too small crawls.</p></li>
+<li><p>Motivates gradient descent as the principled version of hot-cold.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">BackProp — Part 1</p>
+<ul class="simple">
+<li><p>Gradient-descent steps: <strong>P</strong> (predict) → <strong>E</strong> (squared error) → <strong>weight delta</strong> → update.</p></li>
+<li><p><strong>Weight delta = (predicted − actual) × the input</strong> that flowed through that weight.</p></li>
+<li><p>Start with no hidden layer, learn one row, then generalize.</p></li>
+<li><p>Inputs of 0 produce no update — the net only adjusts knobs that mattered.</p></li>
+<li><p>Weights randomly initialized; our job is to update them toward accuracy.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">BackProp — Part 2</p>
+<ul class="simple">
+<li><p><strong>SGD</strong> (update every row) vs <strong>full</strong> (update after all rows) vs <strong>mini-batch</strong> (the sweet spot).</p></li>
+<li><p><strong>Batch size is a hyperparameter</strong> (5/10/200/500…), problem-dependent, no universal best.</p></li>
+<li><p>Nets learn <strong>correlation</strong> between inputs and output; uncorrelated inputs aren’t adjusted.</p></li>
+<li><p>Pure linear stacks can’t capture <strong>nonlinear</strong> patterns → need activations.</p></li>
+<li><p>Sets up ReLU and nonlinearity as the next idea.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">PuttingItAllTogether — NN Learning</p>
+<ul class="simple">
+<li><p>Full loop: <strong>forward pass</strong> (dot products → 1×1 prediction) → error → <strong>weight update</strong>.</p></li>
+<li><p><strong>Big miss → big update; small miss → small update.</strong></p></li>
+<li><p>Overestimate → shrink positive weights / make negatives more negative; underestimate → the reverse.</p></li>
+<li><p>Ties the by-hand mechanics to the code and matching PPT graphics.</p></li>
+<li><p>This <em>is</em> training — repeated across rows and epochs.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Best practices for NN regression</p>
+<ul class="simple">
+<li><p>“How many layers / hidden units?” → honestly, it’s a <strong>grid search</strong> (hyperparameter tuning).</p></li>
+<li><p>You don’t know the perfect architecture up front; random init means many good solutions exist.</p></li>
+<li><p>Five strategies: 1 layer = #features; 1 layer = 2×features; deeper/wider variants, etc.</p></li>
+<li><p>Same-quality fit can come from different architectures (1 wide vs 2 narrow layers).</p></li>
+<li><p>Start simple, then tune — don’t over-engineer the first model.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Our first NN for Regression — Part 1</p>
+<ul class="simple">
+<li><p>Import sklearn + keras; read data; handle <strong>dummy variables and missing values</strong>; train/test split.</p></li>
+<li><p>Same 5-step methodology as Chapter-1 ML, now with a network.</p></li>
+<li><p>Mind shapes throughout (rows/features).</p></li>
+<li><p>Scale features (fit on train).</p></li>
+<li><p>Set up X/y for Keras.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Our first NN for Regression — Part 2</p>
+<ul class="simple">
+<li><p>Build with the <strong>Keras Sequential API</strong>: <code class="docutils literal notranslate"><span class="pre">Dense(64,</span> <span class="pre">relu)</span></code> layers.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">input_shape=(X_train.shape[1],)</span></code></strong> = number of feature columns (the golden rule again).</p></li>
+<li><p>Output layer = <strong>1 node, linear</strong> activation for regression.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">model.summary()</span></code> to read parameter counts/shapes.</p></li>
+<li><p>Architecture is a stack: hidden → hidden → output.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Our first NN for Regression — Part 3</p>
+<ul class="simple">
+<li><p><strong>Compile</strong>: optimizer (rmsprop/Adam), <code class="docutils literal notranslate"><span class="pre">loss='mse'</span></code>, <code class="docutils literal notranslate"><span class="pre">metrics=['mae']</span></code>.</p></li>
+<li><p><strong>Fit</strong> with <code class="docutils literal notranslate"><span class="pre">validation_data</span></code>, <code class="docutils literal notranslate"><span class="pre">epochs</span></code>, <code class="docutils literal notranslate"><span class="pre">batch_size</span></code> (mini-batch GD).</p></li>
+<li><p>Use an <strong>early-stopping callback</strong> to halt when validation stops improving.</p></li>
+<li><p>The choices (loss/metric/batch) map directly to the theory.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fit</span></code> returns a <strong>History</strong> object for diagnostics.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Our first NN for Regression — Part 4</p>
+<ul class="simple">
+<li><p>Evaluate via <strong>learning curves</strong> (training vs validation loss by epoch) <strong>and</strong> traditional metrics.</p></li>
+<li><p>Both curves falling together = healthy; validation turning up = <strong>overfitting</strong>.</p></li>
+<li><p>Plot from <code class="docutils literal notranslate"><span class="pre">history.history</span></code> dict (<code class="docutils literal notranslate"><span class="pre">loss</span></code>, <code class="docutils literal notranslate"><span class="pre">val_loss</span></code>).</p></li>
+<li><p>Complement curves with R²/MAE on test.</p></li>
+<li><p>Diagnose before trusting a model.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Our first NN for Regression — Part 5</p>
+<ul class="simple">
+<li><p><strong>Dropout</strong> randomly zeros units during training to fight overfitting.</p></li>
+<li><p>Tune hyperparameters: dropout rate, early-stopping <strong>patience</strong>, # layers, hidden units.</p></li>
+<li><p>These are exactly the knobs you grid-search.</p></li>
+<li><p>Regularization buys generalization at a small training-fit cost.</p></li>
+<li><p>Iterate: architecture + regularization + early stopping.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Binary classification with NNs: Titanic — Part 1 &amp; 2</p>
+<ul class="simple">
+<li><p>Output layer = <strong>1 sigmoid node</strong>, <code class="docutils literal notranslate"><span class="pre">loss='binary_crossentropy'</span></code>.</p></li>
+<li><p>Prep structured data: numeric-only, <strong>LabelEncoder</strong>/string replacement, handle missing.</p></li>
+<li><p>Evaluate with <strong>confusion matrix + classification report</strong> (with/without early stopping).</p></li>
+<li><p><strong>Recall reads along the row</strong> of the true class (handy mnemonic).</p></li>
+<li><p>Same Sequential workflow as regression, output+loss changed.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Multiclass with NNs: Iris — Part 1 &amp; 2</p>
+<ul class="simple">
+<li><p>Output = <strong>one softmax node per class</strong>; <code class="docutils literal notranslate"><span class="pre">loss='categorical_crossentropy'</span></code>.</p></li>
+<li><p>Encode target with <strong><code class="docutils literal notranslate"><span class="pre">to_categorical</span></code></strong> (one-hot, e.g. 3 columns for Iris).</p></li>
+<li><p><strong>Softmax</strong> outputs a probability distribution summing to 1.</p></li>
+<li><p>Take <strong><code class="docutils literal notranslate"><span class="pre">argmax</span></code></strong> of predictions to recover the class for the confusion matrix.</p></li>
+<li><p>Add proper train/val/test (<code class="docutils literal notranslate"><span class="pre">validation_split</span></code>, holdout test).</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">DNNs for MNIST images</p>
+<ul class="simple">
+<li><p>MNIST = first big DL win (<strong>LeNet</strong>, Bell Labs/USPS, reading handwritten ZIP codes).</p></li>
+<li><p>Flatten each 28×28 image to a 784-vector and <strong>divide by 255</strong> to scale.</p></li>
+<li><p>A dense net <em>works</em> on images but ignores spatial structure → <strong>ConvNets are better</strong> (Module 3).</p></li>
+<li><p>Multiclass output: 10 softmax nodes.</p></li>
+<li><p>Great bridge from structured to <strong>unstructured</strong> data.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Fashion MNIST and IMDB Movie Reviews</p>
+<ul class="simple">
+<li><p><strong>Fashion-MNIST</strong>: 10 clothing categories, same pipeline as MNIST (centered images, ÷255).</p></li>
+<li><p><strong>IMDB</strong>: text sentiment — a first taste of unstructured <strong>text</strong> as a dense-net input.</p></li>
+<li><p>Both show the limits of plain dense nets → motivates CNNs (images) and RNNs (text).</p></li>
+<li><p>Same architecture pattern, different data prep.</p></li>
+<li><p>Closes out binary + multiclass classification.</p></li>
+</ul>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./m2_dense"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../m1_refresher/index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Chapter 1 — Refresher: EDA &amp; the ML Methodology</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../m3_cnn/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Chapter 3 — Convolutional Neural Networks</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#forward-propagation-a-network-is-just-weighted-sums">2.1 Forward propagation: a network is just weighted sums</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-a-network-learns">2.2 How a network learns</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-we-need-nonlinearity-relu">2.3 Why we need nonlinearity (ReLU)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#your-first-neural-network-regression-in-keras">2.4 Your first neural network — regression in Keras</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classification-binary-multiclass-and-beyond">2.5 Classification — binary, multiclass, and beyond</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wrap-up">Wrap-up</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lecture-key-points">📌 Lecture key points</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Dr. Dave Wanik · University of Connecticut (OPIM 5509)
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <p style="font-size:0.9em;opacity:0.85"><strong>⚠️ Work in progress.</strong> These are living draft materials — actively being written and revised. Expect rough edges, gaps, and changes; this is a teaching companion, not a final or official reference.</p>
+<p><em>OPIM 5509 — Introduction to Deep Learning. Built from Dr. Wanik's lecture
+transcripts and course notebooks. A casual-but-rigorous, code-first textbook.</em></p>
+
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

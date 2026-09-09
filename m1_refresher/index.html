@@ -1,0 +1,792 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 1 — Refresher: EDA &amp; the ML Methodology &#8212; Deep Learning — A Graduate Introduction</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'm1_refresher/index';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Chapter 2 — Dense Neural Networks" href="../m2_dense/index.html" />
+    <link rel="prev" title="Preface" href="../intro.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Deep Learning — A Graduate Introduction</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Preface
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Chapter 1 — Refresher: EDA &amp; the ML Methodology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../m2_dense/index.html">Chapter 2 — Dense Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../m3_cnn/index.html">Chapter 3 — Convolutional Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../m4_rnn_numeric/index.html">Chapter 4 — Recurrent Networks for Numeric Sequences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../m5_rnn_text/index.html">Chapter 5 — Recurrent Networks for Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../m6_special/index.html">Chapter 6 — Special Topics</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/drdave-teaching/opim5509-textbook" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/m1_refresher/index.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Chapter 1 — Refresher: EDA & the ML Methodology</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exploratory-data-analysis">1.1 Exploratory data analysis</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-two-gotchas-in-this-dataset">The two gotchas in this dataset</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#looking-at-distributions-and-relationships">Looking at distributions and relationships</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geography-for-free">Geography for free</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regression-with-scikit-learn">1.2 Regression with scikit-learn</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interrogating-the-model">Interrogating the model</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classification-with-scikit-learn">1.3 Classification with scikit-learn</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wrap-up">Wrap-up</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lecture-key-points">📌 Lecture key points</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="chapter-1-refresher-eda-the-ml-methodology">
+<h1>Chapter 1 — Refresher: EDA &amp; the ML Methodology<a class="headerlink" href="#chapter-1-refresher-eda-the-ml-methodology" title="Link to this heading">#</a></h1>
+<div class="seealso dropdown admonition">
+<p class="admonition-title">🔗 Notebooks for this chapter</p>
+<ul class="simple">
+<li><p><strong>Welcome &amp; Setup</strong>   <a class="reference external" href="https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module1/0_Welcome_and_Setup.ipynb"><img alt="Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>   <a class="reference external" href="https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module1/0_Welcome_and_Setup.ipynb">GitHub</a></p></li>
+<li><p><strong>California Housing EDA</strong>   <a class="reference external" href="https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module1/1_CaliforniaHousing_EDA.ipynb"><img alt="Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>   <a class="reference external" href="https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module1/1_CaliforniaHousing_EDA.ipynb">GitHub</a></p></li>
+<li><p><strong>All The Models — Regression</strong>   <a class="reference external" href="https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module1/2_AllTheModels_Regression.ipynb"><img alt="Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>   <a class="reference external" href="https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module1/2_AllTheModels_Regression.ipynb">GitHub</a></p></li>
+<li><p><strong>All The Models — Classification</strong>   <a class="reference external" href="https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module1/3_AllTheModels_Classification.ipynb"><img alt="Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>   <a class="reference external" href="https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module1/3_AllTheModels_Classification.ipynb">GitHub</a></p></li>
+<li><p><strong>General EDA Template</strong>   <a class="reference external" href="https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module1/4_General_EDA_Template.ipynb"><img alt="Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>   <a class="reference external" href="https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module1/4_General_EDA_Template.ipynb">GitHub</a></p></li>
+<li><p><strong>Appendix — ROC, AUC &amp; Thresholds</strong> <em>(optional)</em>   <a class="reference external" href="https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module1/5_Appendix_ROC_AUC_and_Thresholds.ipynb"><img alt="Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>   <a class="reference external" href="https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module1/5_Appendix_ROC_AUC_and_Thresholds.ipynb">GitHub</a></p></li>
+</ul>
+</div>
+<p>Let me level-set. This course assumes you arrive with <strong>strong data-wrangling skills</strong> and a working background in <strong>machine-learning concepts</strong>. So this first chapter isn’t new material — it’s a deliberate refresher to make sure we <em>all</em> share the same foundation before we transition into deep learning. If this chapter feels overwhelming, that’s a useful signal: shore up the data-science fundamentals (or take OPIM 5512) before going further, because deep learning sits <em>on top</em> of everything here. Building deep models when you can’t summarize a dataset or describe what’s happening in a business is like flying a plane before you can ride a bike.</p>
+<p>So what <em>is</em> deep learning, and why do you need it? Traditional methods like random forests rely on data in a very structured format. Neural networks work with structured data <strong>and</strong> unstructured data — text, time series, images, video, audio. They seem like magic, but at a high level they are just a nonlinear weighted sum of information that gets transformed and creates an output. Over the semester we open the hood on all of it.</p>
+<p>Here’s the whole methodology in one breath — and it’s the same five steps whether the model is a random forest or a 20-layer neural network:</p>
+<div class="tip admonition">
+<p class="admonition-title">The five-step ML methodology</p>
+<ol class="arabic simple">
+<li><p><strong>Read &amp; clean</strong> the data (mind the <em>shape</em>, the <em>dtypes</em>, and the missing values).</p></li>
+<li><p><strong>Split</strong> into train / test partitions.</p></li>
+<li><p><strong>Scale</strong> the features (fit on train, apply to test — never the other way around).</p></li>
+<li><p><strong>Fit</strong> a baseline model and a few stronger models.</p></li>
+<li><p><strong>Evaluate</strong> quantitatively (metrics) <em>and</em> visually (plots) — they catch different problems.</p></li>
+</ol>
+</div>
+<p>We’ll walk it end to end on the <strong>California Housing</strong> dataset, first as a regression problem, then as a classification problem.</p>
+<div class="note admonition">
+<p class="admonition-title">Why California Housing, and not Boston?</p>
+<p>Boston Housing was the classic teaching set for decades, and scikit-learn <strong>removed it in version 1.2</strong> because one of its columns was an explicit racial proxy. A current install can’t fetch it at all. California Housing loads in one line, has 20,640 rows, is mostly clean with a few excellent gotchas, and has the bonus of being <strong>spatial</strong> — you can plot it by latitude and longitude and color it by value.</p>
+</div>
+<section id="exploratory-data-analysis">
+<h2>1.1 Exploratory data analysis<a class="headerlink" href="#exploratory-data-analysis" title="Link to this heading">#</a></h2>
+<p>The first step when analyzing any dataset is an <strong>exploratory data analysis (EDA)</strong>. Set up your modules, read the data, and immediately interrogate its <strong>shape</strong>, <strong>columns</strong>, and <strong>data types</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">fetch_california_housing</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">fetch_california_housing</span><span class="p">(</span><span class="n">as_frame</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">frame</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Shape:</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Columns:</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>   <span class="c1"># shape, dtypes, AND a missing-values report in one call</span>
+</pre></div>
+</div>
+<p><strong>Before anything else: what is a row?</strong> In this dataset a row is a <strong>census block</strong>, not a house. Median income, house age, average rooms, average bedrooms — these are summary statistics describing a geographic unit. Students who forget this write nonsense in their write-ups. And the target, median house value, is in a standardized form: you are not going to buy a house for $4.</p>
+<p>Why harp on <strong>shape</strong>? Because tracking it keeps you honest through the whole pipeline. Commit 20,640 rows and 9 columns to memory, and as you move through transformations and aggregations the totals should keep making sense. You never want to silently drop rows, or explode them because of a bad join.</p>
+<p>And why <strong>dtypes</strong>? Because a single stray character will flip a column from <code class="docutils literal notranslate"><span class="pre">float64</span></code> to <code class="docutils literal notranslate"><span class="pre">object</span></code>, and now you can’t do math on it. <code class="docutils literal notranslate"><span class="pre">df.info()</span></code> reports dtypes, the row count, <em>and</em> missing values per column in one shot.</p>
+<p>Then <code class="docutils literal notranslate"><span class="pre">.describe()</span></code> for summary statistics. Here is the statistical point worth pausing on: <strong>the mean and standard deviation are most meaningful for normally distributed data.</strong> When the standard deviation is bigger than the mean, you probably have skew. For non-normal data, lean on the percentiles — min and max give you the range, the 25th/50th/75th give you the IQR and median. Coming from an engineering background I also like the <strong>1st and 99th percentiles</strong>, because I’m interested in the extremes.</p>
+<section id="the-two-gotchas-in-this-dataset">
+<h3>The two gotchas in this dataset<a class="headerlink" href="#the-two-gotchas-in-this-dataset" title="Link to this heading">#</a></h3>
+<p><strong>The target is right-censored.</strong> Run <code class="docutils literal notranslate"><span class="pre">value_counts()</span></code> on the target and the most common value is 5 — that means $500,000 <em>or more</em> — with <strong>965 rows</strong> sitting on that cap. Anything more expensive got smushed into the ceiling. You’d find it by plotting: the top bin looks wrong. Your model will have a lot of trouble there, and no model can predict past it.</p>
+<p><strong>Average rooms reaches 141 and average occupancy reaches 1,200.</strong> No household has 141 rooms and no house has 1,200 people in it. It happens because those blocks have tiny populations, so the ratio blows up. Not real data problems in the sense of typos — a mechanism you need to understand before deciding what to do.</p>
+</section>
+<section id="looking-at-distributions-and-relationships">
+<h3>Looking at distributions and relationships<a class="headerlink" href="#looking-at-distributions-and-relationships" title="Link to this heading">#</a></h3>
+<p>A <strong>histogram matrix</strong> shows every feature at once — some columns are roughly normal, others are right-tailed or bimodal. <strong>Boxplots</strong> surface the outliers.</p>
+<div class="warning admonition">
+<p class="admonition-title">Be careful deleting outliers</p>
+<p>A lot of people say “I’m going to make a model that fits really well, so I’ll get rid of all the outliers.” But <strong>the outliers might be the thing that’s most important to the business.</strong> Be aware of them, understand where they came from, and only then decide.</p>
+</div>
+<p><strong>Flag variables</strong> are the simplest feature engineering there is. Compute the median house value, then <code class="docutils literal notranslate"><span class="pre">np.where</span></code> a 1 for above and a 0 for below, and compare the groups. Expensive blocks have higher incomes, slightly older and bigger houses, the same population, and fewer people living in them — which agrees with intuition. That’s the <strong>reasonable person test</strong>: try to tell the story of the data without forcing a narrative, and if something comes out backwards, that’s exactly what you raise in the meeting.</p>
+<p>For <strong>bivariate</strong> work, the correlation matrix (Pearson or Spearman) is symmetric about the diagonal — focus on the target column and tell the story. Income is the strongest driver of house value at about 0.69. Average rooms and average bedrooms are <strong>multicollinear</strong>, which makes sense. And plotting income against house value shows a real linear agreement with plenty of scatter — plus that flat stripe along the top where the data is censored.</p>
+</section>
+<section id="geography-for-free">
+<h3>Geography for free<a class="headerlink" href="#geography-for-free" title="Link to this heading">#</a></h3>
+<p>Because the data has latitude and longitude, you have spatial coordinates. Plot one against the other and <strong>the data assembles itself into the shape of California</strong> — no base map required. Color the points by median house value and the coast lights up expensive, the interior goes cheap, with an interesting pocket up near Lake Tahoe.</p>
+<div class="seealso admonition">
+<p class="admonition-title">On your own</p>
+<p>Size the bubbles by population as well as coloring by value — and sort so the <strong>biggest bubbles draw underneath</strong>, or the small ones disappear behind them.</p>
+</div>
+<p>Finally, the cleaning decision we can now justify: drop blocks with occupancy above 10 or more than 20 rooms. That removes about 100 rows and the remaining values look sensible.</p>
+</section>
+</section>
+<section id="regression-with-scikit-learn">
+<h2>1.2 Regression with scikit-learn<a class="headerlink" href="#regression-with-scikit-learn" title="Link to this heading">#</a></h2>
+<p>Now the five steps in code. The target is <code class="docutils literal notranslate"><span class="pre">MedHouseVal</span></code>; everything else is a feature.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. target and features</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'MedHouseVal'</span><span class="p">]</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">'MedHouseVal'</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># 2. split (80/20) — shuffle, and set a seed for reproducibility</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.20</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># keep the names BEFORE scaling destroys them</span>
+<span class="n">feature_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+
+<span class="c1"># 3. scale — fit on TRAIN, transform both</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">MinMaxScaler</span>
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">MinMaxScaler</span><span class="p">()</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">X_test</span>  <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Three things worth calling out.</p>
+<p><strong>Nothing mutates <code class="docutils literal notranslate"><span class="pre">df</span></code>.</strong> There is no <code class="docutils literal notranslate"><span class="pre">inplace=True</span></code> anywhere — <code class="docutils literal notranslate"><span class="pre">df</span></code> still has all its rows, so you can re-run cells without surprises.</p>
+<p><strong>Shuffle and seed.</strong> If the rows carry structure — newest to oldest, say — then chopping off the last 20% gives you a biased sample. Shuffle when there’s no time-series component, and set a random seed so your draw is reproducible.</p>
+<p><strong>Save your feature names before you scale.</strong> <code class="docutils literal notranslate"><span class="pre">MinMaxScaler</span></code> hands back a NumPy array and the column names are gone. The <em>positions</em> survive, so if you saved the names you can reattach them later for permutation importance. Otherwise it’s X1, X2, X3 — and that’s hard to explain in a meeting.</p>
+<div class="warning admonition">
+<p class="admonition-title">Data leakage — the mistake I see every semester</p>
+<p>Fit the scaler on <strong>train</strong>, then <code class="docutils literal notranslate"><span class="pre">transform</span></code> the test set. Do <strong>not</strong> <code class="docutils literal notranslate"><span class="pre">fit_transform</span></code> both, and do <strong>not</strong> <code class="docutils literal notranslate"><span class="pre">fit_transform</span></code> the whole <code class="docutils literal notranslate"><span class="pre">X</span></code> before splitting — that leaks the distribution, outliers included, into the model. You want to learn patterns on a representative sample and apply them to the held-out set. And note: the test partition will <strong>not</strong> span the full 0–1 range. That’s correct, not a bug.</p>
+</div>
+<p>Then fit. Instantiate, fit, predict — three lines, and only line one changes between models:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearRegression</span>
+<span class="n">LR</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+<span class="n">LR</span> <span class="o">=</span> <span class="n">LR</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">train_preds</span> <span class="o">=</span> <span class="n">LR</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">test_preds</span>  <span class="o">=</span> <span class="n">LR</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Linear regression gives an MAE around 0.5 and R² around 0.63 — a moderate fit. But a single metric never tells the full story, so write an <code class="docutils literal notranslate"><span class="pre">evaluate</span></code> function and loop a handful of models: linear regression, decision tree, random forest, gradient boosting, k-nearest neighbors.</p>
+<p>The <strong>decision tree overfits like crazy</strong> on the training partition, because scikit-learn will happily let a single observation sit in a leaf. <code class="docutils literal notranslate"><span class="pre">min_samples_leaf</span></code> is the dial — the more samples you force into a terminal node, the less it overfits, and the hope is it generalizes better.</p>
+<p><strong>Random forest wins out of the gate</strong>, and there’s a reason random forests do so well on tabular data: they fit many small trees, each on a random subset of the rows <em>and</em> a random subset of the columns, then average the output of those 100 or 200 trees into a more stable estimate. Where a neural network wins instead is on <strong>unstructured</strong> data, because it does the feature engineering for you.</p>
+<p>Then look at the picture, not just the table. Predicted-vs-actual shows the random forest hugging the 45° line while linear regression is more of a cloud — and <strong>both do poorly on the censored data</strong>, which is your EDA finding coming back as residuals.</p>
+<section id="interrogating-the-model">
+<h3>Interrogating the model<a class="headerlink" href="#interrogating-the-model" title="Link to this heading">#</a></h3>
+<p>Built-in tree importance sums Gini or entropy down the tree and reports a number. That’s fine, but the method <strong>emphasizes high-cardinality features</strong> — a column with many unique values simply offers the forest more places to split.</p>
+<p><strong>Permutation importance</strong> is the better tool. It takes a copy of <code class="docutils literal notranslate"><span class="pre">X_test</span></code>, shuffles one column in place, and asks the model to predict on that corrupted data. If R² barely moves, the model wasn’t using that column. If R² collapses from 0.9 to 0.2, the model was leaning on it hard. It relies on nothing internal to the model, so it’s <strong>model-agnostic</strong> — you can use it on a decision tree <em>and</em> on a neural network and compare fairly.</p>
+<div class="tip admonition">
+<p class="admonition-title">The standard for this course</p>
+<p>No longer are you allowed to say “I fit a model, I have no idea how it fit.” You have to <strong>interrogate and investigate</strong> the model and show how it did.</p>
+</div>
+</section>
+</section>
+<section id="classification-with-scikit-learn">
+<h2>1.3 Classification with scikit-learn<a class="headerlink" href="#classification-with-scikit-learn" title="Link to this heading">#</a></h2>
+<p>I like to take the same problem and recycle it with a twist, so the <strong>technique</strong> stands out and you already understand the data. California Housing is a regression dataset, so recode the target into a balanced binary label — <code class="docutils literal notranslate"><span class="pre">1</span></code> if a block is above the <strong>median</strong>, else <code class="docutils literal notranslate"><span class="pre">0</span></code>. Why the median? Because it splits the data roughly 50/50, giving <strong>balanced classes</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">median_value</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'MedHouseVal'</span><span class="p">]</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'EXPENSIVE'</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'MedHouseVal'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">median_value</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'EXPENSIVE'</span><span class="p">]</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">'EXPENSIVE'</span><span class="p">,</span> <span class="s1">'MedHouseVal'</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>   <span class="c1"># drop BOTH</span>
+</pre></div>
+</div>
+<div class="warning admonition">
+<p class="admonition-title">Drop the raw value too</p>
+<p><code class="docutils literal notranslate"><span class="pre">EXPENSIVE</span></code> was built <em>from</em> <code class="docutils literal notranslate"><span class="pre">MedHouseVal</span></code>. Leave the raw column in <code class="docutils literal notranslate"><span class="pre">X</span></code> and you have handed the model the answer — a perfect score and a worthless model. That’s <strong>target leakage</strong>.</p>
+</div>
+<p>The rest is the same skeleton with different algorithms — logistic regression instead of linear, classifier versions of the trees, KNN — and different metrics, because mean absolute error means nothing here.</p>
+<p>A classifier gives you two things. <code class="docutils literal notranslate"><span class="pre">predict()</span></code> returns the class, and <strong><code class="docutils literal notranslate"><span class="pre">predict_proba()</span></code> returns the raw probability of being class 1</strong> — and that score is a confidence reading. A model saying 0.99 is confident; a model that predicts 0.53 for everything is not. You can manipulate those probabilities by moving the threshold to get a better fit.</p>
+<p><strong>Accuracy only applies when your classes are balanced.</strong> Better tools are <strong>precision</strong> and <strong>recall</strong>. A mnemonic: recall starts with R, so it’s the <strong>row</strong> — true positives divided by (true positives + false negatives). Precision is the <strong>column</strong> — true positives divided by (true positives + false positives). A confusion matrix in seaborn makes both readable; you want the mass on the diagonal.</p>
+<p>Which error matters more is a <strong>business</strong> question. In IoT analytics work, of the things that were truly failing, I needed to catch them all — so I ran a model that was a little bit chatty, with some false alarms, because missing a real event was worse. Other problems want the opposite.</p>
+<div class="seealso admonition">
+<p class="admonition-title">On your own</p>
+<p>Try manipulating the threshold that turns a predicted probability into a 0 or a 1, and see whether you can get a better fit. The optional appendix notebook builds an ROC curve <strong>by hand</strong> from twelve loan applicants and shows exactly how the false positive rate moves as you slide it.</p>
+</div>
+</section>
+<section id="wrap-up">
+<h2>Wrap-up<a class="headerlink" href="#wrap-up" title="Link to this heading">#</a></h2>
+<p>Everything in this chapter — read, split, <strong>scale on train only</strong>, fit a baseline plus stronger models, evaluate with numbers <em>and</em> pictures — is the scaffold we will hang every deep-learning model on. The architectures get fancier; the methodology does not change. If you can do this fluently on California Housing, you’re ready to build your first neural network.</p>
+</section>
+<section id="lecture-key-points">
+<h2>📌 Lecture key points<a class="headerlink" href="#lecture-key-points" title="Link to this heading">#</a></h2>
+<p><em>Nine videos, 51:33. Transcripts and polished scripts: <a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/tree/main/fall2026_idl/module1">opim5509-transcripts / fall2026_idl / module1</a>.</em></p>
+<div class="note dropdown admonition">
+<p class="admonition-title">Welcome to IDL from Dr. Dave! (2:55)</p>
+<ul class="simple">
+<li><p>Traditional methods like <strong>random forests need structured tabular data</strong>; neural networks handle structured <em>and</em> unstructured — text, time series, images, video, audio.</p></li>
+<li><p>Networks “seem kind of like magic,” but they are a <strong>nonlinear weighted sum</strong> of information that gets transformed into an output.</p></li>
+<li><p>Semester arc: ML refresher → neural network bootcamp → ConvNets → RNNs → text sequences.</p></li>
+<li><p><strong>Time series comes before text</strong> on purpose — going to text first means learning embeddings <em>and</em> sequences of embeddings at once.</p></li>
+<li><p>ConvNet fine-tuning is about reusing weights trained on millions of images for your own small-data problem.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Google Colaboratory and the UConn Library (2:42)</p>
+<ul class="simple">
+<li><p>Attach Colab from Drive: <strong>New → More → Connect more apps → search “Colab” → Install</strong>, then refresh.</p></li>
+<li><p>Consider a <strong>dedicated Gmail for class</strong> if you want a clean 20 GB of Drive.</p></li>
+<li><p>The <strong>Chollet</strong> textbook (2021 edition) is free through library.uconn.edu — search, click “full text available,” log in with your NetID.</p></li>
+<li><p>Dave hosts materials on GitHub and runs them in Colab; you can use another environment, but Colab is what class demos assume.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Welcome, Colab and GitHub (7:03)</p>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">File</span> <span class="pre">→</span> <span class="pre">Save</span> <span class="pre">a</span> <span class="pre">Copy</span> <span class="pre">in</span> <span class="pre">Drive</span></code></strong> puts your copy in the <em>Colab Notebooks</em> folder, where you can rename and reorganize it.</p></li>
+<li><p>Colab is your computer: <strong>Python 3.12</strong>, package manager behind the scenes, libraries already at stable versions.</p></li>
+<li><p><strong>Selecting a GPU is not enough</strong> — Runtime → Change runtime type gets you the hardware, but your code has to be written to use it.</p></li>
+<li><p>The Colab runtime is <strong>wiped when you close the browser</strong> — anything you dragged in has to be dragged in again.</p></li>
+<li><p>Python sanity check: lists index from <strong>zero</strong> and <code class="docutils literal notranslate"><span class="pre">nums[0:3]</span></code> stops <em>before</em> 3; dictionaries hold network configs cleanly; write a function once instead of pasting code ten times.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Introduction to EDA on CA Housing (5:11)</p>
+<ul class="simple">
+<li><p><strong>A row is a census block, not a house</strong> — every “average” column is a summary statistic over a geographic unit.</p></li>
+<li><p>20,640 rows and 9 columns; <strong>commit the shape to memory</strong> so you notice when a join explodes or drops rows.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">df.info()</span></code> gives dtypes, row count, and missing values in one call.</p></li>
+<li><p><strong>Mean and standard deviation are most meaningful for normal data.</strong> When the sd exceeds the mean, suspect skew and read the percentiles instead.</p></li>
+<li><p>Add the <strong>1st and 99th percentiles</strong> to <code class="docutils literal notranslate"><span class="pre">.describe()</span></code> — the extremes are where the interesting engineering lives.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Outliers, censored data, univariate and bivariate plots (7:00)</p>
+<ul class="simple">
+<li><p>The target is <strong>right-censored at 5</strong> (= $500,000 or more) with <strong>965 rows</strong> on the cap. You find it by plotting, and your model will struggle in that bin.</p></li>
+<li><p><strong>Average rooms hits 141, average occupancy hits 1,200</strong> — an artifact of tiny block populations, not real houses.</p></li>
+<li><p><strong>Don’t reflexively delete outliers</strong> — they are often the most important thing to the business.</p></li>
+<li><p>Flag variables via <code class="docutils literal notranslate"><span class="pre">np.where</span></code>, then group-by: expensive blocks have higher income, slightly older and bigger houses, fewer occupants.</p></li>
+<li><p>The <strong>reasonable person test</strong> — tell the story of the data without forcing a narrative; if something is backwards, raise it in the meeting.</p></li>
+<li><p>Income drives house value (~0.69); average rooms and bedrooms are <strong>multicollinear</strong>.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Geographic EDA and final data cleaning (2:33)</p>
+<ul class="simple">
+<li><p>Latitude and longitude are spatial coordinates, so <strong>the data draws California by itself</strong> — no base map needed.</p></li>
+<li><p>Color by median house value: expensive along the coast, cheaper inland, a nice pocket near Lake Tahoe.</p></li>
+<li><p>Bonus: size bubbles by population — and <strong>order biggest-underneath</strong> so small bubbles aren’t hidden.</p></li>
+<li><p>Cleaning call: drop occupancy &gt; 10 and rooms &gt; 20, roughly 100 rows.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Intro to end-to-end ML for regression (5:50)</p>
+<ul class="simple">
+<li><p>Split Y from X <strong>without mutating <code class="docutils literal notranslate"><span class="pre">df</span></code></strong> — no <code class="docutils literal notranslate"><span class="pre">inplace=True</span></code> anywhere.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">train_test_split</span></code> with <strong>shuffle</strong> (rows may carry order) and a <strong>random seed</strong> (reproducibility).</p></li>
+<li><p><strong>Save your feature names before scaling</strong> — the array survives, the names don’t, and permutation importance needs them.</p></li>
+<li><p><strong>Fit the scaler on train, transform test.</strong> Never <code class="docutils literal notranslate"><span class="pre">fit_transform</span></code> the whole <code class="docutils literal notranslate"><span class="pre">X</span></code> before splitting — that leaks the distribution.</p></li>
+<li><p>The test partition <strong>won’t span the full 0–1 range</strong>, and that’s fine.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Fitting and evaluating ML models for regression (9:40)</p>
+<ul class="simple">
+<li><p>Instantiate → fit → predict. Linear regression lands near <strong>MAE 0.5, R² 0.63</strong>.</p></li>
+<li><p><strong>Decision trees overfit like crazy</strong> in scikit-learn — a single observation can sit in a leaf. <code class="docutils literal notranslate"><span class="pre">min_samples_leaf</span></code> is the dial.</p></li>
+<li><p><strong>Random forests win on tabular data</strong> because many small trees on random subsets of rows <em>and</em> columns average into a stable estimate.</p></li>
+<li><p>Neural networks win instead on <strong>unstructured</strong> data, where they do the feature engineering for you.</p></li>
+<li><p>Predicted-vs-actual: the forest hugs the 45° line; <strong>both models fail on the censored rows.</strong></p></li>
+<li><p><strong>Permutation importance beats Gini importance</strong> — the built-in kind favors high-cardinality features, while permutation is model-agnostic, so a tree and a neural network can be compared fairly.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">End-to-end ML for classification (8:39)</p>
+<ul class="simple">
+<li><p>Same dataset, recycled with a twist, so the <strong>technique</strong> stands out instead of the data.</p></li>
+<li><p>Recode at the median → ~50/50 balance, and <strong>drop both the flag and the raw house value</strong> from <code class="docutils literal notranslate"><span class="pre">X</span></code>.</p></li>
+<li><p>Regressors become classifiers: logistic regression, decision tree / random forest / gradient boosting classifiers, KNN.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">predict_proba</span></code> is a confidence reading</strong> — 0.99 is confident, 0.53 is not — and you can move the threshold to improve the fit.</p></li>
+<li><p><strong>Accuracy only applies when classes are balanced</strong>; precision and recall are the better tools.</p></li>
+<li><p>Recall starts with R → the <strong>row</strong>: TP / (TP + FN). Precision is the <strong>column</strong>: TP / (TP + FP).</p></li>
+<li><p>Which error costs more is a business call — an IoT model that was “a little bit chatty” was right, because catching every true event mattered.</p></li>
+</ul>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./m1_refresher"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../intro.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Preface</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../m2_dense/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Chapter 2 — Dense Neural Networks</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exploratory-data-analysis">1.1 Exploratory data analysis</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-two-gotchas-in-this-dataset">The two gotchas in this dataset</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#looking-at-distributions-and-relationships">Looking at distributions and relationships</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geography-for-free">Geography for free</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regression-with-scikit-learn">1.2 Regression with scikit-learn</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interrogating-the-model">Interrogating the model</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classification-with-scikit-learn">1.3 Classification with scikit-learn</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wrap-up">Wrap-up</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lecture-key-points">📌 Lecture key points</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Dr. Dave Wanik · University of Connecticut (OPIM 5509)
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <p style="font-size:0.9em;opacity:0.85"><strong>⚠️ Work in progress.</strong> These are living draft materials — actively being written and revised. Expect rough edges, gaps, and changes; this is a teaching companion, not a final or official reference.</p>
+<p><em>OPIM 5509 — Introduction to Deep Learning. Built from Dr. Wanik's lecture
+transcripts and course notebooks. A casual-but-rigorous, code-first textbook.</em></p>
+
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

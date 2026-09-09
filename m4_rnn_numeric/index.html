@@ -1,0 +1,805 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 4 — Recurrent Networks for Numeric Sequences &#8212; Deep Learning — A Graduate Introduction</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"]]}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'm4_rnn_numeric/index';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Chapter 5 — Recurrent Networks for Text" href="../m5_rnn_text/index.html" />
+    <link rel="prev" title="Chapter 3 — Convolutional Neural Networks" href="../m3_cnn/index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Deep Learning — A Graduate Introduction</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Preface
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../m1_refresher/index.html">Chapter 1 — Refresher: EDA &amp; the ML Methodology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../m2_dense/index.html">Chapter 2 — Dense Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../m3_cnn/index.html">Chapter 3 — Convolutional Neural Networks</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Chapter 4 — Recurrent Networks for Numeric Sequences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../m5_rnn_text/index.html">Chapter 5 — Recurrent Networks for Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../m6_special/index.html">Chapter 6 — Special Topics</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/drdave-teaching/opim5509-textbook" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/m4_rnn_numeric/index.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Chapter 4 — Recurrent Networks for Numeric Sequences</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-window-method-turn-a-sequence-into-a-table">4.1 The window method — turn a sequence into a table</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recurrent-networks-let-the-model-engineer-the-features">4.2 Recurrent networks — let the model engineer the features</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-recurrent-architectures">4.3 Advanced recurrent architectures</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wrap-up">Wrap-up</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lecture-key-points">📌 Lecture key points</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="chapter-4-recurrent-networks-for-numeric-sequences">
+<h1>Chapter 4 — Recurrent Networks for Numeric Sequences<a class="headerlink" href="#chapter-4-recurrent-networks-for-numeric-sequences" title="Link to this heading">#</a></h1>
+<div class="seealso dropdown admonition">
+<p class="admonition-title">🔗 Notebooks for this chapter</p>
+<p>Open in Colab and <strong>Runtime → Run all</strong> — data loads from a stable link, nothing to upload.</p>
+<ul class="simple">
+<li><p><strong>Advanced RNN Theory</strong>   <a class="reference external" href="https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module4/Advanced_RNN_Theory.ipynb"><img alt="Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>   <a class="reference external" href="https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module4/Advanced_RNN_Theory.ipynb">GitHub</a></p></li>
+<li><p><strong>Multivariate Occupancy Lags</strong>   <a class="reference external" href="https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module4/Multivariate_Occupancy_Lags.ipynb"><img alt="Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>   <a class="reference external" href="https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module4/Multivariate_Occupancy_Lags.ipynb">GitHub</a></p></li>
+<li><p><strong>Multivariate Occupancy RNN</strong>   <a class="reference external" href="https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module4/Multivariate_Occupancy_RNN.ipynb"><img alt="Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>   <a class="reference external" href="https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module4/Multivariate_Occupancy_RNN.ipynb">GitHub</a></p></li>
+<li><p><strong>Multivariate Occupancy RNN Advanced Topics</strong>   <a class="reference external" href="https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module4/Multivariate_Occupancy_RNN_AdvancedTopics.ipynb"><img alt="Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>   <a class="reference external" href="https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module4/Multivariate_Occupancy_RNN_AdvancedTopics.ipynb">GitHub</a></p></li>
+<li><p><strong>RNNs By Hand basic</strong>   <a class="reference external" href="https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module4/RNNs_By_Hand_basic.ipynb"><img alt="Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>   <a class="reference external" href="https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module4/RNNs_By_Hand_basic.ipynb">GitHub</a></p></li>
+<li><p><strong>Simple Predict The Stock Market DL</strong>   <a class="reference external" href="https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module4/Simple_Predict_The_Stock_Market_DL.ipynb"><img alt="Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>   <a class="reference external" href="https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module4/Simple_Predict_The_Stock_Market_DL.ipynb">GitHub</a></p></li>
+<li><p><strong>Univariate Temperature Lags</strong>   <a class="reference external" href="https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module4/Univariate_Temperature_Lags.ipynb"><img alt="Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>   <a class="reference external" href="https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module4/Univariate_Temperature_Lags.ipynb">GitHub</a></p></li>
+<li><p><strong>Univariate Temperature RNN</strong>   <a class="reference external" href="https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module4/Univariate_Temperature_RNN.ipynb"><img alt="Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>   <a class="reference external" href="https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module4/Univariate_Temperature_RNN.ipynb">GitHub</a></p></li>
+<li><p><strong>Univariate Temperature RNN Advanced</strong>   <a class="reference external" href="https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module4/Univariate_Temperature_RNN_Advanced.ipynb"><img alt="Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>   <a class="reference external" href="https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module4/Univariate_Temperature_RNN_Advanced.ipynb">GitHub</a></p></li>
+<li><p><strong>a Many To Many BDL tmpf and vsby</strong>   <a class="reference external" href="https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module4/a_Many_To_Many_BDL_tmpf_and_vsby.ipynb"><img alt="Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>   <a class="reference external" href="https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module4/a_Many_To_Many_BDL_tmpf_and_vsby.ipynb">GitHub</a></p></li>
+<li><p><strong>b Many To Many BDL tmpf and tmpf Plus1</strong>   <a class="reference external" href="https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module4/b_Many_To_Many_BDL_tmpf_and_tmpfPlus1.ipynb"><img alt="Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>   <a class="reference external" href="https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module4/b_Many_To_Many_BDL_tmpf_and_tmpfPlus1.ipynb">GitHub</a></p></li>
+</ul>
+</div>
+<p>So far our data has had no order — shuffle the rows of Boston Housing and nothing changes. <strong>Sequence data is different</strong>: it’s a time series — hourly temperature, daily stock closes, warehouse inventory — where <em>yesterday matters for today</em>. This chapter is about models that respect that order. We start with numbers (not text) on purpose: text forces you to learn embeddings <em>and</em> sequences at once, which is confusing. Master recurrent networks on numeric series first, then Chapter 5 generalizes to words.</p>
+<p>There are two ways to feed a time series to a model, and we’ll do both.</p>
+<section id="the-window-method-turn-a-sequence-into-a-table">
+<h2>4.1 The window method — turn a sequence into a table<a class="headerlink" href="#the-window-method-turn-a-sequence-into-a-table" title="Link to this heading">#</a></h2>
+<p>The <strong>window method</strong> (a.k.a. lags) is feature engineering: to predict the next value, use the previous <em>k</em> values as features. You slide a window of length <code class="docutils literal notranslate"><span class="pre">n_steps</span></code> (the <strong>look-back</strong>) across the series, and each window becomes a row of X with the next value as y. The beauty is that this <strong>destroys the temporal structure on purpose</strong> — once it’s a flat table, you can throw <em>any</em> model at it: linear regression, random forest, or a dense neural net from Chapter 2.</p>
+<p>Here’s the canonical helper (straight from the course notebook):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">array</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">split_sequence</span><span class="p">(</span><span class="n">sequence</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">):</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(),</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sequence</span><span class="p">)):</span>
+        <span class="n">end_ix</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="n">n_steps</span>
+        <span class="k">if</span> <span class="n">end_ix</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">sequence</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>     <span class="c1"># stop at the end of the series</span>
+            <span class="k">break</span>
+        <span class="n">seq_x</span><span class="p">,</span> <span class="n">seq_y</span> <span class="o">=</span> <span class="n">sequence</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">end_ix</span><span class="p">],</span> <span class="n">sequence</span><span class="p">[</span><span class="n">end_ix</span><span class="p">]</span>  <span class="c1"># window → next value</span>
+        <span class="n">X</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">seq_x</span><span class="p">);</span> <span class="n">y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">seq_y</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">array</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">array</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+<span class="n">n_steps</span> <span class="o">=</span> <span class="mi">10</span>                                <span class="c1"># look-back: try 10, then 30</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">split_sequence</span><span class="p">(</span><span class="n">raw_seq</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This is a great baseline — a window-method dense net is often shockingly competitive. But it <em>throws away</em> the sequence. The recurrent network keeps it.</p>
+</section>
+<section id="recurrent-networks-let-the-model-engineer-the-features">
+<h2>4.2 Recurrent networks — let the model engineer the features<a class="headerlink" href="#recurrent-networks-let-the-model-engineer-the-features" title="Link to this heading">#</a></h2>
+<p>A <strong>recurrent neural network (RNN)</strong> preserves the sequence: it reads the time steps <strong>one at a time</strong>, carrying a <strong>hidden state</strong> that summarizes everything it has seen so far. At each step it combines the current input with the hidden state from the previous step — that recurrence is the memory. Just like a ConvNet learned image features for you, an RNN <strong>learns the temporal features for you</strong>; your job shifts from hand-crafting lags to simply getting the data into the right shape.</p>
+<div class="important admonition">
+<p class="admonition-title">The 3-D tensor — think “deck of cards”</p>
+<p>Recurrent layers expect a <strong>3-D tensor</strong>: <code class="docutils literal notranslate"><span class="pre">(samples,</span> <span class="pre">look-back,</span> <span class="pre">features)</span></code>. If you have 25 windows, a look-back of 5, and 4 features, that’s a <span class="math notranslate nohighlight">\(25\times5\times4\)</span> tensor — a deck of 25 cards, each card a <span class="math notranslate nohighlight">\(5\times4\)</span> slice of history. For a <strong>univariate</strong> series you must <code class="docutils literal notranslate"><span class="pre">reshape</span></code> to add the trailing features dimension of 1:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>   <span class="c1"># (samples, n_steps, n_features=1)</span>
+</pre></div>
+</div>
+</div>
+<p>This shape is where 90% of RNN errors live — get it right and the rest is easy.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+Building the model is Chapter-2 muscle memory, with a recurrent layer at the front:
+
+```python
+from tensorflow.keras import Sequential
+from tensorflow.keras.layers import SimpleRNN, LSTM, GRU, Dense
+
+model = Sequential()
+model.add(SimpleRNN(2, input_shape=(n_steps, n_features)))  # 2 hidden units
+model.add(Dense(1))                                         # regression output
+model.compile(optimizer='rmsprop', loss='mse', metrics=['mae'])
+</pre></div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Trainable parameters in a recurrent cell</p>
+<p>Let <span class="math notranslate nohighlight">\(H\)</span> = hidden-state size, <span class="math notranslate nohighlight">\(I\)</span> = number of input features, and <span class="math notranslate nohighlight">\(G\)</span> = number of little neural nets inside the cell. The cell’s parameters are:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\#\text{params} = G\,\big[\,H(H+I) + H\,\big],\qquad
+G=\begin{cases}1 &amp; \text{SimpleRNN}\\ 3 &amp; \text{GRU}\\ 4 &amp; \text{LSTM}\end{cases}
+\end{split}\]</div>
+<p>The <strong>output shape</strong> of the recurrent layer is just <span class="math notranslate nohighlight">\(H\)</span> — it doesn’t depend on the look-back. (Tiny worked example: <span class="math notranslate nohighlight">\(H=2\)</span>, <span class="math notranslate nohighlight">\(I=3\)</span>, SimpleRNN → the cell learns <span class="math notranslate nohighlight">\(2(2+3)+2 = 12\)</span> params; attach a 1-unit dense head and you add <span class="math notranslate nohighlight">\(2\cdot1+1=3\)</span>, for <strong>15</strong> total.) The same <span class="math notranslate nohighlight">\(G/H/I\)</span> recipe covers every recurrent flavor — that’s the whole point of writing it as one formula.</p>
+</div>
+<p><strong>SimpleRNN, LSTM, GRU.</strong> A <code class="docutils literal notranslate"><span class="pre">SimpleRNN</span></code> often performs about the same as the window-method dense net — useful, but it struggles to remember long-range dependencies (the vanishing-gradient problem). The <strong>LSTM</strong> (<span class="math notranslate nohighlight">\(G=4\)</span>) adds gates — input, forget, output — that let it learn what to keep and what to discard over long sequences; the <strong>GRU</strong> (<span class="math notranslate nohighlight">\(G=3\)</span>) is a lighter cousin that’s often just as good. In Keras you swap one word — <code class="docutils literal notranslate"><span class="pre">SimpleRNN</span></code> → <code class="docutils literal notranslate"><span class="pre">LSTM</span></code> → <code class="docutils literal notranslate"><span class="pre">GRU</span></code> — and everything else stays the same.</p>
+<div class="warning admonition">
+<p class="admonition-title">Always have baselines for time series</p>
+<p>Before celebrating an LSTM, beat the dumb models: <strong>mean-only</strong> (predict the average), <strong>persistence</strong> (predict today = yesterday), and <strong>linear regression on the lags</strong>. Persistence in particular is brutally hard to beat on many series. If your fancy recurrent model can’t clear these bars, it isn’t learning anything useful.</p>
+</div>
+</section>
+<section id="advanced-recurrent-architectures">
+<h2>4.3 Advanced recurrent architectures<a class="headerlink" href="#advanced-recurrent-architectures" title="Link to this heading">#</a></h2>
+<p>Once the basic RNN works, four upgrades squeeze out more signal — and they stack:</p>
+<ul class="simple">
+<li><p><strong>1-D convolution + pooling.</strong> A <code class="docutils literal notranslate"><span class="pre">Conv1D</span></code> slides a learned filter along the time axis to produce a richer, transformed sequence (the same convolution idea from Chapter 3, in one dimension), and <code class="docutils literal notranslate"><span class="pre">MaxPooling1D</span></code> downsamples it before the recurrent layer. Note: it’s <code class="docutils literal notranslate"><span class="pre">Conv1D</span></code>, <em>not</em> <code class="docutils literal notranslate"><span class="pre">Conv2D</span></code>, and pull <code class="docutils literal notranslate"><span class="pre">input_shape</span></code> from <code class="docutils literal notranslate"><span class="pre">X_train</span></code> rather than hard-coding it.</p></li>
+<li><p><strong>Recurrent dropout.</strong> Dropout designed for the recurrent connection, so the cell can’t over-rely on any single path through time.</p></li>
+<li><p><strong>Stacking recurrent layers.</strong> Feed one recurrent layer into another with <code class="docutils literal notranslate"><span class="pre">return_sequences=True</span></code> so the first layer passes its full sequence forward — but more layers isn’t always better; it’s a hyperparameter, not a virtue.</p></li>
+<li><p><strong>Bidirectional layers.</strong> Read the sequence <strong>forwards and backwards in parallel</strong> with two independent cells, then <strong>concatenate</strong> their hidden states:</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.layers</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bidirectional</span><span class="p">,</span> <span class="n">LSTM</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Bidirectional</span><span class="p">(</span><span class="n">LSTM</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="n">return_sequences</span><span class="o">=</span><span class="kc">True</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p>A <code class="docutils literal notranslate"><span class="pre">Bidirectional(LSTM(3))</span></code> produces 3 forward units and 3 backward units, concatenated to a width-6 output. Reading a series both directions can add surprising predictive power, because patterns that are hard to see going forward sometimes pop out going backward.</p>
+<p><strong>Many-to-many</strong> rounds it out: instead of predicting one value, the network predicts <strong>multiple variables at once</strong> (one model for several product lines) and/or <strong>multiple steps into the future</strong> — a single recurrent model doing a whole forecasting job.</p>
+</section>
+<section id="wrap-up">
+<h2>Wrap-up<a class="headerlink" href="#wrap-up" title="Link to this heading">#</a></h2>
+<div class="tip admonition">
+<p class="admonition-title">Key takeaways</p>
+<ul class="simple">
+<li><p><strong>Sequence data has order</strong>; the <strong>window method</strong> flattens it into a table (any model works), while <strong>RNNs preserve it</strong> and learn temporal features for you.</p></li>
+<li><p>Recurrent layers want a <strong>3-D tensor</strong> <code class="docutils literal notranslate"><span class="pre">(samples,</span> <span class="pre">look-back,</span> <span class="pre">features)</span></code> — <code class="docutils literal notranslate"><span class="pre">reshape</span></code> univariate series to a trailing 1.</p></li>
+<li><p><strong>Parameters:</strong> <span class="math notranslate nohighlight">\(G[H(H+I)+H]\)</span> with <span class="math notranslate nohighlight">\(G=1/3/4\)</span> for SimpleRNN/GRU/LSTM; the recurrent layer’s <strong>output shape is <span class="math notranslate nohighlight">\(H\)</span></strong>, independent of look-back.</p></li>
+<li><p><strong>SimpleRNN → LSTM → GRU</strong> is a one-word swap; LSTM/GRU gates handle long-range memory the SimpleRNN can’t.</p></li>
+<li><p>Always beat <strong>mean / persistence / linear</strong> baselines.</p></li>
+<li><p>Advanced add-ons stack: <strong>Conv1D+pooling, recurrent dropout, stacking (<code class="docutils literal notranslate"><span class="pre">return_sequences</span></code>), and Bidirectional</strong>; many-to-many predicts multiple targets/horizons.</p></li>
+</ul>
+</div>
+</section>
+<hr class="docutils" />
+<section id="lecture-key-points">
+<h2>📌 Lecture key points<a class="headerlink" href="#lecture-key-points" title="Link to this heading">#</a></h2>
+<p><em>Distilled takeaways from the video lectures behind this chapter — click each to expand.</em></p>
+<div class="note dropdown admonition">
+<p class="admonition-title">A first look at recurrent neural network architecture</p>
+<ul class="simple">
+<li><p>The <strong>window method</strong> destroys temporal structure (lags as features) → lets any model fit.</p></li>
+<li><p>RNNs <strong>preserve the sequence</strong> and learn temporal features for you (like CNNs did for images).</p></li>
+<li><p>Start with <strong>numbers, not text</strong> (text adds embeddings → confusing); Chollet starting with text is “a mistake.”</p></li>
+<li><p>For unstructured data, effort shifts from feature engineering to <strong>getting data into the right shape</strong>.</p></li>
+<li><p>Resources: PPT, script, and an Excel sheet to follow along.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Simple RNN: Vanilla recurrent neural networks</p>
+<ul class="simple">
+<li><p>An RNN reads time steps <strong>one at a time</strong>, carrying a <strong>hidden state</strong> from t−1 into t.</p></li>
+<li><p>The hidden state is the network’s <strong>memory</strong> of everything seen so far.</p></li>
+<li><p>That recurrence is the whole new idea vs a dense net.</p></li>
+<li><p>SimpleRNN ≈ performance of the window-method dense net.</p></li>
+<li><p>It struggles with <strong>long-range</strong> dependencies (vanishing gradients) → LSTM/GRU.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Trainable parms and output shapes of SimpleRNN, intro to LSTM</p>
+<ul class="simple">
+<li><p>Recurrent layer <strong>output shape = H</strong> (hidden size), independent of look-back.</p></li>
+<li><p>General params formula <span class="math notranslate nohighlight">\(G[H(H+I)+H]\)</span> with <span class="math notranslate nohighlight">\(G=1\)</span> (RNN), <span class="math notranslate nohighlight">\(3\)</span> (GRU), <span class="math notranslate nohighlight">\(4\)</span> (LSTM).</p></li>
+<li><p><span class="math notranslate nohighlight">\(G\)</span>=# nets in the cell, <span class="math notranslate nohighlight">\(H\)</span>=hidden units, <span class="math notranslate nohighlight">\(I\)</span>=input features.</p></li>
+<li><p>Tiny example: <span class="math notranslate nohighlight">\(H=2,I=3\)</span> → 12 params in the cell + 3 for a dense head = 15.</p></li>
+<li><p>One formula covers every recurrent flavor.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Detailed LSTM calculations and intro to GRU</p>
+<ul class="simple">
+<li><p><strong>LSTM</strong> (<span class="math notranslate nohighlight">\(G=4\)</span>) adds input/forget/output <strong>gates</strong> to learn what to keep/discard over long sequences.</p></li>
+<li><p><strong>GRU</strong> (<span class="math notranslate nohighlight">\(G=3\)</span>) is a lighter cousin, often just as good.</p></li>
+<li><p>Swap one word in Keras (<code class="docutils literal notranslate"><span class="pre">SimpleRNN</span></code>→<code class="docutils literal notranslate"><span class="pre">LSTM</span></code>→<code class="docutils literal notranslate"><span class="pre">GRU</span></code>), everything else stays.</p></li>
+<li><p>Gates solve the SimpleRNN’s long-memory problem.</p></li>
+<li><p>Work the gate math by hand to internalize parameter counts.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Stacking recurrent layers</p>
+<ul class="simple">
+<li><p>Feed one recurrent layer into another with <strong><code class="docutils literal notranslate"><span class="pre">return_sequences=True</span></code></strong>.</p></li>
+<li><p>The first layer must pass its <strong>full sequence</strong> forward, not just the last state.</p></li>
+<li><p><strong>More layers isn’t always better</strong> — it’s a hyperparameter, not a virtue.</p></li>
+<li><p>Deeper stacks can capture more complex temporal structure.</p></li>
+<li><p>Watch for overfitting as depth grows.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Univariate time series modeling (regression)</p>
+<ul class="simple">
+<li><p>Predict the next value of a single series from its recent history.</p></li>
+<li><p>Prep with <strong><code class="docutils literal notranslate"><span class="pre">split_sequence</span></code></strong> → 3-D tensor <code class="docutils literal notranslate"><span class="pre">(samples,</span> <span class="pre">look-back,</span> <span class="pre">features=1)</span></code>.</p></li>
+<li><p><strong>Reshape</strong> to add the trailing feature dimension.</p></li>
+<li><p>Baselines: mean-only, <strong>persistence</strong>, linear regression — beat them first.</p></li>
+<li><p>SimpleRNN/LSTM as the model.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Multivariate time series modeling (classification)</p>
+<ul class="simple">
+<li><p>Multiple input features per time step (the 3-D tensor’s last dim &gt; 1).</p></li>
+<li><p>Main change is the <code class="docutils literal notranslate"><span class="pre">split_sequences</span></code> function for multivariate data.</p></li>
+<li><p>Can frame as classification (e.g., room occupancy).</p></li>
+<li><p>Stack LSTM layers for richer patterns.</p></li>
+<li><p>Same shape discipline, more features.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Practical implementation of DL time series models with stock prices</p>
+<ul class="simple">
+<li><p>Pull stock data via an <strong>API</strong>, prep as sequences.</p></li>
+<li><p>Try <strong>different configurations</strong> (look-back, units, layers).</p></li>
+<li><p>Real-world, noisy series — manage expectations vs baselines.</p></li>
+<li><p>Demonstrates the end-to-end RNN workflow on finance data.</p></li>
+<li><p>Careful with leakage across the time split.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">RNN implementation — univariate Parts 1–3</p>
+<ul class="simple">
+<li><p><strong>Pt 1:</strong> <code class="docutils literal notranslate"><span class="pre">split_sequences()</span></code> → 3-D tensor; note the <strong>reshape</strong>.</p></li>
+<li><p><strong>Pt 2:</strong> run the first RNN; controlling layers; SimpleRNN ≈ window-method DNN.</p></li>
+<li><p><strong>Pt 3:</strong> LSTM model; establish <strong>baselines</strong> (mean, persistence, linear).</p></li>
+<li><p>Australian temperature as the running univariate example.</p></li>
+<li><p>Compare RNN vs baseline rigorously.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">RNN implementation — multivariate Parts 1–2</p>
+<ul class="simple">
+<li><p><strong>Pt 1:</strong> main difference is the <code class="docutils literal notranslate"><span class="pre">split_sequences</span></code> for multiple features.</p></li>
+<li><p><strong>Pt 2:</strong> LSTM with <strong>2 stacked</strong> recurrent layers (<code class="docutils literal notranslate"><span class="pre">return_sequences</span></code>).</p></li>
+<li><p>Room-occupancy as the multivariate example.</p></li>
+<li><p>Quick baseline discussion.</p></li>
+<li><p>Generalizes univariate machinery to many features.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Introduction to advanced methods for RNNs</p>
+<ul class="simple">
+<li><p>Overview of four upgrades that <strong>stack</strong>: Conv1D+pooling, recurrent dropout, stacking, bidirectional.</p></li>
+<li><p>Each squeezes more signal from the same series.</p></li>
+<li><p>Sets up the advanced implementation videos.</p></li>
+<li><p>Pull <code class="docutils literal notranslate"><span class="pre">input_shape</span></code> from <code class="docutils literal notranslate"><span class="pre">X_train</span></code>, don’t hard-code.</p></li>
+<li><p>Advanced RNN theory notebook as reference.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">SimpleRNN with Conv1D and MaxPooling1D</p>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">Conv1D</span></code></strong> slides a learned filter along the <strong>time</strong> axis → a richer transformed series.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MaxPooling1D</span></code> downsamples before the recurrent layer.</p></li>
+<li><p>It’s <code class="docutils literal notranslate"><span class="pre">Conv1D</span></code> (1-D), <strong>not</strong> <code class="docutils literal notranslate"><span class="pre">Conv2D</span></code>.</p></li>
+<li><p>Same convolution idea as images, in one dimension.</p></li>
+<li><p>Often improves over a bare RNN.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Recurrent dropout and stacking convolutional layers</p>
+<ul class="simple">
+<li><p><strong>Recurrent dropout</strong> regularizes the recurrent connection (not just inputs).</p></li>
+<li><p>Mix recurrent layers and stack conv/pooling for richer patterns.</p></li>
+<li><p>Helps generalization on noisy series.</p></li>
+<li><p>Combine with stacking + bidirectional.</p></li>
+<li><p>A hyperparameter to tune.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Bidirectional layers and more stacking</p>
+<ul class="simple">
+<li><p>Read the sequence <strong>forwards and backwards in parallel</strong> with two independent cells.</p></li>
+<li><p><strong>Concatenate</strong> the two hidden states (e.g., <code class="docutils literal notranslate"><span class="pre">Bidirectional(LSTM(3))</span></code> → width-6 output).</p></li>
+<li><p>Reading both directions can add surprising predictive power.</p></li>
+<li><p>Wrap with <code class="docutils literal notranslate"><span class="pre">Bidirectional(...)</span></code>; combine with <code class="docutils literal notranslate"><span class="pre">return_sequences</span></code>.</p></li>
+<li><p>Patterns hard to see forward sometimes pop out backward.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Implementation of ConvLSTM on univariate and multivariate time series</p>
+<ul class="simple">
+<li><p>Combine <strong>Conv1D</strong> feature extraction with LSTM memory.</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">Conv1D</span></code> (not Conv2D) and derive <code class="docutils literal notranslate"><span class="pre">input_shape</span></code> from the data.</p></li>
+<li><p>Apply to both univariate and multivariate examples.</p></li>
+<li><p>Strong general-purpose temporal architecture.</p></li>
+<li><p>Tune filters/units/layers.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Many-to-many learning with RNNs</p>
+<ul class="simple">
+<li><p>Predict <strong>multiple variables at once</strong> (one model, several product lines).</p></li>
+<li><p>Predict <strong>multiple steps into the future</strong> (multi-horizon).</p></li>
+<li><p>A single recurrent model doing a whole forecasting job.</p></li>
+<li><p>Uses <code class="docutils literal notranslate"><span class="pre">return_sequences</span></code>/RepeatVector patterns.</p></li>
+<li><p>The most general sequence-to-sequence setup in the module.</p></li>
+</ul>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./m4_rnn_numeric"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../m3_cnn/index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Chapter 3 — Convolutional Neural Networks</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../m5_rnn_text/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Chapter 5 — Recurrent Networks for Text</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-window-method-turn-a-sequence-into-a-table">4.1 The window method — turn a sequence into a table</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recurrent-networks-let-the-model-engineer-the-features">4.2 Recurrent networks — let the model engineer the features</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-recurrent-architectures">4.3 Advanced recurrent architectures</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wrap-up">Wrap-up</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lecture-key-points">📌 Lecture key points</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Dr. Dave Wanik · University of Connecticut (OPIM 5509)
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <p style="font-size:0.9em;opacity:0.85"><strong>⚠️ Work in progress.</strong> These are living draft materials — actively being written and revised. Expect rough edges, gaps, and changes; this is a teaching companion, not a final or official reference.</p>
+<p><em>OPIM 5509 — Introduction to Deep Learning. Built from Dr. Wanik's lecture
+transcripts and course notebooks. A casual-but-rigorous, code-first textbook.</em></p>
+
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

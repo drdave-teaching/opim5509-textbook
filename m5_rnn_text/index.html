@@ -1,0 +1,746 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 5 — Recurrent Networks for Text &#8212; Deep Learning — A Graduate Introduction</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"]]}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'm5_rnn_text/index';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Chapter 6 — Special Topics" href="../m6_special/index.html" />
+    <link rel="prev" title="Chapter 4 — Recurrent Networks for Numeric Sequences" href="../m4_rnn_numeric/index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Deep Learning — A Graduate Introduction</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Preface
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../m1_refresher/index.html">Chapter 1 — Refresher: EDA &amp; the ML Methodology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../m2_dense/index.html">Chapter 2 — Dense Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../m3_cnn/index.html">Chapter 3 — Convolutional Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../m4_rnn_numeric/index.html">Chapter 4 — Recurrent Networks for Numeric Sequences</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Chapter 5 — Recurrent Networks for Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../m6_special/index.html">Chapter 6 — Special Topics</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/drdave-teaching/opim5509-textbook" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/m5_rnn_text/index.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Chapter 5 — Recurrent Networks for Text</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-text-into-modeling-shape">5.1 Getting text into modeling shape</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bag-of-words-and-tf-idf">5.2 Bag-of-words and TF-IDF</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tokenizing-words-to-integers">5.3 Tokenizing — words to integers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#word-embeddings-the-real-win">5.4 Word embeddings — the real win</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wrap-up">Wrap-up</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lecture-key-points">📌 Lecture key points</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="chapter-5-recurrent-networks-for-text">
+<h1>Chapter 5 — Recurrent Networks for Text<a class="headerlink" href="#chapter-5-recurrent-networks-for-text" title="Link to this heading">#</a></h1>
+<div class="seealso dropdown admonition">
+<p class="admonition-title">🔗 Notebooks for this chapter</p>
+<p>Open in Colab and <strong>Runtime → Run all</strong> — data loads from a stable link, nothing to upload.</p>
+<ul class="simple">
+<li><p><strong>1 using word embeddings UPDATED Small Data</strong>   <a class="reference external" href="https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module5/6_1_using_word_embeddings_UPDATED_SmallData.ipynb"><img alt="Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>   <a class="reference external" href="https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module5/6_1_using_word_embeddings_UPDATED_SmallData.ipynb">GitHub</a></p></li>
+<li><p><strong>2 understanding recurrent neural networks</strong>   <a class="reference external" href="https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module5/6_2_understanding_recurrent_neural_networks.ipynb"><img alt="Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>   <a class="reference external" href="https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module5/6_2_understanding_recurrent_neural_networks.ipynb">GitHub</a></p></li>
+<li><p><strong>Dave s GLo VE Example</strong>   <a class="reference external" href="https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module5/Dave_s_GLoVE_Example.ipynb"><img alt="Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>   <a class="reference external" href="https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module5/Dave_s_GLoVE_Example.ipynb">GitHub</a></p></li>
+<li><p><strong>EDA ML Storms</strong>   <a class="reference external" href="https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module5/EDA_ML_Storms.ipynb"><img alt="Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>   <a class="reference external" href="https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module5/EDA_ML_Storms.ipynb">GitHub</a></p></li>
+<li><p><strong>Tokenizer FFNN Storms</strong>   <a class="reference external" href="https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module5/Tokenizer_FFNN_Storms.ipynb"><img alt="Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>   <a class="reference external" href="https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module5/Tokenizer_FFNN_Storms.ipynb">GitHub</a></p></li>
+<li><p><strong>Updated Scraping Bill Gates</strong>   <a class="reference external" href="https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module5/Updated_ScrapingBillGates.ipynb"><img alt="Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>   <a class="reference external" href="https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module5/Updated_ScrapingBillGates.ipynb">GitHub</a></p></li>
+</ul>
+</div>
+<p>We arrived at text on purpose <em>last</em>. Everything from Chapter 4 — sequences fed one step at a time, a hidden state carried forward, LSTM/GRU/bidirectional layers — applies directly to words. The one genuinely new problem is that <strong>a computer can’t read words</strong>; it can only do math on numbers. So most of this chapter is about turning language into numbers three different ways, from naive to powerful: <strong>bag-of-words → TF-IDF → embeddings</strong>.</p>
+<p>Our running examples are real and a little fun: National Weather Service <strong>storm narratives</strong> (hail and flash-flood event descriptions), <strong>Trump vs. Obama tweets</strong> (who wrote it?), and <strong>IMDB</strong> movie-review sentiment.</p>
+<section id="getting-text-into-modeling-shape">
+<h2>5.1 Getting text into modeling shape<a class="headerlink" href="#getting-text-into-modeling-shape" title="Link to this heading">#</a></h2>
+<p>Before any representation, you <strong>preprocess</strong>. A quick vocabulary note first: the <strong>corpus</strong> is the entire collection of text; a <strong>document</strong> is one sample (one narrative, one tweet). The standard cleaning steps:</p>
+<ul class="simple">
+<li><p><strong>Lowercase everything</strong> — “Hail”, “HAIL”, and “hail” should map to the same token. Overwrite the column in place with <code class="docutils literal notranslate"><span class="pre">.lower()</span></code>.</p></li>
+<li><p><strong>Strip funky characters</strong> — punctuation, <code class="docutils literal notranslate"><span class="pre">&#64;</span></code>, <code class="docutils literal notranslate"><span class="pre">$</span></code>, <code class="docutils literal notranslate"><span class="pre">%</span></code>, anything that isn’t <code class="docutils literal notranslate"><span class="pre">a–z</span></code> becomes a space (so “media,” and “media” aren’t different words).</p></li>
+<li><p><strong>Remove stop words</strong> — drop high-frequency, low-signal words (“the”, “on”, “a”) using a stop list.</p></li>
+<li><p><strong>(Optionally) stem</strong> — collapse “running/ran/runs” toward a common root. Stemming helps most when you have <strong>too many words and not enough rows</strong>.</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'text'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'text'</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'text'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'text'</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">'[^a-z]+'</span><span class="p">,</span> <span class="s1">' '</span><span class="p">,</span> <span class="n">s</span><span class="p">))</span>   <span class="c1"># keep letters only</span>
+</pre></div>
+</div>
+<p>Then a little EDA — most common words, a bar plot, a word cloud — and you’re ready to vectorize.</p>
+</section>
+<section id="bag-of-words-and-tf-idf">
+<h2>5.2 Bag-of-words and TF-IDF<a class="headerlink" href="#bag-of-words-and-tf-idf" title="Link to this heading">#</a></h2>
+<p>The simplest numeric representation is <strong>bag-of-words (BoW)</strong>: for “the cat sat on the mat,” ask of each word <em>does it appear, and how often?</em> sklearn’s <strong><code class="docutils literal notranslate"><span class="pre">CountVectorizer</span></code></strong> builds a matrix with one column per vocabulary word and counts in the cells. It throws away order entirely — a “bag” — but it’s a strong, fast baseline.</p>
+<p>The refinement is <strong>TF-IDF</strong> (term frequency–inverse document frequency), which down-weights words that appear in <em>every</em> document (uninformative) and up-weights words that are frequent in a document but rare across the corpus (distinctive):</p>
+<div class="math notranslate nohighlight">
+\[
+\text{tfidf}(t,d) = \underbrace{\text{tf}(t,d)}_{\text{count in doc }d}\;\times\;\underbrace{\log\frac{N}{1+\text{df}(t)}}_{\text{rarer}\,\Rightarrow\,\text{bigger}}
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(N\)</span> is the number of documents and <span class="math notranslate nohighlight">\(\text{df}(t)\)</span> is how many documents contain term <span class="math notranslate nohighlight">\(t\)</span>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.feature_extraction.text</span><span class="w"> </span><span class="kn">import</span> <span class="n">CountVectorizer</span><span class="p">,</span> <span class="n">TfidfVectorizer</span>
+<span class="n">tfidf</span> <span class="o">=</span> <span class="n">TfidfVectorizer</span><span class="p">(</span><span class="n">ngram_range</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">max_features</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
+<span class="n">X_tfidf</span> <span class="o">=</span> <span class="n">tfidf</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">train_text</span><span class="p">)</span>     <span class="c1"># fit on TRAIN only (Chapter 1 rule!)</span>
+</pre></div>
+</div>
+<div class="warning admonition">
+<p class="admonition-title">n-grams buy a little word order — at a price</p>
+<p>A bag-of-words loses sequence, but <strong>n-grams</strong> smuggle some back: <strong>unigrams</strong> are single words; <strong>bigrams</strong> are adjacent pairs (“the cat”, “cat sat”); <strong>trigrams</strong> are triples. Set <code class="docutils literal notranslate"><span class="pre">ngram_range=(1,3)</span></code> and you capture short phrases. The cost is <strong>dimensionality</strong>: the larger the window, the more columns explode, and you can easily end up with <strong>more columns than rows</strong> — the curse of dimensionality. Cap it with <code class="docutils literal notranslate"><span class="pre">max_features</span></code> and watch your shapes.</p>
+</div>
+<p>Feed the TF-IDF matrix into any classifier from Chapter 1 — or a dense net from Chapter 2 — and you have a working text model. But notice what’s still missing: <strong>sequence</strong>. BoW and n-grams approximate it; embeddings + RNNs <em>use</em> it.</p>
+</section>
+<section id="tokenizing-words-to-integers">
+<h2>5.3 Tokenizing — words to integers<a class="headerlink" href="#tokenizing-words-to-integers" title="Link to this heading">#</a></h2>
+<p>To preserve sequence, first map each unique word to an integer index with Keras’s <strong><code class="docutils literal notranslate"><span class="pre">Tokenizer</span></code></strong>. If there are 13,512 unique words, each gets a number from 1 to 13,512; a document becomes a <em>list of integers</em> in its original order.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">keras.preprocessing.text</span><span class="w"> </span><span class="kn">import</span> <span class="n">Tokenizer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">keras.preprocessing.sequence</span><span class="w"> </span><span class="kn">import</span> <span class="n">pad_sequences</span>
+
+<span class="n">t</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">(</span><span class="n">num_words</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>            <span class="c1"># keep the 10k most frequent words</span>
+<span class="n">t</span><span class="o">.</span><span class="n">fit_on_texts</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>                   <span class="c1"># learn the vocabulary on TRAIN</span>
+<span class="n">seqs</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">texts_to_sequences</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>      <span class="c1"># "hail damage reported" -&gt; [42, 187, 9]</span>
+<span class="n">X_pad</span> <span class="o">=</span> <span class="n">pad_sequences</span><span class="p">(</span><span class="n">seqs</span><span class="p">,</span> <span class="n">maxlen</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>   <span class="c1"># pad/truncate to a fixed length</span>
+</pre></div>
+</div>
+<p>Two knobs that matter: <code class="docutils literal notranslate"><span class="pre">num_words</span></code> caps the vocabulary (rarer words get dropped — try 1,000 / 10,000), and <code class="docutils literal notranslate"><span class="pre">maxlen</span></code> fixes the sequence length so every document is the same shape (short ones get <strong>padded</strong>, long ones <strong>truncated</strong>).</p>
+</section>
+<section id="word-embeddings-the-real-win">
+<h2>5.4 Word embeddings — the real win<a class="headerlink" href="#word-embeddings-the-real-win" title="Link to this heading">#</a></h2>
+<p>Integer indices are arbitrary — word #42 isn’t “twice” word #21. We want word #42 to carry <em>meaning</em>. An <strong>embedding</strong> is a learned, dense vector for each word; words used in similar contexts end up with similar vectors. The <code class="docutils literal notranslate"><span class="pre">Embedding</span></code> layer is simply a <strong>lookup table</strong> of shape <code class="docutils literal notranslate"><span class="pre">(vocab_size,</span> <span class="pre">embedding_dim)</span></code> that the network <strong>trains along with everything else</strong> (or you can load pre-trained vectors like GloVe):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequential</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.layers</span><span class="w"> </span><span class="kn">import</span> <span class="n">Embedding</span><span class="p">,</span> <span class="n">LSTM</span><span class="p">,</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">Flatten</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Embedding</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">output_dim</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">input_length</span><span class="o">=</span><span class="mi">100</span><span class="p">))</span>  <span class="c1"># word -&gt; 32-d vector</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">LSTM</span><span class="p">(</span><span class="mi">32</span><span class="p">))</span>                 <span class="c1"># read the sequence of vectors, carry a hidden state</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">'sigmoid'</span><span class="p">))</span>   <span class="c1"># binary sentiment / authorship</span>
+<span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s1">'rmsprop'</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="s1">'binary_crossentropy'</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">'acc'</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Two ways to consume an embedding</p>
+<ul class="simple">
+<li><p><strong>Flatten into a dense layer</strong> — <code class="docutils literal notranslate"><span class="pre">Embedding</span> <span class="pre">→</span> <span class="pre">Flatten</span> <span class="pre">→</span> <span class="pre">Dense</span></code>. Fast, but it treats the document as a <em>bag of vectors</em> and loses order again.</p></li>
+<li><p><strong>Feed a recurrent layer</strong> — <code class="docutils literal notranslate"><span class="pre">Embedding</span> <span class="pre">→</span> <span class="pre">LSTM/GRU</span></code> (optionally bidirectional, optionally with <code class="docutils literal notranslate"><span class="pre">Conv1D</span></code> in front). This <em>uses</em> the sequence: the LSTM reads word-vectors one at a time, carrying context — exactly the machinery of Chapter 4, now over words instead of temperatures.</p></li>
+</ul>
+</div>
+<p>With this stack you can do real tasks in a few lines: classify <strong>who tweeted</strong> (Trump vs. Obama), score <strong>IMDB</strong> sentiment, or label a <strong>storm narrative</strong>. And every advanced trick from Chapter 4 — stacking, bidirectional, <code class="docutils literal notranslate"><span class="pre">Conv1D</span></code> + pooling, recurrent dropout — transfers directly, because under the hood it’s the same recurrent engine reading a sequence of vectors.</p>
+</section>
+<section id="wrap-up">
+<h2>Wrap-up<a class="headerlink" href="#wrap-up" title="Link to this heading">#</a></h2>
+<div class="tip admonition">
+<p class="admonition-title">Key takeaways</p>
+<ul class="simple">
+<li><p>Text must become numbers; <strong>preprocess</strong> first (lowercase, strip non-letters, stop words, optional stemming). Mind <strong>corpus vs. document</strong>.</p></li>
+<li><p><strong>Bag-of-words / TF-IDF</strong> are strong, order-free baselines; <strong>n-grams</strong> add local order but blow up dimensionality (watch for more columns than rows).</p></li>
+<li><p><strong>Tokenize</strong> to integer sequences and <strong><code class="docutils literal notranslate"><span class="pre">pad_sequences</span></code></strong> to a fixed length.</p></li>
+<li><p><strong>Embeddings</strong> are learned dense word-vectors (a trainable lookup table); they give words <em>meaning</em>.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">Embedding</span> <span class="pre">→</span> <span class="pre">Flatten</span> <span class="pre">→</span> <span class="pre">Dense</span></code></strong> ignores order; <strong><code class="docutils literal notranslate"><span class="pre">Embedding</span> <span class="pre">→</span> <span class="pre">LSTM</span></code></strong> uses it — the Chapter-4 recurrent engine, now reading words.</p></li>
+<li><p>Always <strong>fit vectorizers/tokenizers on train only</strong> — the same anti-leakage discipline from Chapter 1.</p></li>
+</ul>
+</div>
+</section>
+<hr class="docutils" />
+<section id="lecture-key-points">
+<h2>📌 Lecture key points<a class="headerlink" href="#lecture-key-points" title="Link to this heading">#</a></h2>
+<p><em>Distilled takeaways from the video lectures behind this chapter — click each to expand.</em></p>
+<div class="note dropdown admonition">
+<p class="admonition-title">Basic NLP processing techniques</p>
+<ul class="simple">
+<li><p><strong>Corpus</strong> = whole sample; <strong>document</strong> = individual sample.</p></li>
+<li><p>Lowercase everything so “Hail”/”hail” are one token.</p></li>
+<li><p>Strip non-letters (punctuation, &#64;, $, %) → replace with spaces.</p></li>
+<li><p>Goal: turn text into something a computer can model.</p></li>
+<li><p>Done on the storm (hail) narratives as the running example.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">CountVectorizer and Bag of Words</p>
+<ul class="simple">
+<li><p><strong>Bag-of-words</strong> counts word occurrences; <code class="docutils literal notranslate"><span class="pre">CountVectorizer</span></code> builds the matrix.</p></li>
+<li><p>Remove <strong>stop words</strong>; optionally <strong>stem</strong> (best when too many words, too few rows).</p></li>
+<li><p><strong>Tokenize</strong> into indexed words (e.g., 13,512 unique → indices 1–13,512).</p></li>
+<li><p>Reusable script if you name things generically (<code class="docutils literal notranslate"><span class="pre">df</span></code>).</p></li>
+<li><p>A little EDA: common words, bar plot, word cloud.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Build a model with TF-IDF and the keras tokenizer</p>
+<ul class="simple">
+<li><p><strong>TF-IDF</strong> up-weights distinctive words, down-weights ubiquitous ones.</p></li>
+<li><p>Keras <strong><code class="docutils literal notranslate"><span class="pre">Tokenizer(num_words=...)</span></code></strong> learns the vocabulary and indexes words.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fit_on_texts</span></code> on train; inspect <code class="docutils literal notranslate"><span class="pre">word_index</span></code>, <code class="docutils literal notranslate"><span class="pre">word_counts</span></code>, <code class="docutils literal notranslate"><span class="pre">document_count</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">num_words</span></code> caps vocabulary (try 1k/10k).</p></li>
+<li><p>Feed vectors into a model for classification.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Building and evaluating models with BoW and TF-IDF</p>
+<ul class="simple">
+<li><p>Compare BoW vs TF-IDF representations on the same task.</p></li>
+<li><p>Feed into standard classifiers; evaluate with the usual metrics.</p></li>
+<li><p>Strong, fast <strong>baselines</strong> before deep models.</p></li>
+<li><p>Watch dimensionality with n-grams.</p></li>
+<li><p>Fit vectorizers on <strong>train only</strong>.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Intro to NLP topics with ML</p>
+<ul class="simple">
+<li><p>Overview of the classic NLP pipeline (preprocess → vectorize → model).</p></li>
+<li><p>Naive representations: presence (one-hot) and frequency (counts).</p></li>
+<li><p><strong>n-grams</strong> (unigram/bigram/trigram) smuggle back some word order.</p></li>
+<li><p>Larger n → bigger feature space → dimensionality risk.</p></li>
+<li><p>Sets up why embeddings are better.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Taking a DL approach to structured NLP data</p>
+<ul class="simple">
+<li><p>Move from sparse BoW/TF-IDF to <strong>dense</strong> learned representations.</p></li>
+<li><p>Prep tokenized, padded sequences for a network.</p></li>
+<li><p>Bridge from classic ML to deep text models.</p></li>
+<li><p>Same preprocessing, different downstream model.</p></li>
+<li><p>Motivates embeddings next.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Exploring embeddings (flattened) in dense layers</p>
+<ul class="simple">
+<li><p>An <strong><code class="docutils literal notranslate"><span class="pre">Embedding</span></code></strong> layer = trainable lookup table (word → dense vector).</p></li>
+<li><p><strong>Flatten → Dense</strong> consumes embeddings but <strong>loses word order</strong> (bag of vectors).</p></li>
+<li><p>Fast and simple; a stepping stone.</p></li>
+<li><p>Embedding dimension is a hyperparameter.</p></li>
+<li><p>Words gain <em>meaning</em> vs arbitrary indices.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Introduction to embeddings for text sequences</p>
+<ul class="simple">
+<li><p>A computer must convert words to numbers; naive one-hot/counts lack <strong>sequence</strong>.</p></li>
+<li><p>Embeddings place words in n-D space where similar words sit nearby.</p></li>
+<li><p>Numeric sequences taught first <strong>on purpose</strong> — text is the harder generalization.</p></li>
+<li><p>Recall the recurrent machinery: read one token at a time, update hidden state.</p></li>
+<li><p>Can <strong>import (GloVe)</strong> or <strong>learn</strong> embeddings for your task.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Using embeddings in recurrent layers</p>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">Embedding</span> <span class="pre">→</span> <span class="pre">LSTM/GRU</span></code></strong> <em>uses</em> order (vs flatten→dense which ignores it).</p></li>
+<li><p>The Chapter-4 recurrent engine, now reading <strong>word-vectors</strong>.</p></li>
+<li><p>All advanced tricks transfer (stacking, bidirectional, Conv1D).</p></li>
+<li><p>The strongest classic text model in the course.</p></li>
+<li><p>Applies to sentiment/authorship tasks.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Monster! Text analytics + the kitchen sink</p>
+<ul class="simple">
+<li><p>A capstone notebook combining preprocessing + embeddings + recurrent layers.</p></li>
+<li><p>Throw the full toolkit at a real text problem.</p></li>
+<li><p>Shows how the pieces assemble end-to-end.</p></li>
+<li><p>Manage complexity with clean, reusable code.</p></li>
+<li><p>Evaluate honestly (train-only fits, proper test).</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Put it all together! Download data, process it, model it</p>
+<ul class="simple">
+<li><p>Full pipeline: <strong>scrape/download → process → model</strong> (e.g., Trump vs Obama tweets, GetOldTweets).</p></li>
+<li><p>Authorship/sentiment classification from raw text.</p></li>
+<li><p>Reinforces reproducible, end-to-end workflow.</p></li>
+<li><p>Real, messy data.</p></li>
+<li><p>Capstone for text RNNs.</p></li>
+</ul>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./m5_rnn_text"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../m4_rnn_numeric/index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Chapter 4 — Recurrent Networks for Numeric Sequences</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../m6_special/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Chapter 6 — Special Topics</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-text-into-modeling-shape">5.1 Getting text into modeling shape</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bag-of-words-and-tf-idf">5.2 Bag-of-words and TF-IDF</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tokenizing-words-to-integers">5.3 Tokenizing — words to integers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#word-embeddings-the-real-win">5.4 Word embeddings — the real win</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wrap-up">Wrap-up</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lecture-key-points">📌 Lecture key points</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Dr. Dave Wanik · University of Connecticut (OPIM 5509)
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <p style="font-size:0.9em;opacity:0.85"><strong>⚠️ Work in progress.</strong> These are living draft materials — actively being written and revised. Expect rough edges, gaps, and changes; this is a teaching companion, not a final or official reference.</p>
+<p><em>OPIM 5509 — Introduction to Deep Learning. Built from Dr. Wanik's lecture
+transcripts and course notebooks. A casual-but-rigorous, code-first textbook.</em></p>
+
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,660 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 6 — Special Topics &#8212; Deep Learning — A Graduate Introduction</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"]]}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'm6_special/index';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Chapter 5 — Recurrent Networks for Text" href="../m5_rnn_text/index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Deep Learning — A Graduate Introduction</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Preface
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../m1_refresher/index.html">Chapter 1 — Refresher: EDA &amp; the ML Methodology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../m2_dense/index.html">Chapter 2 — Dense Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../m3_cnn/index.html">Chapter 3 — Convolutional Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../m4_rnn_numeric/index.html">Chapter 4 — Recurrent Networks for Numeric Sequences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../m5_rnn_text/index.html">Chapter 5 — Recurrent Networks for Text</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Chapter 6 — Special Topics</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/drdave-teaching/opim5509-textbook" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/m6_special/index.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Chapter 6 — Special Topics</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#image-segmentation-with-u-nets">6.1 Image segmentation with U-Nets</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deep-recommender-systems">6.2 Deep recommender systems</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-to-go-next">6.3 Where to go next</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wrap-up">Wrap-up</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lecture-key-points">📌 Lecture key points</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="chapter-6-special-topics">
+<h1>Chapter 6 — Special Topics<a class="headerlink" href="#chapter-6-special-topics" title="Link to this heading">#</a></h1>
+<div class="seealso dropdown admonition">
+<p class="admonition-title">🔗 Notebooks for this chapter</p>
+<p>Open in Colab and <strong>Runtime → Run all</strong> — data loads from a stable link, nothing to upload.</p>
+<ul class="simple">
+<li><p><strong>Deep Recommendations</strong>   <a class="reference external" href="https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module6/Deep_Recommendations.ipynb"><img alt="Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>   <a class="reference external" href="https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module6/Deep_Recommendations.ipynb">GitHub</a></p></li>
+<li><p><strong>oxford pets image segmentation</strong>   <a class="reference external" href="https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module6/oxford_pets_image_segmentation.ipynb"><img alt="Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>   <a class="reference external" href="https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module6/oxford_pets_image_segmentation.ipynb">GitHub</a></p></li>
+</ul>
+</div>
+<p>This is the cherry on top — two applications that recombine everything you’ve built. <strong>Image segmentation</strong> takes the autoencoder idea and turns it into picture-to-picture prediction with <strong>U-Nets</strong>. <strong>Deep recommender systems</strong> take the embedding idea from text and use it to learn who you are. Both also introduce the <strong>Functional API</strong>, the more flexible way to wire up Keras models when a simple stack won’t do.</p>
+<section id="image-segmentation-with-u-nets">
+<h2>6.1 Image segmentation with U-Nets<a class="headerlink" href="#image-segmentation-with-u-nets" title="Link to this heading">#</a></h2>
+<p>Every ConvNet so far used the <strong>Sequential API</strong>: read the image, convolve (light downsampling), pool (aggressive downsampling), stack those blocks while <em>expanding</em> the number of filters to learn richer textures, then flatten into a couple of dense layers and predict <strong>one label</strong> for the whole image (“cat” or “dog”).</p>
+<p><strong>Segmentation asks a harder question:</strong> not <em>“is there a cat?”</em> but <em>“which pixels are the cat?”</em> — a label for <strong>every pixel</strong>. The trick is to take the ConvNet’s funnel and, at the bottom, <strong>reverse it</strong>:</p>
+<div class="important admonition">
+<p class="admonition-title">Key idea — go down, then back up</p>
+<p>A ConvNet distills an image <em>down, down, down</em>. An <strong>autoencoder</strong> (Chapter 3) went down to a tiny latent vector and back <em>up</em> to reconstruct the <strong>same</strong> image. A <strong>U-Net</strong> does the same down-then-up shape, but the decoder is trained to produce a <strong>different</strong> image — a pixel-wise <strong>mask</strong>. The “U” comes from the architecture’s shape: a contracting <strong>encoder</strong> path, an expanding <strong>decoder</strong> path, and <strong>skip connections</strong> that hand high-resolution detail straight across from encoder to decoder so the output isn’t blurry.</p>
+</div>
+<p>You can’t build that with the Sequential API — the skip connections mean a layer needs inputs from <em>two</em> places. Enter the <strong>Functional API</strong>, where you call layers like functions and explicitly wire the graph (more on the pattern in §6.2).</p>
+<p>The course example is the <strong>Oxford-IIIT Pets</strong> dataset: cat and dog photos (<code class="docutils literal notranslate"><span class="pre">images/</span></code>) paired with <strong>trimap</strong> masks (<code class="docutils literal notranslate"><span class="pre">annotations/trimaps/</span></code>). “Tri” = three labels per pixel — background, border, and “definitely a pet.” So segmentation is really <strong>pixel-wise classification</strong>: for each pixel, softmax over the three classes. Run it on a GPU runtime (you’ll want it), feed image→mask pairs, and the U-Net learns to paint the pet. The same machinery underlies medical imaging, self-driving perception, and background removal.</p>
+</section>
+<section id="deep-recommender-systems">
+<h2>6.2 Deep recommender systems<a class="headerlink" href="#deep-recommender-systems" title="Link to this heading">#</a></h2>
+<p>Remember <strong>embeddings</strong> from Chapter 5: a learned vector that captures <em>meaning</em> — a word placed in n-dimensional space so similar words sit nearby (cat/dog, young/old). The big idea of this section: <strong>embed <em>anything</em>, not just words.</strong> Embed <strong>users</strong> and <strong>movies</strong>, and you get a recommender — how Netflix guesses what you’ll like.</p>
+<p>Picture each user as a learned latent vector (how much do you like action? comedy? old films?) and each movie as a latent vector in the <em>same</em> space (how much action? comedy? how old?). If a user’s vector and a movie’s vector <strong>point the same way</strong>, that’s a high predicted rating. “Point the same way” is exactly a <strong>dot product</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{r}_{u,m} = \mathbf{p}_u \cdot \mathbf{q}_m = \sum_{f=1}^{F} p_{u,f}\,q_{m,f}
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf{p}_u\)</span> is the user’s <span class="math notranslate nohighlight">\(F\)</span>-dimensional embedding and <span class="math notranslate nohighlight">\(\mathbf{q}_m\)</span> the movie’s. (If that looks like <strong>matrix factorization</strong>, it is — expressed as a neural network whose embeddings are learned by gradient descent.)</p>
+<p>This model has <strong>two inputs</strong> (a user id and a movie id), so we need the <strong>Functional API</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">keras.layers</span><span class="w"> </span><span class="kn">import</span> <span class="n">Input</span><span class="p">,</span> <span class="n">Reshape</span><span class="p">,</span> <span class="n">Dot</span><span class="p">,</span> <span class="n">Embedding</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">keras.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Model</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">keras.optimizers</span><span class="w"> </span><span class="kn">import</span> <span class="n">Adam</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">keras.regularizers</span><span class="w"> </span><span class="kn">import</span> <span class="n">l2</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">RecommenderV1</span><span class="p">(</span><span class="n">n_users</span><span class="p">,</span> <span class="n">n_movies</span><span class="p">,</span> <span class="n">n_factors</span><span class="p">):</span>
+    <span class="n">user</span>  <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,))</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">Embedding</span><span class="p">(</span><span class="n">n_users</span><span class="p">,</span>  <span class="n">n_factors</span><span class="p">,</span> <span class="n">embeddings_regularizer</span><span class="o">=</span><span class="n">l2</span><span class="p">(</span><span class="mf">1e-6</span><span class="p">))(</span><span class="n">user</span><span class="p">)</span>   <span class="c1"># user → F-vector</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">Reshape</span><span class="p">((</span><span class="n">n_factors</span><span class="p">,))(</span><span class="n">u</span><span class="p">)</span>
+
+    <span class="n">movie</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,))</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">Embedding</span><span class="p">(</span><span class="n">n_movies</span><span class="p">,</span> <span class="n">n_factors</span><span class="p">,</span> <span class="n">embeddings_regularizer</span><span class="o">=</span><span class="n">l2</span><span class="p">(</span><span class="mf">1e-6</span><span class="p">))(</span><span class="n">movie</span><span class="p">)</span>  <span class="c1"># movie → F-vector</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">Reshape</span><span class="p">((</span><span class="n">n_factors</span><span class="p">,))(</span><span class="n">m</span><span class="p">)</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Dot</span><span class="p">(</span><span class="n">axes</span><span class="o">=</span><span class="mi">1</span><span class="p">)([</span><span class="n">u</span><span class="p">,</span> <span class="n">m</span><span class="p">])</span>                       <span class="c1"># predicted rating = u · m</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="n">user</span><span class="p">,</span> <span class="n">movie</span><span class="p">],</span> <span class="n">outputs</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s1">'mean_squared_error'</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="n">Adam</span><span class="p">(</span><span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">model</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">RecommenderV1</span><span class="p">(</span><span class="n">n_users</span><span class="p">,</span> <span class="n">n_movies</span><span class="p">,</span> <span class="n">n_factors</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">The Functional API in one breath</p>
+<p>Instead of <code class="docutils literal notranslate"><span class="pre">model.add(...)</span></code> in a line, you <strong>call each layer on a tensor</strong> — <code class="docutils literal notranslate"><span class="pre">u</span> <span class="pre">=</span> <span class="pre">Embedding(...)(user)</span></code> — and assemble the pieces with <code class="docutils literal notranslate"><span class="pre">Model(inputs=[...],</span> <span class="pre">outputs=...)</span></code>. This lets you have <strong>multiple inputs/outputs</strong> and <strong>non-linear graphs</strong> (two embedding towers meeting at a <code class="docutils literal notranslate"><span class="pre">Dot</span></code>; encoder/decoder skip connections in a U-Net). Sequential is the easy 90%; Functional is how you build the other 10% that makes deep learning powerful.</p>
+</div>
+<p>The “advanced” version simply enriches the towers — concatenate the user and movie embeddings and feed them through <strong>dense layers</strong> (<code class="docutils literal notranslate"><span class="pre">Embedding</span> <span class="pre">→</span> <span class="pre">Concatenate</span> <span class="pre">→</span> <span class="pre">Dense</span> <span class="pre">→</span> <span class="pre">Dense</span> <span class="pre">→</span> <span class="pre">rating</span></code>) so the model learns nonlinear interactions instead of a plain dot product. Same idea, more expressive head — and you fit it with early stopping, learning curves, and error metrics, exactly like every other model in this book.</p>
+</section>
+<section id="where-to-go-next">
+<h2>6.3 Where to go next<a class="headerlink" href="#where-to-go-next" title="Link to this heading">#</a></h2>
+<p>You now have the whole toolkit: dense networks (Chapter 2), convolution for images (Chapter 3), recurrence for sequences (Chapters 4–5), and the encoder–decoder/embedding patterns that power segmentation and recommenders (Chapter 6). The architectures behind today’s frontier models — transformers, diffusion models, large language models — are recombinations and scalings of these same primitives: embeddings, attention as a learned dot-product similarity, residual/skip connections, and gradient descent over a lot of data. You’ve seen every ingredient. Go build something.</p>
+</section>
+<section id="wrap-up">
+<h2>Wrap-up<a class="headerlink" href="#wrap-up" title="Link to this heading">#</a></h2>
+<div class="tip admonition">
+<p class="admonition-title">Key takeaways</p>
+<ul class="simple">
+<li><p><strong>Segmentation = pixel-wise classification.</strong> A <strong>U-Net</strong> is an encoder (down) + decoder (up) with <strong>skip connections</strong>, generalizing the autoencoder from “reconstruct” to “predict a mask.”</p></li>
+<li><p>The <strong>Functional API</strong> (call layers like functions, wire with <code class="docutils literal notranslate"><span class="pre">Model(inputs,</span> <span class="pre">outputs)</span></code>) is required for skip connections and multi-input models.</p></li>
+<li><p><strong>Recommenders embed users and items</strong> into a shared latent space; a <strong>dot product</strong> of the two vectors predicts the rating — matrix factorization as a neural net.</p></li>
+<li><p>The “advanced” recommender swaps the dot product for <strong>concatenate → dense layers</strong> to learn nonlinear interactions.</p></li>
+<li><p>Frontier models reuse these exact primitives — <strong>embeddings, dot-product similarity, skip connections, gradient descent at scale.</strong></p></li>
+</ul>
+</div>
+</section>
+<hr class="docutils" />
+<section id="lecture-key-points">
+<h2>📌 Lecture key points<a class="headerlink" href="#lecture-key-points" title="Link to this heading">#</a></h2>
+<p><em>Distilled takeaways from the video lectures behind this chapter — click each to expand.</em></p>
+<div class="note dropdown admonition">
+<p class="admonition-title">What is image segmentation</p>
+<ul class="simple">
+<li><p>ConvNets used the <strong>Sequential API</strong> to distill an image down to one label.</p></li>
+<li><p><strong>Segmentation = label every pixel</strong> (“which pixels are the cat?”).</p></li>
+<li><p>Reverse the funnel: at the bottom, <strong>upsample</strong> to recreate an image (like an autoencoder).</p></li>
+<li><p>Goes from <strong>picture to picture</strong> (image → mask).</p></li>
+<li><p>The seed idea is the autoencoder, scaled up.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Introduction to U-Nets and the Functional API</p>
+<ul class="simple">
+<li><p>A <strong>U-Net</strong> = contracting encoder + expanding decoder + <strong>skip connections</strong>.</p></li>
+<li><p>Skip connections hand high-res detail across so the mask isn’t blurry — needs the <strong>Functional API</strong>.</p></li>
+<li><p>Example: <strong>Oxford Pets</strong> images + <strong>trimap</strong> masks (background/border/pet).</p></li>
+<li><p>Run on a <strong>GPU</strong> runtime; download/unpack with curl/tar.</p></li>
+<li><p>Segmentation = <strong>pixel-wise classification</strong> (softmax per pixel).</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">How did our U-Net do</p>
+<ul class="simple">
+<li><p>Evaluate predicted masks against ground-truth trimaps.</p></li>
+<li><p>Visualize input image, true mask, predicted mask side by side.</p></li>
+<li><p>Qualitative + quantitative assessment.</p></li>
+<li><p>Foundation for medical imaging, self-driving, background removal.</p></li>
+<li><p>Wraps the segmentation thread.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Introduction to Deep Recommender Systems</p>
+<ul class="simple">
+<li><p>Reuse <strong>embeddings</strong>: embed <strong>users</strong> and <strong>items</strong> into a shared latent space.</p></li>
+<li><p>A learned vector encodes attributes (how much action/comedy; old/young).</p></li>
+<li><p>Aligned user/item vectors ⇒ high predicted rating (a <strong>dot product</strong> = matrix factorization).</p></li>
+<li><p>How Netflix predicts what you’ll like.</p></li>
+<li><p>Embed <em>anything</em>, not just words.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Beginner and Advanced Recommender Systems</p>
+<ul class="simple">
+<li><p><strong>Basic:</strong> <code class="docutils literal notranslate"><span class="pre">Embedding(user)·Embedding(movie)</span></code> via <code class="docutils literal notranslate"><span class="pre">Dot</span></code> (Functional API, two inputs).</p></li>
+<li><p><strong>Advanced:</strong> <strong>concatenate</strong> embeddings → <strong>dense layers</strong> for nonlinear interactions.</p></li>
+<li><p>Regularize embeddings (<code class="docutils literal notranslate"><span class="pre">l2</span></code>); fit with early stopping + MSE.</p></li>
+<li><p>The Functional API enables multi-input graphs.</p></li>
+<li><p>Same evaluate-with-curves-and-metrics discipline.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Using a deep approach to embeddings (dense layers)</p>
+<ul class="simple">
+<li><p>Replace the plain dot product with a learned <strong>dense</strong> head over concatenated embeddings.</p></li>
+<li><p>More expressive: captures nonlinear user–item interactions.</p></li>
+<li><p>Demonstrates the latent-vector idea generalizing.</p></li>
+<li><p>Closes the loop: embeddings power text <em>and</em> recommenders.</p></li>
+<li><p>Frontier models reuse these primitives (embeddings, dot-product similarity, skip connections).</p></li>
+</ul>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./m6_special"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../m5_rnn_text/index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Chapter 5 — Recurrent Networks for Text</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#image-segmentation-with-u-nets">6.1 Image segmentation with U-Nets</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deep-recommender-systems">6.2 Deep recommender systems</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-to-go-next">6.3 Where to go next</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wrap-up">Wrap-up</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lecture-key-points">📌 Lecture key points</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Dr. Dave Wanik · University of Connecticut (OPIM 5509)
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <p style="font-size:0.9em;opacity:0.85"><strong>⚠️ Work in progress.</strong> These are living draft materials — actively being written and revised. Expect rough edges, gaps, and changes; this is a teaching companion, not a final or official reference.</p>
+<p><em>OPIM 5509 — Introduction to Deep Learning. Built from Dr. Wanik's lecture
+transcripts and course notebooks. A casual-but-rigorous, code-first textbook.</em></p>
+
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

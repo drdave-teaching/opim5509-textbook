@@ -1,0 +1,897 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 3 — Convolutional Neural Networks &#8212; Deep Learning — A Graduate Introduction</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"]]}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'm3_cnn/index';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Chapter 4 — Recurrent Networks for Numeric Sequences" href="../m4_rnn_numeric/index.html" />
+    <link rel="prev" title="Chapter 2 — Dense Neural Networks" href="../m2_dense/index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Deep Learning — A Graduate Introduction</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Preface
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../m1_refresher/index.html">Chapter 1 — Refresher: EDA &amp; the ML Methodology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../m2_dense/index.html">Chapter 2 — Dense Neural Networks</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Chapter 3 — Convolutional Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../m4_rnn_numeric/index.html">Chapter 4 — Recurrent Networks for Numeric Sequences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../m5_rnn_text/index.html">Chapter 5 — Recurrent Networks for Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../m6_special/index.html">Chapter 6 — Special Topics</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/drdave-teaching/opim5509-textbook" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/m3_cnn/index.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Chapter 3 — Convolutional Neural Networks</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#images-are-just-numbers">3.1 Images are just numbers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#counting-parameters-and-output-shapes">3.2 Counting parameters and output shapes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-a-convnet-cats-vs-dogs">3.3 Building a ConvNet — cats vs. dogs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transfer-learning-standing-on-giants">3.4 Transfer learning — standing on giants</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#autoencoders-learning-to-compress-and-what-that-buys-you">3.5 Autoencoders — learning to compress, and what that buys you</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wrap-up">Wrap-up</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lecture-key-points">📌 Lecture key points</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#m3-1-convnet-theory-the-math">M3.1 — ConvNet theory &amp; the math</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#m3-2-cats-vs-dogs-interpretability">M3.2 — Cats vs. dogs + interpretability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#m3-3-transfer-learning-autoencoders">M3.3 — Transfer learning &amp; autoencoders</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="chapter-3-convolutional-neural-networks">
+<h1>Chapter 3 — Convolutional Neural Networks<a class="headerlink" href="#chapter-3-convolutional-neural-networks" title="Link to this heading">#</a></h1>
+<div class="seealso dropdown admonition">
+<p class="admonition-title">🔗 Notebooks for this chapter</p>
+<p>Open in Colab and <strong>Runtime → Run all</strong> — data loads from a stable link, nothing to upload. The cats-vs-dogs, interpretability, and transfer-learning notebooks want a <strong>GPU runtime</strong> (Runtime → Change runtime type → T4); the autoencoder notebooks are fine on CPU.</p>
+<ul class="simple">
+<li><p><strong>Simple Size and Param</strong> <em>(M3.1 — the parameter math by hand)</em>   <a class="reference external" href="https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module3/Simple_Size_and_Param.ipynb"><img alt="Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>   <a class="reference external" href="https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module3/Simple_Size_and_Param.ipynb">GitHub</a></p></li>
+<li><p><strong>ConvNets on Small Datasets — Cats vs. Dogs</strong> <em>(M3.2)</em>   <a class="reference external" href="https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module3/ConvNets_on_Small_Datasets_Cats_vs_Dogs.ipynb"><img alt="Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>   <a class="reference external" href="https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module3/ConvNets_on_Small_Datasets_Cats_vs_Dogs.ipynb">GitHub</a></p></li>
+<li><p><strong>Inside the ConvNet — Activations &amp; Grad-CAM</strong> <em>(M3.2)</em>   <a class="reference external" href="https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module3/Inside_the_ConvNet_Activations_and_GradCAM.ipynb"><img alt="Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>   <a class="reference external" href="https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module3/Inside_the_ConvNet_Activations_and_GradCAM.ipynb">GitHub</a></p></li>
+<li><p><strong>Transfer Learning with a Pretrained ConvNet</strong> <em>(M3.3)</em>   <a class="reference external" href="https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module3/Transfer_Learning_with_a_Pretrained_ConvNet.ipynb"><img alt="Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>   <a class="reference external" href="https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module3/Transfer_Learning_with_a_Pretrained_ConvNet.ipynb">GitHub</a></p></li>
+<li><p><strong>Autoencoders for Images</strong> <em>(M3.3 — the mechanics, plus Sequential and conv-autoencoder appendices)</em>   <a class="reference external" href="https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module3/Autoencoders_for_Images.ipynb"><img alt="Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>   <a class="reference external" href="https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module3/Autoencoders_for_Images.ipynb">GitHub</a></p></li>
+<li><p><strong>What Autoencoders Can Actually Do</strong> <em>(M3.3 — outliers, features, denoising, clustering)</em>   <a class="reference external" href="https://colab.research.google.com/github/drdave-teaching/OPIM5509-notebooks/blob/main/Module3/What_Autoencoders_Can_Actually_Do.ipynb"><img alt="Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>   <a class="reference external" href="https://github.com/drdave-teaching/OPIM5509-notebooks/blob/main/Module3/What_Autoencoders_Can_Actually_Do.ipynb">GitHub</a></p></li>
+</ul>
+</div>
+<p>Convolutional neural networks (ConvNets) are one of the coolest places to start in deep learning, and here’s the good news up front: once you understand <strong>convolution</strong>, ConvNets are mostly straightforward, and <strong>everything from Chapter 2 — dense layers, ReLU, sigmoid/softmax, backprop — just attaches onto the end.</strong> The new idea is a smarter front end that does <strong>automated feature engineering</strong> on images.</p>
+<p>A note on intuition before the math: a fantastic free resource for <em>seeing</em> convolution is the image-kernels explainer at <a class="reference external" href="https://setosa.io/ev/image-kernels">setosa.io/ev/image-kernels</a>. Play with it for five minutes; it makes this whole chapter click.</p>
+<section id="images-are-just-numbers">
+<h2>3.1 Images are just numbers<a class="headerlink" href="#images-are-just-numbers" title="Link to this heading">#</a></h2>
+<p>Treat an image as a <strong>tensor</strong>. A black-and-white image is a 2-D grid of pixel intensities (0 = black, 255 = white). A color image is a 3-D tensor — height × width × <strong>3 channels</strong> (red, green, blue), each 0–255 — a stack of three pictures, like pages in a book. And nothing stops you from stacking ten: satellite bands, census layers. Pixels are numbers, and a model can do math on numbers.</p>
+<p>Why not just flatten the pixels into the dense network from Chapter 2? Because that network learned <em>which pixel positions</em> correlate with the answer. It works on MNIST only because every digit is centered and curated; slide a digit into the corner and the pixel-to-output correlations shift and the model falls apart. We need a technique that doesn’t care <em>where</em> the thing is.</p>
+<p>A <strong>kernel</strong> (or <strong>filter</strong>) is a small matrix — say 3×3 — that we slide across the image with a <strong>stride</strong> of 1. At each position we multiply the kernel by the patch of pixels under it and sum, recoding nine pixels into one. That single operation, repeated across the whole image, is <strong>convolution</strong>, and it produces a <strong>feature map</strong>. On setosa.io a <em>Sharpen</em> kernel makes the eyes pop and a <em>left Sobel</em> lights up the vertical edges — different kernels detect different things, and the magic of a ConvNet is that it <strong>learns the kernel values by backpropagation</strong> instead of you hand-designing them.</p>
+<div class="important admonition">
+<p class="admonition-title">Key idea — convolution learns the features for you</p>
+<p>In Chapter 1 <em>you</em> engineered features. In a ConvNet the convolution layers <strong>learn</strong> the useful filters during training. Think of a pasta maker: one dog goes in, and a conv layer with 32 feature maps makes 32 differently-recoded copies of it. Stacked convolutions build a hierarchy — early layers learn edges and textures, later layers learn eyes, noses, and fur. A feature map is always <strong>lower resolution</strong> than its input (the kernel can only sit fully inside the image at a limited number of positions) — that shrink is <em>light downsampling</em>.</p>
+</div>
+<p>A <strong>pooling</strong> layer (usually <strong>max pooling</strong>, 2×2) then downsamples each feature map far more aggressively: picture a domino flipping across the map, keeping only the strongest activation in each window. It moves by its own size, so 24×24 becomes 12×12, and it learns <strong>nothing</strong> — zero trainable parameters. The payoff is <strong>spatial invariance</strong>: kernels light up wherever the feature is, so the network recognizes a cat whether it’s centered or off in the corner. That’s why ConvNets free you from perfectly-centered MNIST-style data and let you bring on messy, real-world photos — and why a ConvNet can need a <em>tenth</em> of the parameters a dense net needed on the same images.</p>
+</section>
+<section id="counting-parameters-and-output-shapes">
+<h2>3.2 Counting parameters and output shapes<a class="headerlink" href="#counting-parameters-and-output-shapes" title="Link to this heading">#</a></h2>
+<p>Reading a ConvNet’s <code class="docutils literal notranslate"><span class="pre">model.summary()</span></code> is a skill, and it comes down to two formulas. Dave’s notation: the kernel is <strong>M × N</strong>, <strong>L</strong> is the number of channels coming <em>in</em>, <strong>B</strong> is the bias (one per filter), and <strong>F</strong> is the number of feature maps the layer creates.</p>
+<div class="tip admonition">
+<p class="admonition-title">Conv layer arithmetic</p>
+<div class="math notranslate nohighlight">
+\[
+\#\text{params} = \big((M \times N \times L) + B\big) \times F
+\]</div>
+<p>and a “valid” (no-padding) convolution turns an input of side <span class="math notranslate nohighlight">\(L_{\text{in}}\)</span> into a feature map of side</p>
+<div class="math notranslate nohighlight">
+\[
+L_{\text{out}} = L_{\text{in}} - (M-1)
+\]</div>
+<p>— note it’s <span class="math notranslate nohighlight">\(L-(M-1)\)</span>, <strong>not</strong> <span class="math notranslate nohighlight">\(L-M-1\)</span>, a place students lose a pixel and then lose an hour. Max pooling with a 2×2 window halves each spatial dimension and has <strong>zero</strong> trainable parameters, and so does <code class="docutils literal notranslate"><span class="pre">Flatten</span></code>.</p>
+<p><strong>The term that bites is L.</strong> At the first layer it’s 1 (grayscale) or 3 (RGB). Halfway through the network it’s <em>whatever the previous conv layer produced</em> — a filter’s depth is <strong>inherited</strong> from the maps coming in, while the count F is <strong>chosen</strong> by you.</p>
+</div>
+<p>Work the whole chain by hand once, on the class example: a 28×28×1 image → <code class="docutils literal notranslate"><span class="pre">Conv2D(3</span> <span class="pre">maps,</span> <span class="pre">5×5)</span></code> gives 24×24×3 and <span class="math notranslate nohighlight">\(((5\times5\times1)+1)\times3 = 78\)</span> parameters → pool to 12×12×3 → <code class="docutils literal notranslate"><span class="pre">Conv2D(5</span> <span class="pre">maps,</span> <span class="pre">3×3)</span></code>, where each filter is now a 3×3×<strong>3</strong> brick, gives 10×10×5 and <span class="math notranslate nohighlight">\(((3\times3\times3)+1)\times5 = 140\)</span> → pool to 5×5×5 → flatten to 125 → <code class="docutils literal notranslate"><span class="pre">Dense(256)</span></code> = 32,256 → output 514. Total <strong>32,988</strong> — versus roughly 400,000 for the dense MNIST net. Notice where the parameters live: the conv layers are cheap, the dense head at the end is where the bill comes due. Use the cheat sheet first, then do it unaided until the summary is predictable — and then try it with <em>ugly</em> numbers (29 maps, 87 channels), because textbooks that use 3 everywhere hide which 3 is the kernel and which is the channel count.</p>
+</section>
+<section id="building-a-convnet-cats-vs-dogs">
+<h2>3.3 Building a ConvNet — cats vs. dogs<a class="headerlink" href="#building-a-convnet-cats-vs-dogs" title="Link to this heading">#</a></h2>
+<p>The “hello world” of computer vision is binary cats-vs-dogs classification: 2,000 training images, 1,000 validation, 1,000 test, color, and — unlike MNIST — the cat can be anywhere in the frame.</p>
+<p><strong>Get the folders right first.</strong> Keras reads your labels from the directory structure: <code class="docutils literal notranslate"><span class="pre">train/</span></code>, <code class="docutils literal notranslate"><span class="pre">validation/</span></code>, <code class="docutils literal notranslate"><span class="pre">test/</span></code>, each holding one lowercase subfolder per class (<code class="docutils literal notranslate"><span class="pre">cats/</span></code>, <code class="docutils literal notranslate"><span class="pre">dogs/</span></code>). The <code class="docutils literal notranslate"><span class="pre">ImageDataGenerator</span></code> takes the class names straight from the folder names, alphabetically — so <strong>cat = 0, dog = 1</strong>. Copy this structure exactly for your own data (mask vs. no-mask, anything), and the same notebook runs.</p>
+<p>The architecture is a tower of <strong>Conv2D + MaxPooling</strong> pairs, extracting ever-richer features at ever-smaller resolution (150×150 in, 7×7×128 out), then <strong>Flatten</strong> into one long vector, then the <strong>dense</strong> classifier from Chapter 2:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras</span><span class="w"> </span><span class="kn">import</span> <span class="n">models</span><span class="p">,</span> <span class="n">layers</span><span class="p">,</span> <span class="n">optimizers</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Sequential</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">layers</span><span class="o">.</span><span class="n">Conv2D</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span>  <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">activation</span><span class="o">=</span><span class="s1">'relu'</span><span class="p">,</span> <span class="n">input_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">3</span><span class="p">)))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">layers</span><span class="o">.</span><span class="n">MaxPooling2D</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">layers</span><span class="o">.</span><span class="n">Conv2D</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span>  <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">activation</span><span class="o">=</span><span class="s1">'relu'</span><span class="p">))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">layers</span><span class="o">.</span><span class="n">MaxPooling2D</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">layers</span><span class="o">.</span><span class="n">Conv2D</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">activation</span><span class="o">=</span><span class="s1">'relu'</span><span class="p">))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">layers</span><span class="o">.</span><span class="n">MaxPooling2D</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">layers</span><span class="o">.</span><span class="n">Conv2D</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">activation</span><span class="o">=</span><span class="s1">'relu'</span><span class="p">))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">layers</span><span class="o">.</span><span class="n">MaxPooling2D</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">layers</span><span class="o">.</span><span class="n">Flatten</span><span class="p">())</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">'relu'</span><span class="p">))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span>   <span class="n">activation</span><span class="o">=</span><span class="s1">'sigmoid'</span><span class="p">))</span>   <span class="c1"># binary → one sigmoid node</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s1">'binary_crossentropy'</span><span class="p">,</span>
+              <span class="n">optimizer</span><span class="o">=</span><span class="n">optimizers</span><span class="o">.</span><span class="n">RMSprop</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">),</span>
+              <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">'acc'</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Notice the output layer is exactly what Chapter 2 prescribed for a binary problem — one node, sigmoid, binary-crossentropy. The ConvNet only changed the <em>front end</em>, and the feature engineering is handled for you: the conv/pool layers train their kernels so the right things light up in the feature maps.</p>
+<p>Images rarely fit in memory, so we stream them from the folders with an <strong><code class="docutils literal notranslate"><span class="pre">ImageDataGenerator</span></code></strong>. Two non-negotiables: <strong>rescale</strong> the pixels from 0–255 to 0–1 (<code class="docutils literal notranslate"><span class="pre">rescale=1./255</span></code> — min-max scaling, without which the weight updates diverge), and let the generator resize everything to a fixed 150×150. And there are <strong>three</strong> generators, one per partition, because you always want a held-out set the model has never seen:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.preprocessing.image</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImageDataGenerator</span>
+
+<span class="n">train_datagen</span> <span class="o">=</span> <span class="n">ImageDataGenerator</span><span class="p">(</span><span class="n">rescale</span><span class="o">=</span><span class="mf">1.</span><span class="o">/</span><span class="mi">255</span><span class="p">)</span>
+<span class="n">eval_datagen</span>  <span class="o">=</span> <span class="n">ImageDataGenerator</span><span class="p">(</span><span class="n">rescale</span><span class="o">=</span><span class="mf">1.</span><span class="o">/</span><span class="mi">255</span><span class="p">)</span>
+
+<span class="n">train_generator</span>      <span class="o">=</span> <span class="n">train_datagen</span><span class="o">.</span><span class="n">flow_from_directory</span><span class="p">(</span><span class="n">train_dir</span><span class="p">,</span>      <span class="n">target_size</span><span class="o">=</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">150</span><span class="p">),</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">class_mode</span><span class="o">=</span><span class="s1">'binary'</span><span class="p">)</span>
+<span class="n">validation_generator</span> <span class="o">=</span> <span class="n">eval_datagen</span><span class="o">.</span><span class="n">flow_from_directory</span><span class="p">(</span><span class="n">validation_dir</span><span class="p">,</span>  <span class="n">target_size</span><span class="o">=</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">150</span><span class="p">),</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">class_mode</span><span class="o">=</span><span class="s1">'binary'</span><span class="p">)</span>
+<span class="n">test_generator</span>       <span class="o">=</span> <span class="n">eval_datagen</span><span class="o">.</span><span class="n">flow_from_directory</span><span class="p">(</span><span class="n">test_dir</span><span class="p">,</span>        <span class="n">target_size</span><span class="o">=</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">150</span><span class="p">),</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">class_mode</span><span class="o">=</span><span class="s1">'binary'</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Two details in the fit call are new. <strong><code class="docutils literal notranslate"><span class="pre">steps_per_epoch</span></code></strong> is how many batches make one pass over the data — images ÷ batch size (100 images at batch 20 = 5 steps) — and you should compute it from the partition rather than hard-code it. And you train with <strong>early stopping on validation loss</strong> (with <code class="docutils literal notranslate"><span class="pre">restore_best_weights=True</span></code>), let the epoch count be a ceiling, and save the model in the modern <strong><code class="docutils literal notranslate"><span class="pre">.keras</span></code></strong> format:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.callbacks</span><span class="w"> </span><span class="kn">import</span> <span class="n">EarlyStopping</span>
+
+<span class="n">train_steps</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_generator</span><span class="o">.</span><span class="n">filepaths</span><span class="p">)</span> <span class="o">//</span> <span class="n">train_generator</span><span class="o">.</span><span class="n">batch_size</span>
+<span class="n">val_steps</span>   <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">validation_generator</span><span class="o">.</span><span class="n">filepaths</span><span class="p">)</span> <span class="o">//</span> <span class="n">validation_generator</span><span class="o">.</span><span class="n">batch_size</span>
+
+<span class="n">history</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_generator</span><span class="p">,</span> <span class="n">steps_per_epoch</span><span class="o">=</span><span class="n">train_steps</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+                    <span class="n">validation_data</span><span class="o">=</span><span class="n">validation_generator</span><span class="p">,</span> <span class="n">validation_steps</span><span class="o">=</span><span class="n">val_steps</span><span class="p">,</span>
+                    <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">EarlyStopping</span><span class="p">(</span><span class="n">monitor</span><span class="o">=</span><span class="s1">'val_loss'</span><span class="p">,</span> <span class="n">patience</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">restore_best_weights</span><span class="o">=</span><span class="kc">True</span><span class="p">)])</span>
+<span class="n">model</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">'/content/cats_and_dogs_small_1.keras'</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Then draw the same learning curves as Chapter 2. Training accuracy climbs forever — the model is memorizing — and the validation curve tells you where to freeze it. Once your <strong>loss curve plateaus, the model is done</strong>; if it’s still heading down the ramp, there’s headroom left.</p>
+<div class="tip admonition">
+<p class="admonition-title">Data augmentation — free training data</p>
+<p>With only a couple thousand images a ConvNet overfits fast. <strong>Augmentation</strong> generates endless plausible variants on the fly — random zoom, shift, rotation up to 40°, flips — by adding arguments to the <em>training</em> generator (e.g. <code class="docutils literal notranslate"><span class="pre">rotation_range=40,</span> <span class="pre">zoom_range=0.2,</span> <span class="pre">horizontal_flip=True</span></code>). Now the model has to work to classify ten altered versions of the same cat instead of memorizing one, and the fit comes out smoother and more robust. Augment <strong>train only</strong> — never the validation/test stream (same logic as SMOTE: alter the training data, evaluate on the real thing). Dropout helps too, but it slows learning, so give it a longer epoch runway.</p>
+</div>
+<p><strong>Evaluate like you mean it.</strong> Score <em>every</em> partition — they should land within a few points of each other. Then go past “80% accuracy,” which is where the textbook stops: predict on the (unshuffled) test generator, line the predictions up against the true labels in a DataFrame, and produce a <strong>classification report and confusion matrix with real class names</strong> (<code class="docutils literal notranslate"><span class="pre">target_names=list(train_generator.class_indices)</span></code>). Now you can talk precision and recall per class — on the class run the model was a little better at cats than dogs, and you can compute the recall by hand off the matrix. That’s what you bring to your boss, not a single accuracy number.</p>
+<div class="important admonition">
+<p class="admonition-title">Open the black box — activations and Grad-CAM</p>
+<p>A ConvNet can score well for the wrong reason. The textbook’s cautionary tale: a polar-bear-vs-grizzly model that never looks at the bears — it learned <em>snow</em> means polar and <em>trees and mud</em> mean grizzly. So look at how the model decides. Load the saved <code class="docutils literal notranslate"><span class="pre">.keras</span></code> model and (1) visualize the <strong>feature-map activations</strong> layer by layer — the early layers still look like the dog, the deep layers dissolve into abstract boxes, and some maps never fire — then (2) run <strong>Grad-CAM</strong>: backpropagate the class score to the last conv layer to get a heat map of which pixels drove the decision. On a confident correct hit the dog’s face lights up. On a confident <em>miss</em> — two cats sitting on a doghouse, called “dog” — the heat sits on the doghouse: the model learned that doghouses correlate with dogs. Pull your misses and study them; it’s never been easier to spin up an assistant and do this, so your ConvNet doesn’t have to be a black box.</p>
+</div>
+</section>
+<section id="transfer-learning-standing-on-giants">
+<h2>3.4 Transfer learning — standing on giants<a class="headerlink" href="#transfer-learning-standing-on-giants" title="Link to this heading">#</a></h2>
+<p>Here’s the practical reality: training from scratch is slow (fifteen or twenty minutes for 2,000 images — imagine 200,000), and small data is the norm. Suppose you have a couple hundred images per class. You could squeeze the data with augmentation — or you could <strong>steal the filters from a network trained on millions of images.</strong></p>
+<p>That works because ConvNets are fundamentally <strong>texture and feature detectors</strong> — straight lines, curves, scales, bumpy things, smooth things — and only the dense head at the end says “cat” or “boat” or “furnace.” A model like <strong>VGG16</strong>, trained on ImageNet’s 1,000 categories, learned convolutional filters that are <em>general</em>. We keep its pre-trained <strong>convolutional base</strong>, throw away the classifier head, and bolt on our own:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.applications</span><span class="w"> </span><span class="kn">import</span> <span class="n">VGG16</span>
+
+<span class="n">conv_base</span> <span class="o">=</span> <span class="n">VGG16</span><span class="p">(</span><span class="n">weights</span><span class="o">=</span><span class="s1">'imagenet'</span><span class="p">,</span>      <span class="c1"># the pre-trained filters</span>
+                  <span class="n">include_top</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>        <span class="c1"># drop ImageNet's 1000-way classifier</span>
+                  <span class="n">input_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">conv_base</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>                         <span class="c1"># 13 conv layers; squishes a 150x150 image to 4x4x512</span>
+</pre></div>
+</div>
+<p>Two ways to use it.</p>
+<p><strong>Feature extraction.</strong> Freeze the base and just run your images through it — it’s a Plinko board, nothing trains — collecting the 4×4×512 features for every train/validation/test image, flatten them (4·4·512 = 8,192 — soft-code that shape in real life), and train a small dense classifier with dropout and early stopping on top. Validation accuracy in the 90s in about three minutes, then a clear <strong>plateau</strong> after eight or ten epochs: you’ve extracted everything this architecture has.</p>
+<p><strong>Fine-tuning.</strong> Build the cleaner version — <code class="docutils literal notranslate"><span class="pre">conv_base</span></code> → <code class="docutils literal notranslate"><span class="pre">Flatten</span></code> → dense layers — and note the base has 13 conv layers, so with a kernel and a bias each plus your two new layers that’s <strong>30 trainable weight tensors</strong>. Then the single most important line:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">conv_base</span><span class="o">.</span><span class="n">trainable</span> <span class="o">=</span> <span class="kc">False</span>        <span class="c1"># THE key line</span>
+</pre></div>
+</div>
+<p>Skip it and <code class="docutils literal notranslate"><span class="pre">model.fit</span></code> treats the pretrained base as random weights — backprop starts destroying the feature detectors you just borrowed. With the base frozen, train the head; then, for the last bit, unfreeze <strong>only the last convolutional block</strong> (<code class="docutils literal notranslate"><span class="pre">block5_conv1</span></code> onward) so the fine-resolution detectors adapt to <em>your</em> problem while blocks 1–4 stay general, and retrain the head alongside. That typically lifts the model into the mid-90s. The layer names differ by architecture, so adjust the block name if you swap in another pretrained model.</p>
+<div class="tip admonition">
+<p class="admonition-title">The story to tell your manager</p>
+<p>Train from scratch on your own data and get a baseline (maybe the 60s or 70s). Then feature-extract with a pretrained base and retrain the head. Then fine-tune the last conv block too. Present the whole arc — that’s a complete, defensible modeling story, not a single number.</p>
+</div>
+</section>
+<section id="autoencoders-learning-to-compress-and-what-that-buys-you">
+<h2>3.5 Autoencoders — learning to compress, and what that buys you<a class="headerlink" href="#autoencoders-learning-to-compress-and-what-that-buys-you" title="Link to this heading">#</a></h2>
+<p>An <strong>autoencoder</strong> is a network that takes an input and is trained to <strong>recreate that same input</strong>. Why predict yourself? Because the network is forced to funnel the image through a narrow <strong>latent vector</strong> in the middle and rebuild it from that compact code — a bow tie. Take a 28×28 MNIST digit (784 numbers), scale it by 1/255, reshape to a row of 784, squeeze it through a 32-unit encoding, and reconstruct the 784 pixels. This is where we step from the Sequential API to the <strong>Functional API</strong>, because we’ll want to snap the encoder out on its own afterward:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">keras.layers</span><span class="w"> </span><span class="kn">import</span> <span class="n">Input</span><span class="p">,</span> <span class="n">Dense</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">keras.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Model</span>
+
+<span class="n">input_img</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">784</span><span class="p">,))</span>
+<span class="n">encoded</span>   <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span>  <span class="n">activation</span><span class="o">=</span><span class="s1">'relu'</span><span class="p">)(</span><span class="n">input_img</span><span class="p">)</span>     <span class="c1"># the 32-number latent code</span>
+<span class="n">decoded</span>   <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="mi">784</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">'sigmoid'</span><span class="p">)(</span><span class="n">encoded</span><span class="p">)</span>    <span class="c1"># rebuild the pixels</span>
+
+<span class="n">autoencoder</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">input_img</span><span class="p">,</span> <span class="n">decoded</span><span class="p">)</span>
+<span class="n">autoencoder</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s1">'adam'</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="s1">'binary_crossentropy'</span><span class="p">)</span>
+<span class="n">autoencoder</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">x_train</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>   <span class="c1"># X and y are the same thing</span>
+                <span class="n">validation_data</span><span class="o">=</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">x_test</span><span class="p">),</span> <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">early_stop</span><span class="p">])</span>
+
+<span class="n">encoder</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">input_img</span><span class="p">,</span> <span class="n">encoded</span><span class="p">)</span>                      <span class="c1"># same weights, stops at the code</span>
+</pre></div>
+</div>
+<p>Why <strong>sigmoid</strong>, not linear, on the output? Because every pixel lives in [0, 1], so a sigmoid output plus binary crossentropy is the activation that makes the math land in the right range — a modeling trick worth remembering. And the crazy part: the reconstructions from a 1×32 code come back strikingly close to the originals (a little fuzzy, but the digit is unmistakably there). Roughly 50,000 parameters, ~95% compression. <em>(The mechanics notebook also shows the same model the Sequential way, and a <strong>convolutional autoencoder</strong> — strided <code class="docutils literal notranslate"><span class="pre">Conv2D</span></code> down, <code class="docutils literal notranslate"><span class="pre">Conv2DTranspose</span></code> up — that reconstructs sharper with far fewer parameters because the layers respect the 2-D structure.)</em></p>
+<p>That <strong>encoder → latent space → decoder</strong> structure is the seed of a lot more than compression. Four things it buys you, all off one little autoencoder:</p>
+<ol class="arabic simple">
+<li><p><strong>Catch outliers (anomaly detection).</strong> Train on <em>normal</em> data only. <strong>Reconstruction error is an anomaly score</strong> — small for things the model has seen, big for things it hasn’t. Pick a threshold from the normal data (the 95th percentile of digit error — that 5% is your false-alarm budget, not a property of the anomalies), and anything above it gets flagged. Feed the MNIST-trained model Fashion-MNIST sneakers and purses and most of them clear the bar; a 7 rebuilds as a 7, a shoe comes out garbled. The trap: <strong>don’t add the anomalies to training</strong> — the model would learn to rebuild them and they’d stop looking anomalous. Model normal really well and let the weird stuff out itself.</p></li>
+<li><p><strong>Free features.</strong> The 32-number code is a compressed, nonlinear summary of the whole image. Feed <em>it</em> to a small softmax classifier instead of 784 raw pixels — 24× fewer inputs, still around 95% on the digits — and it’s a lighter, more private representation to hand a downstream team.</p></li>
+<li><p><strong>Denoising.</strong> Swap the target: train <strong>noisy in → clean out</strong>. Make the dirt yourself, and be deliberate about <strong>leakage</strong> — noise the train and test sets independently, fit only on the training pairs. The model learns to extract the signal from the noise.</p></li>
+<li><p><strong>Find structure.</strong> Squash the codes to 2-D with <strong>t-SNE</strong> (a nonlinear cousin of PCA) and color by the true digit, which was never used in training: the digits have sorted themselves into groups. Big separated clumps mean a classifier will do great; overlap is where it’ll be confused.</p></li>
+</ol>
+<p>The same encoder–decoder idea, scaled up with skip connections, becomes the <strong>U-Net</strong> we build in Chapter 6 — so the humble “predict yourself” model is the conceptual seed of segmentation and generative models too.</p>
+</section>
+<section id="wrap-up">
+<h2>Wrap-up<a class="headerlink" href="#wrap-up" title="Link to this heading">#</a></h2>
+<div class="tip admonition">
+<p class="admonition-title">Key takeaways</p>
+<ul class="simple">
+<li><p>Images are <strong>tensors</strong> (H×W for grayscale, H×W×3 for RGB); <strong>convolution</strong> slides learned <strong>kernels</strong> to build <strong>feature maps</strong>; <strong>pooling</strong> downsamples and grants <strong>spatial invariance</strong>.</p></li>
+<li><p>Master the two formulas: conv params <span class="math notranslate nohighlight">\(=((M\times N\times L)+B)\times F\)</span> with <strong>L inherited, F chosen</strong>, and valid output side <span class="math notranslate nohighlight">\(=L-(M-1)\)</span>; pooling and flatten have no parameters. The class example totals <strong>32,988</strong>.</p></li>
+<li><p>A ConvNet is a <strong>Conv2D+MaxPooling tower → Flatten → dense head</strong>; the head is just Chapter 2. <strong>Folder names are your labels</strong> (cat = 0, dog = 1).</p></li>
+<li><p>Stream images with <strong><code class="docutils literal notranslate"><span class="pre">ImageDataGenerator</span></code></strong> (<code class="docutils literal notranslate"><span class="pre">rescale=1./255</span></code>), <strong>three</strong> generators, soft-coded <code class="docutils literal notranslate"><span class="pre">steps_per_epoch</span></code>, <strong>early stopping</strong>, <code class="docutils literal notranslate"><span class="pre">.keras</span></code> saves; <strong>augment train only</strong>.</p></li>
+<li><p>Evaluate <strong>every</strong> partition and finish with a <strong>classification report + confusion matrix with class names</strong>; then <strong>look inside</strong> — activations and <strong>Grad-CAM</strong> — to make sure the model is using the image for the right reasons.</p></li>
+<li><p>With little data, <strong>transfer learning</strong> wins: VGG16 with <code class="docutils literal notranslate"><span class="pre">include_top=False</span></code>, <strong>freeze the base</strong> (the key line), feature-extract, then fine-tune the last conv block.</p></li>
+<li><p><strong>Autoencoders</strong> compress to a latent code and reconstruct (Functional API, sigmoid + binary crossentropy) — and that buys <strong>anomaly detection, free features, denoising, and clustering</strong>, plus the seed of U-Net segmentation.</p></li>
+</ul>
+</div>
+</section>
+<hr class="docutils" />
+<section id="lecture-key-points">
+<h2>📌 Lecture key points<a class="headerlink" href="#lecture-key-points" title="Link to this heading">#</a></h2>
+<p><em>Seventeen videos, 1:50:06. Transcripts, polished scripts, per-video skill sheets and per-section skills checklists: <a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/tree/main/fall2026_idl/module3">opim5509-transcripts / fall2026_idl / module3</a>.</em></p>
+<section id="m3-1-convnet-theory-the-math">
+<h3>M3.1 — ConvNet theory &amp; the math<a class="headerlink" href="#m3-1-convnet-theory-the-math" title="Link to this heading">#</a></h3>
+<div class="note dropdown admonition">
+<p class="admonition-title">Introduction to ConvNets with Setosa and Kernels (8:26)</p>
+<ul class="simple">
+<li><p>The MNIST dense network falls apart the moment a digit isn’t centered — the pixel-to-output correlations shift — so we need a technique that doesn’t care <em>where</em> the thing is.</p></li>
+<li><p>An image is a <strong>matrix of pixel values</strong>, 0 (black) to 255 (white), proven live by mousing over a blurry LinkedIn photo on setosa.io.</p></li>
+<li><p>A 3×3 kernel (Sharpen, then left Sobel) slides across the image with a stride of 1, doing element-wise multiplication and summation to <strong>recode nine pixels into one</strong>.</p></li>
+<li><p>The output feature map is <strong>smaller</strong> than the input — that shrink is called <strong>convolution</strong>.</p></li>
+<li><p>Kernels already look like feature detectors: eyes pop, edges light up.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Convolutional layers / light downsampling (7:56)</p>
+<ul class="simple">
+<li><p>The pasta-maker mental model: one dog goes in, multiple recoded copies come out — a conv layer with 32 feature maps makes 32 differently-recoded images.</p></li>
+<li><p>The key upgrade over the setosa demo: <strong>the kernel values are themselves trainable parameters</strong>, learned by backpropagation.</p></li>
+<li><p>Channels: grayscale is 1, color is an RGB stack of 3, and nothing stops you stacking 10 (satellite bands, census layers) — the kernel slides over the whole brick.</p></li>
+<li><p>A 5×5 image convolved by a 3×3 kernel gives 3×3; 28×28 with a 5×5 kernel gives 24×24 — <strong>light downsampling</strong>.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Pooling (no trainable parameters) (6:26)</p>
+<ul class="simple">
+<li><p>Convolution’s feature maps are still big, so pooling compresses them: a 2×2 window flips across the map like a <strong>domino</strong>, keeping only the max.</p></li>
+<li><p>Nothing is learned — <strong>zero trainable parameters</strong> — and it moves by its own size, so 24×24 becomes 12×12: <em>aggressive</em> downsampling.</p></li>
+<li><p>The payoff is <strong>spatial invariance</strong>: kernels light up wherever the feature is, no perfect centering required.</p></li>
+<li><p>That’s why a ConvNet needs ~20,000 parameters where the dense MNIST net needed hundreds of thousands.</p></li>
+<li><p>AlexNet closes it out: conv/pool stacks are automated feature engineering, and the dense layers at the end are the part you already know.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Where we are going with ConvNets (7:50)</p>
+<ul class="simple">
+<li><p>A real cat photo is 320×400×3 — pages in a book — so kernels become <strong>M×N×3 bricks</strong>, replicated across channels.</p></li>
+<li><p>Feature maps from successive conv layers emphasize eyes, fur texture, nose — learned by backpropagation, not designed.</p></li>
+<li><p>First outing of the formula <span class="math notranslate nohighlight">\(((M\times N\times L)+B)\times F\)</span>, with the warning that <strong>L is the one that bites</strong>: halfway through the network it’s whatever the previous conv layer produced.</p></li>
+<li><p>Transfer-learning teaser: take AlexNet’s free weights, chop off the dense head, keep the feature detectors, train your own head.</p></li>
+<li><p>The gallery of learned kernels (fish scales, car paint) emerged on their own.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Math for a ConvNet (Pt 1, updated) (8:34)</p>
+<ul class="simple">
+<li><p>The whole chain by hand on the <strong>5-map architecture</strong>: 28×28×1 → Conv2D(3 maps, 5×5): size 28−(5−1)=24, params <span class="math notranslate nohighlight">\(((5\times5\times1)+1)\times3 = 78\)</span> → pool to 12×12×3.</p></li>
+<li><p>Conv2D(5 maps, 3×3): each filter is a 3×3×<strong>3</strong> brick, <span class="math notranslate nohighlight">\(((3\times3\times3)+1)\times5 = 140\)</span> → pool to 5×5×5 → flatten to 125.</p></li>
+<li><p>Dense 256 = <strong>32,256</strong> → output <strong>514</strong>. Total <strong>32,988</strong> — a tenth of the dense MNIST net, and the dense layers are where the parameters live.</p></li>
+<li><p>A filter’s depth (L=3) is <strong>inherited</strong> from the maps coming in; the count (F=5) is <strong>chosen</strong>.</p></li>
+<li><p>Ends with the “ugly numbers” preview (29 and 87) and the rant against textbooks where every number is 3.</p></li>
+</ul>
+</div>
+</section>
+<section id="m3-2-cats-vs-dogs-interpretability">
+<h3>M3.2 — Cats vs. dogs + interpretability<a class="headerlink" href="#m3-2-cats-vs-dogs-interpretability" title="Link to this heading">#</a></h3>
+<div class="note dropdown admonition">
+<p class="admonition-title">Welcome to cats vs. dogs, Pt 1: intro &amp; prepping your data (5:59)</p>
+<ul class="simple">
+<li><p>Use a <strong>GPU</strong> — conv and dense layers use the T4 automatically; just set the Colab runtime (a TPU is for bigger jobs).</p></li>
+<li><p>Pull <code class="docutils literal notranslate"><span class="pre">cats-dogs-sep.zip</span></code> from the OPIM5509Files repo and unzip to <code class="docutils literal notranslate"><span class="pre">cat_dog</span></code> with train/validation/test paths.</p></li>
+<li><p><strong>Folder names ARE the labels</strong> — the ImageDataGenerator takes class names from the <code class="docutils literal notranslate"><span class="pre">cats/</span></code> and <code class="docutils literal notranslate"><span class="pre">dogs/</span></code> subfolders, so copy the structure exactly (lowercase, plural).</p></li>
+<li><p>2,000 / 1,000 / 1,000 three-channel color images, not perfectly curated like MNIST.</p></li>
+<li><p>The cat can be anywhere: convolutional layers slide across the image and light up the feature map wherever it is.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Cats and Dogs, Pt 2: data generators &amp; flow from directory (7:56)</p>
+<ul class="simple">
+<li><p>Images arrive in different sizes and get resized to <strong>150×150×3</strong>; assume they’re all color.</p></li>
+<li><p>Low-level to specific: early layers hunt edges and textures, later ones eyes and noses; 3×3 kernels make 32 maps and pooling halves each one, down to 7×7×128.</p></li>
+<li><p>The stack is flattened into one row, feeding a ~3M-parameter dense layer and a single <strong>sigmoid</strong> output.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">model.fit</span></code> alone isn’t enough — <code class="docutils literal notranslate"><span class="pre">flow_from_directory</span></code> feeds batches and divides pixels by 255 (min-max scaling that keeps training from diverging); <strong>three</strong> generators this year, including a held-out test set.</p></li>
+<li><p>Labels are alphabetical: <strong>cat = 0, dog = 1</strong>; each batch of 20 carries images plus labels.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Cats and Dogs, Pt 3: steps per epoch, model fit &amp; results (4:45)</p>
+<ul class="simple">
+<li><p><strong>Steps per epoch</strong> = images ÷ batch size — 100 images at batch 20 means five steps; compute it from the partition instead of hard-coding.</p></li>
+<li><p><strong>Early stopping on <code class="docutils literal notranslate"><span class="pre">val_loss</span></code></strong>; binary crossentropy pushes predictions toward 0/1, so loss and accuracy needn’t move in lockstep.</p></li>
+<li><p>The fit call: train generator, steps per epoch, validation generator and steps, plus the early-stopping callback — stops at epoch 28 and restores epoch 13.</p></li>
+<li><p>Save as <strong><code class="docutils literal notranslate"><span class="pre">.keras</span></code></strong>, the modern Keras format.</p></li>
+<li><p>Read the curves: training memorizes past the sweet spot; validation tells you where to freeze it.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Cats and Dogs, Pt 4: data augmentation &amp; a better, more stable model (5:37)</p>
+<ul class="simple">
+<li><p>Small-data problems are the business norm — <strong>data augmentation</strong> makes zoomed, rotated, stretched versions of each training image to stretch the utility of a small partition.</p></li>
+<li><p>The knobs: flips, rotations up to 40°, zooms and crops, applied randomly as the generator runs.</p></li>
+<li><p><strong>Training partition only</strong> — like SMOTE, augment train and evaluate on the real validation and test data.</p></li>
+<li><p>Validation takes off: validation loss keeps falling (0.6 → 0.57 → 0.52 → 0.4) and the accuracy curve climbs gently.</p></li>
+<li><p>Dropout would help more, but it slows learning — give the model a longer epoch runway.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Wrapping up cats and dogs: classification report &amp; confusion matrix (5:33)</p>
+<ul class="simple">
+<li><p>Give yourself credit: 2,000 training images is a small-data problem; ~95% is possible but hard.</p></li>
+<li><p>Read the plateau — this loss curve hasn’t flattened yet, so there’s still room to improve.</p></li>
+<li><p><strong>Evaluate every partition</strong> with <code class="docutils literal notranslate"><span class="pre">flow_from_directory</span></code> — all within about 10% of each other.</p></li>
+<li><p>Go beyond “80% accuracy”: build a <strong>classification report and confusion matrix</strong> with named classes so you can talk precision and recall per class.</p></li>
+<li><p>Recall by hand: dog ≈ 346/(154+346) = 69%, cat ≈ 400/500 = 80% — a little better at cats.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Interpreting Cats and Dogs with Grad-CAM (6:11)</p>
+<ul class="simple">
+<li><p>The polar-bear trap: a model can score well while ignoring the bears and reading snow vs. trees — you have to look at how it decides.</p></li>
+<li><p>Load the saved model from GitHub with <code class="docutils literal notranslate"><span class="pre">load_model</span></code>, apply it to the test partition, and confirm the ~3M trainable parameters.</p></li>
+<li><p><strong>Feature maps light up</strong> layer by layer: early conv layers still look like the dog, deep layers turn into abstract boxes, some maps never fire.</p></li>
+<li><p><strong>Grad-CAM</strong> backprops the class score to see which pixels drove it — the dog’s face lights up on a P(dog)=1 hit.</p></li>
+<li><p>A confident <strong>miss</strong>: cats on a doghouse called “dog” because the heat sits on the doghouse — pull the misses and study them.</p></li>
+</ul>
+</div>
+</section>
+<section id="m3-3-transfer-learning-autoencoders">
+<h3>M3.3 — Transfer learning &amp; autoencoders<a class="headerlink" href="#m3-3-transfer-learning-autoencoders" title="Link to this heading">#</a></h3>
+<div class="note dropdown admonition">
+<p class="admonition-title">Introduction to transfer learning: feature extraction vs. fine-tuning (4:30)</p>
+<ul class="simple">
+<li><p>Why not from scratch: 2,000 images takes 15–20 minutes; 100k+ would take forever, and small data is the norm.</p></li>
+<li><p>ConvNets are <strong>texture detectors</strong> — lines, curves, scales, bumps — and only the dense head names the cat, dog, car or boat.</p></li>
+<li><p>Borrow the giants: open-source ImageNet-class models trained on thousands of classes and millions of images.</p></li>
+<li><p><strong>Feature extraction</strong>: run images through the frozen conv base and keep the features just before flatten.</p></li>
+<li><p><strong>Fine-tuning</strong>: also unfreeze the last conv block so the high-resolution detectors adapt to your problem — accuracy in the 90s ahead.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Feature extraction: freeze the ConvNet, then train the classifier (6:05)</p>
+<ul class="simple">
+<li><p>A model trained on 10,000 categories is reused by retraining only its dense layers — everything before them stays frozen.</p></li>
+<li><p>Import <strong>VGG16</strong>: ImageNet weights, 150×150 input, <code class="docutils literal notranslate"><span class="pre">include_top=False</span></code> so it doesn’t predict 1,000 classes; the base squishes to 4×4×512.</p></li>
+<li><p>Plinko, not training: the frozen base just transforms images; <code class="docutils literal notranslate"><span class="pre">extract_features</span></code> runs all 2,000 train plus validation and test in batches of 20.</p></li>
+<li><p>Flatten to 8,192 — hard-coded here for VGG16; soft-code the shape in the real world.</p></li>
+<li><p>The plateau: validation accuracy in the 90s after ~8–10 epochs, then it flattens — you’ve squeezed out what this architecture has.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Fine-tuning the conv layer AND the dense layer (6:27)</p>
+<ul class="simple">
+<li><p>VGG16’s 13 conv layers → <strong>30 trainable weight tensors</strong> (a kernel and a bias each, plus the two new layers); ~16M parameters.</p></li>
+<li><p><strong>THE key line</strong>: freeze the convolutional base, or <code class="docutils literal notranslate"><span class="pre">model.fit</span></code> treats it as random weights and destroys the feature detectors.</p></li>
+<li><p>Unfreeze <strong>block5</strong>: blocks 1–4 stay frozen feature detectors; the fifth block’s kernels get customized to the small problem.</p></li>
+<li><p>Adjust the block name for other pretrained models — set trainable only where it matches.</p></li>
+<li><p>About 95% — the fine-tuned model does better; the jumpy training is something dropout would smooth. <em>(Saved as <code class="docutils literal notranslate"><span class="pre">.h5</span></code> on camera; the notebook now saves <code class="docutils literal notranslate"><span class="pre">.keras</span></code>.)</em></p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Wrapping up transfer learning (1:59)</p>
+<ul class="simple">
+<li><p>Exponential smoothing or dropout would tame the jumpy curves without changing the pattern.</p></li>
+<li><p>A labeled confusion matrix on the balanced test data: both classes predicted well, most of the data on the diagonal.</p></li>
+<li><p>Start with your own data and get a 60s–70s baseline before reaching for a pretrained model.</p></li>
+<li><p>Then transfer: feature-extract on the dense head, then fine-tune the last conv block too.</p></li>
+<li><p>Present the whole progression to your manager as one arc.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Introduction to autoencoders (7:55)</p>
+<ul class="simple">
+<li><p>Squish, then rebuild: 784 pixels compressed to a nonlinear 32-number code that recreates the image — compression, anomaly detection and clustering follow.</p></li>
+<li><p>Prep MNIST: <code class="docutils literal notranslate"><span class="pre">imshow</span></code> a digit, divide by 255 for min-max scaling, reshape to 784 (the <code class="docutils literal notranslate"><span class="pre">-1</span></code> counts the rows).</p></li>
+<li><p>The <strong>Functional API</strong>, a step up from Sequential: a 784 input, a 32-unit encoding, a decode back to 784 — a bow tie.</p></li>
+<li><p>Why <strong>sigmoid</strong>: pixel values live in [0, 1], so a sigmoid output plus binary crossentropy is the right modeling trick.</p></li>
+<li><p>Ten random draws: originals on top, reconstructions below — a little fuzzy, but the 1×32 code carries the digit.</p></li>
+</ul>
+</div>
+<div class="note dropdown admonition">
+<p class="admonition-title">Applications of autoencoders (7:57)</p>
+<ul class="simple">
+<li><p>A <strong>deep autoencoder</strong> with extra layers on both sides of a latent “code” you can pull out and reuse; trained on clean digits with patience 5.</p></li>
+<li><p><strong>Reconstruction error as a score</strong>: take the 95th percentile of per-image error on MNIST — anything above it is anomalous.</p></li>
+<li><p>Fashion-MNIST can’t rebuild: a 7 recreates a 7, a shoe can’t; most of the sneakers and purses are flagged as never-seen.</p></li>
+<li><p><strong>The embedding as features</strong>: feed the 32-dim code to a softmax classifier for ~95% on 0–9 — lighter and more private than 784 pixels.</p></li>
+<li><p><strong>Denoise and cluster</strong>: noisy in, clean out extracts the signal; <strong>t-SNE</strong> (a nonlinear PCA) shows the digits grouping themselves.</p></li>
+</ul>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./m3_cnn"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../m2_dense/index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Chapter 2 — Dense Neural Networks</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../m4_rnn_numeric/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Chapter 4 — Recurrent Networks for Numeric Sequences</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#images-are-just-numbers">3.1 Images are just numbers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#counting-parameters-and-output-shapes">3.2 Counting parameters and output shapes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-a-convnet-cats-vs-dogs">3.3 Building a ConvNet — cats vs. dogs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transfer-learning-standing-on-giants">3.4 Transfer learning — standing on giants</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#autoencoders-learning-to-compress-and-what-that-buys-you">3.5 Autoencoders — learning to compress, and what that buys you</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wrap-up">Wrap-up</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lecture-key-points">📌 Lecture key points</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#m3-1-convnet-theory-the-math">M3.1 — ConvNet theory &amp; the math</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#m3-2-cats-vs-dogs-interpretability">M3.2 — Cats vs. dogs + interpretability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#m3-3-transfer-learning-autoencoders">M3.3 — Transfer learning &amp; autoencoders</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Dr. Dave Wanik · University of Connecticut (OPIM 5509)
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <p style="font-size:0.9em;opacity:0.85"><strong>⚠️ Work in progress.</strong> These are living draft materials — actively being written and revised. Expect rough edges, gaps, and changes; this is a teaching companion, not a final or official reference.</p>
+<p><em>OPIM 5509 — Introduction to Deep Learning. Built from Dr. Wanik's lecture
+transcripts and course notebooks. A casual-but-rigorous, code-first textbook.</em></p>
+
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
