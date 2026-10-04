@@ -40,7 +40,7 @@ The videos themselves live in the course site (HuskyCT), so they are for enrolle
 
 ### M2.1 — Theory, by hand
 
-*10 videos, 63:33 (min:sec).*
+*10 videos, about 64 minutes.*
 
 | # | Video | Length | Notebook | |
 | --: | :-- | --: | :-- | :-- |
@@ -57,7 +57,7 @@ The videos themselves live in the course site (HuskyCT), so they are for enrolle
 
 ### M2.2 — Regression in Keras
 
-*5 videos, 31:56 (min:sec).*
+*5 videos, about 32 minutes.*
 
 | # | Video | Length | Notebook | |
 | --: | :-- | --: | :-- | :-- |
@@ -69,7 +69,7 @@ The videos themselves live in the course site (HuskyCT), so they are for enrolle
 
 ### M2.3 — Classification in Keras
 
-*9 videos, 55:20 (min:sec).*
+*9 videos, about 55 minutes.*
 
 | # | Video | Length | Notebook | |
 | --: | :-- | --: | :-- | :-- |
@@ -89,7 +89,7 @@ The videos themselves live in the course site (HuskyCT), so they are for enrolle
 
 ### M3.1 — ConvNet theory and the math
 
-*5 videos, 39:12 (min:sec).*
+*5 videos, about 39 minutes.*
 
 | # | Video | Length | Notebook | |
 | --: | :-- | --: | :-- | :-- |
@@ -101,7 +101,7 @@ The videos themselves live in the course site (HuskyCT), so they are for enrolle
 
 ### M3.2 — Cats vs. dogs, and what the model is looking at
 
-*6 videos, 36:01 (min:sec).*
+*6 videos, about 36 minutes.*
 
 | # | Video | Length | Notebook | |
 | --: | :-- | --: | :-- | :-- |
@@ -114,7 +114,7 @@ The videos themselves live in the course site (HuskyCT), so they are for enrolle
 
 ### M3.3 — Transfer learning and autoencoders
 
-*6 videos, 34:53 (min:sec).*
+*6 videos, about 35 minutes.*
 
 | # | Video | Length | Notebook | |
 | --: | :-- | --: | :-- | :-- |
@@ -131,7 +131,7 @@ The videos themselves live in the course site (HuskyCT), so they are for enrolle
 
 ### M4.1 — Theory: the window method, SimpleRNN, LSTM, GRU
 
-*9 videos, 58:16 (min:sec).*
+*9 videos, about 58 minutes.*
 
 | # | Video | Length | Notebook | |
 | --: | :-- | --: | :-- | :-- |
@@ -147,7 +147,7 @@ The videos themselves live in the course site (HuskyCT), so they are for enrolle
 
 ### M4.2 — Implementation: temperature and room occupancy
 
-*9 videos, 67:09 (min:sec).*
+*9 videos, about 67 minutes.*
 
 | # | Video | Length | Notebook | |
 | --: | :-- | --: | :-- | :-- |
@@ -163,7 +163,7 @@ The videos themselves live in the course site (HuskyCT), so they are for enrolle
 
 ### M4.3 — Advanced topics
 
-*8 videos, 49:34 (min:sec).*
+*8 videos, about 50 minutes.*
 
 | # | Video | Length | Notebook | |
 | --: | :-- | --: | :-- | :-- |
@@ -182,7 +182,7 @@ The videos themselves live in the course site (HuskyCT), so they are for enrolle
 
 ### M5.1 — Text as a bag of words
 
-*6 videos, 39:59 (min:sec).*
+*6 videos, about 40 minutes.*
 
 | # | Video | Length | Notebook | |
 | --: | :-- | --: | :-- | :-- |
@@ -195,7 +195,7 @@ The videos themselves live in the course site (HuskyCT), so they are for enrolle
 
 ### M5.2 — Text as a sequence: embeddings and RNNs
 
-*7 videos, 39:34 (min:sec).*
+*7 videos, about 40 minutes.*
 
 | # | Video | Length | Notebook | |
 | --: | :-- | --: | :-- | :-- |
