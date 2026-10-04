@@ -1,0 +1,1347 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>The Video Lectures &#8212; Deep Learning — A Graduate Introduction</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'videos';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Chapter 6 — Special Topics" href="m6_special/index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="_static/searchtools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Deep Learning — A Graduate Introduction</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Preface
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="m1_refresher/index.html">Chapter 1 — Refresher: EDA &amp; the ML Methodology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="m2_dense/index.html">Chapter 2 — Dense Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="m3_cnn/index.html">Chapter 3 — Convolutional Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="m4_rnn_numeric/index.html">Chapter 4 — Recurrent Networks for Numeric Sequences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="m5_rnn_text/index.html">Chapter 5 — Recurrent Networks for Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="m6_special/index.html">Chapter 6 — Special Topics</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">The Video Lectures</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/drdave-teaching/opim5509-textbook" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/videos.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>The Video Lectures</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#at-a-glance">At a glance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chapter-1-refresher-eda-and-machine-learning">Chapter 1 — Refresher: EDA and machine learning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chapter-2-dense-neural-networks">Chapter 2 — Dense neural networks</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#m2-1-theory-by-hand">M2.1 — Theory, by hand</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#m2-2-regression-in-keras">M2.2 — Regression in Keras</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#m2-3-classification-in-keras">M2.3 — Classification in Keras</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chapter-3-convolutional-neural-networks">Chapter 3 — Convolutional neural networks</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#m3-1-convnet-theory-and-the-math">M3.1 — ConvNet theory and the math</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#m3-2-cats-vs-dogs-and-what-the-model-is-looking-at">M3.2 — Cats vs. dogs, and what the model is looking at</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#m3-3-transfer-learning-and-autoencoders">M3.3 — Transfer learning and autoencoders</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chapter-4-recurrent-networks-for-numeric-sequences">Chapter 4 — Recurrent networks for numeric sequences</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#m4-1-theory-the-window-method-simplernn-lstm-gru">M4.1 — Theory: the window method, SimpleRNN, LSTM, GRU</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#m4-2-implementation-temperature-and-room-occupancy">M4.2 — Implementation: temperature and room occupancy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#m4-3-advanced-topics">M4.3 — Advanced topics</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chapter-5-recurrent-networks-for-text">Chapter 5 — Recurrent networks for text</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#m5-1-text-as-a-bag-of-words">M5.1 — Text as a bag of words</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#m5-2-text-as-a-sequence-embeddings-and-rnns">M5.2 — Text as a sequence: embeddings and RNNs</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="the-video-lectures">
+<h1>The Video Lectures<a class="headerlink" href="#the-video-lectures" title="Link to this heading">#</a></h1>
+<p>Every chapter of this book grew out of a set of short lecture videos — <strong>89 videos, about 9 hours 27 minutes</strong> in the Fall 2026 edition of OPIM 5509. Most run five to nine minutes, and each one walks through a notebook or a set of slides you can open yourself.</p>
+<div class="tip admonition">
+<p class="admonition-title">Where to watch, and where to read</p>
+<p>The videos themselves live in the course site (HuskyCT), so they are for enrolled students. The <strong>transcripts are public</strong>: every video below links to its cleaned-up transcript, with timings, so you can search for the moment a topic is covered. Videos are numbered in the order they were recorded.</p>
+</div>
+<section id="at-a-glance">
+<h2>At a glance<a class="headerlink" href="#at-a-glance" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Chapter</p></th>
+<th class="head text-right"><p>Videos</p></th>
+<th class="head text-right"><p>Runtime (h:mm)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><a class="reference internal" href="m1_refresher/index.html"><span class="doc">Chapter 1 — Refresher: EDA and machine learning</span></a></p></td>
+<td class="text-right"><p>9</p></td>
+<td class="text-right"><p>0:51</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><a class="reference internal" href="m2_dense/index.html"><span class="doc">Chapter 2 — Dense neural networks</span></a></p></td>
+<td class="text-right"><p>24</p></td>
+<td class="text-right"><p>2:30</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><a class="reference internal" href="m3_cnn/index.html"><span class="doc">Chapter 3 — Convolutional neural networks</span></a></p></td>
+<td class="text-right"><p>17</p></td>
+<td class="text-right"><p>1:50</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><a class="reference internal" href="m4_rnn_numeric/index.html"><span class="doc">Chapter 4 — Recurrent networks for numeric sequences</span></a></p></td>
+<td class="text-right"><p>26</p></td>
+<td class="text-right"><p>2:54</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><a class="reference internal" href="m5_rnn_text/index.html"><span class="doc">Chapter 5 — Recurrent networks for text</span></a></p></td>
+<td class="text-right"><p>13</p></td>
+<td class="text-right"><p>1:19</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>All five chapters</strong></p></td>
+<td class="text-right"><p><strong>89</strong></p></td>
+<td class="text-right"><p><strong>9:27</strong></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="chapter-1-refresher-eda-and-machine-learning">
+<h2>Chapter 1 — Refresher: EDA and machine learning<a class="headerlink" href="#chapter-1-refresher-eda-and-machine-learning" title="Link to this heading">#</a></h2>
+<p><em>9 videos, 0:51. Read the chapter: <a class="reference internal" href="m1_refresher/index.html"><span class="doc">Chapter 1 — Refresher: EDA &amp; the ML Methodology</span></a>.</em></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-right"><p>#</p></th>
+<th class="head text-left"><p>Video</p></th>
+<th class="head text-right"><p>Length</p></th>
+<th class="head text-left"><p></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-right"><p>1</p></td>
+<td class="text-left"><p>Welcome to IDL from Dr. Dave!</p></td>
+<td class="text-right"><p>2:55</p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module1/transcripts/5509IDL_M1_01_Welcome_to_IDL_from_Dr_Dave.srt">transcript</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>2</p></td>
+<td class="text-left"><p>Google Colaboratory and the UConn Library</p></td>
+<td class="text-right"><p>2:42</p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module1/transcripts/5509IDL_M1_02_Google_Colaboratory_and_the_UConn_Library.srt">transcript</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>3</p></td>
+<td class="text-left"><p>Welcome, Colab and GitHub</p></td>
+<td class="text-right"><p>7:03</p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module1/transcripts/5509IDL_M1_03_Welcome_Colab_and_GitHub.srt">transcript</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>4</p></td>
+<td class="text-left"><p>Introduction to EDA on CA Housing</p></td>
+<td class="text-right"><p>5:11</p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module1/transcripts/5509IDL_M1_04_Introduction_to_EDA_on_CA_Housing.srt">transcript</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>5</p></td>
+<td class="text-left"><p>Outliers, censored data, univariate and bivariate plots</p></td>
+<td class="text-right"><p>7:00</p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module1/transcripts/5509IDL_M1_05_Outliers_censored_data_univariate_and_bivariate_plots.srt">transcript</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>6</p></td>
+<td class="text-left"><p>Geographic EDA and final data cleaning</p></td>
+<td class="text-right"><p>2:33</p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module1/transcripts/5509IDL_M1_06_Geographic_EDA_and_final_data_cleaning.srt">transcript</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>7</p></td>
+<td class="text-left"><p>Intro to end-to-end ML for regression</p></td>
+<td class="text-right"><p>5:50</p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module1/transcripts/5509IDL_M1_07_Intro_to_end-to-end_ML_for_regression.srt">transcript</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>8</p></td>
+<td class="text-left"><p>Fitting and evaluating ML models for regression</p></td>
+<td class="text-right"><p>9:40</p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module1/transcripts/5509IDL_M1_08_Fitting_and_evaluating_ML_models_for_regression.srt">transcript</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>9</p></td>
+<td class="text-left"><p>End-to-end ML for classification</p></td>
+<td class="text-right"><p>8:39</p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module1/transcripts/5509IDL_M1_09_End-to-end_ML_for_classification.srt">transcript</a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="chapter-2-dense-neural-networks">
+<h2>Chapter 2 — Dense neural networks<a class="headerlink" href="#chapter-2-dense-neural-networks" title="Link to this heading">#</a></h2>
+<p><em>24 videos, 2:30. Read the chapter: <a class="reference internal" href="m2_dense/index.html"><span class="doc">Chapter 2 — Dense Neural Networks</span></a>.</em></p>
+<section id="m2-1-theory-by-hand">
+<h3>M2.1 — Theory, by hand<a class="headerlink" href="#m2-1-theory-by-hand" title="Link to this heading">#</a></h3>
+<p><em>10 videos, about 64 minutes.</em></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-right"><p>#</p></th>
+<th class="head text-left"><p>Video</p></th>
+<th class="head text-right"><p>Length</p></th>
+<th class="head text-left"><p>Notebook</p></th>
+<th class="head text-left"><p></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-right"><p>1</p></td>
+<td class="text-left"><p>Introduction to forward propagation</p></td>
+<td class="text-right"><p>6:51</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1_ForwardPropagation</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module2/transcripts/5509IDL_M2_01_IDL_Introduction_to_forward_propagation.srt">transcript</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>2</p></td>
+<td class="text-left"><p>Golden rule of dot products</p></td>
+<td class="text-right"><p>7:25</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1_ForwardPropagation</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module2/transcripts/5509IDL_M2_02_IDL_Golden_rule_of_dot_products.srt">transcript</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>3</p></td>
+<td class="text-left"><p>Trainable Parameters in a dense neural network</p></td>
+<td class="text-right"><p>7:51</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1_ForwardPropagation</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module2/transcripts/5509IDL_M2_03_IDL_Trainable_Parameters_in_a_dense_neural_network.srt">transcript</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>4</p></td>
+<td class="text-left"><p>Hot and cold learning</p></td>
+<td class="text-right"><p>5:35</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">2_HotAndCold</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module2/transcripts/5509IDL_M2_04_IDL_Hot_and_cold_learning.srt">transcript</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>5</p></td>
+<td class="text-left"><p>Hot and cold learning, direction and amount (derivatives)</p></td>
+<td class="text-right"><p>6:45</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">2_HotAndCold</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module2/transcripts/5509IDL_M2_05_IDL_Hot_and_cold_learning_direction_and_amount_derivatives.srt">transcript</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>6</p></td>
+<td class="text-left"><p>Divergence: scale your data or use a learning rate!</p></td>
+<td class="text-right"><p>2:10</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">2_HotAndCold</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module2/transcripts/5509IDL_M2_06_IDL_Divergence_scale_your_data_or_use_a_learning_rate.srt">transcript</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>7</p></td>
+<td class="text-left"><p>Learning a full dataset with stochastic gradient descent</p></td>
+<td class="text-right"><p>7:47</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">3_BackProp_and_ReLU</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module2/transcripts/5509IDL_M2_07_IDL_Learning_a_full_dataset_with_stochastic_gradient_descent.srt">transcript</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>8</p></td>
+<td class="text-left"><p>Gradient descent and an intro to activation functions (ReLU)</p></td>
+<td class="text-right"><p>6:18</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">3_BackProp_and_ReLU</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module2/transcripts/5509IDL_M2_08_IDL_Gradient_descent_and_an_intro_to_activation_functions_ReLU.srt">transcript</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>9</p></td>
+<td class="text-left"><p>One full iteration for a single row (forward and back propagation)</p></td>
+<td class="text-right"><p>9:04</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">3_BackProp_and_ReLU</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module2/transcripts/5509IDL_M2_09_IDL_One_full_iteration_for_a_single_row_forward_and_back_propagation.srt">transcript</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>10</p></td>
+<td class="text-left"><p>Learn the entire dataset!</p></td>
+<td class="text-right"><p>3:47</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">3_BackProp_and_ReLU</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module2/transcripts/5509IDL_M2_10_IDL_Learn_the_entire_dataset.srt">transcript</a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="m2-2-regression-in-keras">
+<h3>M2.2 — Regression in Keras<a class="headerlink" href="#m2-2-regression-in-keras" title="Link to this heading">#</a></h3>
+<p><em>5 videos, about 32 minutes.</em></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-right"><p>#</p></th>
+<th class="head text-left"><p>Video</p></th>
+<th class="head text-right"><p>Length</p></th>
+<th class="head text-left"><p>Notebook</p></th>
+<th class="head text-left"><p></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-right"><p>11</p></td>
+<td class="text-left"><p>Implementation of neural networks for regression (EDA)</p></td>
+<td class="text-right"><p>5:36</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">CA_Housing_Regression</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module2/transcripts/5509IDL_M2_11_IDL_Implementation_of_neural_networks_for_regression_EDA.srt">transcript</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>12</p></td>
+<td class="text-left"><p>The sequential API, compile, early stopping callback</p></td>
+<td class="text-right"><p>8:36</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">CA_Housing_Regression</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module2/transcripts/5509IDL_M2_12_IDL_The_sequential_API_compile_early_stopping_callback.srt">transcript</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>13</p></td>
+<td class="text-left"><p>Fitting and evaluating a neural network (regression)</p></td>
+<td class="text-right"><p>6:48</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">CA_Housing_Regression</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module2/transcripts/5509IDL_M2_13_IDL_Fitting_and_evaluating_a_neural_network_regression.srt">transcript</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>14</p></td>
+<td class="text-left"><p>Dropout</p></td>
+<td class="text-right"><p>5:22</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">CA_Housing_Regression</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module2/transcripts/5509IDL_M2_14_IDL_Dropout.srt">transcript</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>15</p></td>
+<td class="text-left"><p>Dropout bake-off and strategies for building NN architectures</p></td>
+<td class="text-right"><p>5:34</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">CA_Housing_Regression</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module2/transcripts/5509IDL_M2_15_IDL_Dropout_bake-off_and_strategies_for_building_NN_architectures.srt">transcript</a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="m2-3-classification-in-keras">
+<h3>M2.3 — Classification in Keras<a class="headerlink" href="#m2-3-classification-in-keras" title="Link to this heading">#</a></h3>
+<p><em>9 videos, about 55 minutes.</em></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-right"><p>#</p></th>
+<th class="head text-left"><p>Video</p></th>
+<th class="head text-right"><p>Length</p></th>
+<th class="head text-left"><p>Notebook</p></th>
+<th class="head text-left"><p></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-right"><p>16</p></td>
+<td class="text-left"><p>Introduction to NNs for Classification</p></td>
+<td class="text-right"><p>6:33</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0_BinaryClassification_Titanic</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module2/transcripts/5509IDL_M2_16_IDL_Introduction_to_NNs_for_Classification.srt">transcript</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>17</p></td>
+<td class="text-left"><p>Building the NN classification model and fitting it with and without callbacks</p></td>
+<td class="text-right"><p>7:52</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0_BinaryClassification_Titanic</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module2/transcripts/5509IDL_M2_17_IDL_Building_the_NN_classification_model_and_fitting_it_with_and_witho.srt">transcript</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>18</p></td>
+<td class="text-left"><p>NN classification metrics and evaluation</p></td>
+<td class="text-right"><p>4:00</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0_BinaryClassification_Titanic</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module2/transcripts/5509IDL_M2_18_IDL_NN_classification_metrics_and_evaluation.srt">transcript</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>19</p></td>
+<td class="text-left"><p>Cross-validation exercises for classification NNs</p></td>
+<td class="text-right"><p>7:42</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">0b_TrainValTest</span> <span class="pre">+</span> <span class="pre">0c_KFold</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module2/transcripts/5509IDL_M2_19_IDL_Cross-validation_exercises_for_classification_NNs.srt">transcript</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>20</p></td>
+<td class="text-left"><p>Introduction to multiclass classification NNs</p></td>
+<td class="text-right"><p>5:18</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1_MulticlassClassification_Iris</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module2/transcripts/5509IDL_M2_20_IDL_Introduction_to_multiclass_classification_NNs.srt">transcript</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>21</p></td>
+<td class="text-left"><p>Multiclass metrics and evaluation/conclusion</p></td>
+<td class="text-right"><p>4:37</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1_MulticlassClassification_Iris</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module2/transcripts/5509IDL_M2_21_IDL_Multiclass_metrics_and_evaluationconclusion.srt">transcript</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>22</p></td>
+<td class="text-left"><p>Introduction to the MNIST dataset</p></td>
+<td class="text-right"><p>5:36</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">2_A_FirstLook_atNN_with_MNIST_images</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module2/transcripts/5509IDL_M2_22_Introduction_to_the_MNIST_dataset.srt">transcript</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>23</p></td>
+<td class="text-left"><p>Evaluating our NN (dense layers) for MNIST</p></td>
+<td class="text-right"><p>7:53</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">2_A_FirstLook_atNN_with_MNIST_images</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module2/transcripts/5509IDL_M2_23_Evaluating_our_NN_dense_layers_for_MNIST.srt">transcript</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>24</p></td>
+<td class="text-left"><p>Fashion MNIST</p></td>
+<td class="text-right"><p>5:49</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">3_Fashion_MNIST_with_fashion_images</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module2/transcripts/5509IDL_M2_24_Fashion_MNIST.srt">transcript</a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="chapter-3-convolutional-neural-networks">
+<h2>Chapter 3 — Convolutional neural networks<a class="headerlink" href="#chapter-3-convolutional-neural-networks" title="Link to this heading">#</a></h2>
+<p><em>17 videos, 1:50. Read the chapter: <a class="reference internal" href="m3_cnn/index.html"><span class="doc">Chapter 3 — Convolutional Neural Networks</span></a>.</em></p>
+<section id="m3-1-convnet-theory-and-the-math">
+<h3>M3.1 — ConvNet theory and the math<a class="headerlink" href="#m3-1-convnet-theory-and-the-math" title="Link to this heading">#</a></h3>
+<p><em>5 videos, about 39 minutes.</em></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-right"><p>#</p></th>
+<th class="head text-left"><p>Video</p></th>
+<th class="head text-right"><p>Length</p></th>
+<th class="head text-left"><p>Notebook</p></th>
+<th class="head text-left"><p></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-right"><p>1</p></td>
+<td class="text-left"><p>Introduction to ConvNets with Setosa and Kernels</p></td>
+<td class="text-right"><p>8:26</p></td>
+<td class="text-left"><p>slides</p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module3/transcripts/5509IDL_M3_01_IDL_Introduction_to_ConvNets_with_Setosa_and_Kernels.srt">transcript</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>2</p></td>
+<td class="text-left"><p>Convolutional layers / light downsampling</p></td>
+<td class="text-right"><p>7:56</p></td>
+<td class="text-left"><p>slides</p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module3/transcripts/5509IDL_M3_02_IDL_Convolutional_layerslight_downsampling.srt">transcript</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>3</p></td>
+<td class="text-left"><p>Pooling (no trainable parameters)</p></td>
+<td class="text-right"><p>6:26</p></td>
+<td class="text-left"><p>slides</p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module3/transcripts/5509IDL_M3_03_IDL_Pooling_no_trainable_parameters.srt">transcript</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>4</p></td>
+<td class="text-left"><p>Where we are going with ConvNets</p></td>
+<td class="text-right"><p>7:50</p></td>
+<td class="text-left"><p>slides</p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module3/transcripts/5509IDL_M3_04_IDL_Where_we_are_going_with_ConvNets.srt">transcript</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>5</p></td>
+<td class="text-left"><p>Math for a ConvNet (Pt 1, updated)</p></td>
+<td class="text-right"><p>8:34</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">Simple_Size_and_Param</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module3/transcripts/5509IDL_M3_05_IDL_Math_for_a_ConvNet_Pt_1_updated.srt">transcript</a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="m3-2-cats-vs-dogs-and-what-the-model-is-looking-at">
+<h3>M3.2 — Cats vs. dogs, and what the model is looking at<a class="headerlink" href="#m3-2-cats-vs-dogs-and-what-the-model-is-looking-at" title="Link to this heading">#</a></h3>
+<p><em>6 videos, about 36 minutes.</em></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-right"><p>#</p></th>
+<th class="head text-left"><p>Video</p></th>
+<th class="head text-right"><p>Length</p></th>
+<th class="head text-left"><p>Notebook</p></th>
+<th class="head text-left"><p></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-right"><p>6</p></td>
+<td class="text-left"><p>Welcome to cats vs dogs! Pt 1: Intro and prepping your data</p></td>
+<td class="text-right"><p>5:59</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">ConvNets_on_Small_Datasets_Cats_vs_Dogs</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module3/transcripts/5509IDL_M3_06_IDL_Welcome_to_cats_vs_dogs_Pt_1_Intro_and_prepping_your_data.srt">transcript</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>7</p></td>
+<td class="text-left"><p>Cats and Dogs Pt 2: Data generators and flow from directory</p></td>
+<td class="text-right"><p>7:56</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">ConvNets_on_Small_Datasets_Cats_vs_Dogs</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module3/transcripts/5509IDL_M3_07_IDL_Cats_and_Dogs_Pt_2_Data_generators_and_flow_from_directory.srt">transcript</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>8</p></td>
+<td class="text-left"><p>Cats and Dogs Pt 3: Steps per epoch, model fit and initial results</p></td>
+<td class="text-right"><p>4:45</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">ConvNets_on_Small_Datasets_Cats_vs_Dogs</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module3/transcripts/5509IDL_M3_08_IDL_Cats_and_Dogs_Pt_3_Steps_per_epoch_model_fit_and_initial_results.srt">transcript</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>9</p></td>
+<td class="text-left"><p>Cats and Dogs Pt 4: Using data augmentation and getting a better, more stable model</p></td>
+<td class="text-right"><p>5:37</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">ConvNets_on_Small_Datasets_Cats_vs_Dogs</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module3/transcripts/5509IDL_M3_09_IDL_Cats_and_Dogs_Pt_4_Data_augmentation_and_a_better_more_stable_model.srt">transcript</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>10</p></td>
+<td class="text-left"><p>Wrapping up cats and dogs: evaluating with a classification report and confusion matrix</p></td>
+<td class="text-right"><p>5:33</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">ConvNets_on_Small_Datasets_Cats_vs_Dogs</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module3/transcripts/5509IDL_M3_10_IDL_Wrapping_up_cats_and_dogs_classification_report_and_confusion_matrix.srt">transcript</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>11</p></td>
+<td class="text-left"><p>Interpreting Cats and Dogs with Grad-CAM</p></td>
+<td class="text-right"><p>6:11</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">Inside_the_ConvNet_Activations_and_GradCAM</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module3/transcripts/5509IDL_M3_11_IDL_Interpreting_Cats_and_Dogs_with_Grad-CAM.srt">transcript</a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="m3-3-transfer-learning-and-autoencoders">
+<h3>M3.3 — Transfer learning and autoencoders<a class="headerlink" href="#m3-3-transfer-learning-and-autoencoders" title="Link to this heading">#</a></h3>
+<p><em>6 videos, about 35 minutes.</em></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-right"><p>#</p></th>
+<th class="head text-left"><p>Video</p></th>
+<th class="head text-right"><p>Length</p></th>
+<th class="head text-left"><p>Notebook</p></th>
+<th class="head text-left"><p></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-right"><p>12</p></td>
+<td class="text-left"><p>Introduction to transfer learning (feature extraction vs. fine-tuning)</p></td>
+<td class="text-right"><p>4:30</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">Transfer_Learning_with_a_Pretrained_ConvNet</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module3/transcripts/5509IDL_M3_12_IDL_Introduction_to_transfer_learning_feature_extraction_vs_fine-tuning.srt">transcript</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>13</p></td>
+<td class="text-left"><p>Feature extraction: freeze the ConvNet, then train the classifier</p></td>
+<td class="text-right"><p>6:05</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">Transfer_Learning_with_a_Pretrained_ConvNet</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module3/transcripts/5509IDL_M3_13_IDL_Feature_extraction_freeze_the_ConvNet_then_train_the_classifier.srt">transcript</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>14</p></td>
+<td class="text-left"><p>Fine-tuning the conv layer AND the dense layer</p></td>
+<td class="text-right"><p>6:27</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">Transfer_Learning_with_a_Pretrained_ConvNet</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module3/transcripts/5509IDL_M3_14_IDL_Fine-tuning_the_conv_layer_and_the_dense_layer.srt">transcript</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>15</p></td>
+<td class="text-left"><p>Wrapping up transfer learning</p></td>
+<td class="text-right"><p>1:59</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">Transfer_Learning_with_a_Pretrained_ConvNet</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module3/transcripts/5509IDL_M3_15_IDL_Wrapping_up_transfer_learning.srt">transcript</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>16</p></td>
+<td class="text-left"><p>Introduction to autoencoders</p></td>
+<td class="text-right"><p>7:55</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">Autoencoders_for_Images</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module3/transcripts/5509IDL_M3_16_IDL_Introduction_to_autoencoders.srt">transcript</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>17</p></td>
+<td class="text-left"><p>Applications of autoencoders</p></td>
+<td class="text-right"><p>7:57</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">What_Autoencoders_Can_Actually_Do</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module3/transcripts/5509IDL_M3_17_IDL_Applications_of_autoencoders.srt">transcript</a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="chapter-4-recurrent-networks-for-numeric-sequences">
+<h2>Chapter 4 — Recurrent networks for numeric sequences<a class="headerlink" href="#chapter-4-recurrent-networks-for-numeric-sequences" title="Link to this heading">#</a></h2>
+<p><em>26 videos, 2:54. Read the chapter: <a class="reference internal" href="m4_rnn_numeric/index.html"><span class="doc">Chapter 4 — Recurrent Networks for Numeric Sequences</span></a>.</em></p>
+<section id="m4-1-theory-the-window-method-simplernn-lstm-gru">
+<h3>M4.1 — Theory: the window method, SimpleRNN, LSTM, GRU<a class="headerlink" href="#m4-1-theory-the-window-method-simplernn-lstm-gru" title="Link to this heading">#</a></h3>
+<p><em>9 videos, about 58 minutes.</em></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-right"><p>#</p></th>
+<th class="head text-left"><p>Video</p></th>
+<th class="head text-right"><p>Length</p></th>
+<th class="head text-left"><p>Notebook</p></th>
+<th class="head text-left"><p></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-right"><p>1</p></td>
+<td class="text-left"><p>Introduction to the Window Method</p></td>
+<td class="text-right"><p>4:04</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">Univariate_Temperature_Lags</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module4/transcripts/5509IDL_M4_01_Introduction_to_the_Window_Method.srt">transcript</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>2</p></td>
+<td class="text-left"><p>Series to supervised function (univariate)</p></td>
+<td class="text-right"><p>5:16</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">Univariate_Temperature_Lags</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module4/transcripts/5509IDL_M4_02_Series_to_supervised_function_univariate.srt">transcript</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>3</p></td>
+<td class="text-left"><p>Fitting model and evaluating the window method</p></td>
+<td class="text-right"><p>8:36</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">Univariate_Temperature_Lags</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module4/transcripts/5509IDL_M4_03_Fitting_model_and_evaluating_the_window_method.srt">transcript</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>4</p></td>
+<td class="text-left"><p>Prepping data as samples and a SimpleRNN</p></td>
+<td class="text-right"><p>9:20</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">RNN_Samples_and_the_Hidden_State</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module4/transcripts/5509IDL_M4_04_Prepping_data_as_samples_and_a_SimpleRNN.srt">transcript</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>5</p></td>
+<td class="text-left"><p>Appreciating that RNNs make an intermediate sequence</p></td>
+<td class="text-right"><p>7:52</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">RNN_Samples_and_the_Hidden_State</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module4/transcripts/5509IDL_M4_05_Appreciating_that_RNNs_make_an_intermediate_sequence.srt">transcript</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>6</p></td>
+<td class="text-left"><p>Intro to trainable parameters</p></td>
+<td class="text-right"><p>3:49</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">RNNs_By_Hand_basic</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module4/transcripts/5509IDL_M4_06_Intro_to_trainable_parameters.srt">transcript</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>7</p></td>
+<td class="text-left"><p>SimpleRNN trainable parameters and theory</p></td>
+<td class="text-right"><p>9:11</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">RNNs_By_Hand_basic</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module4/transcripts/5509IDL_M4_07_SimpleRNN_trainable_parameters_and_theory.srt">transcript</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>8</p></td>
+<td class="text-left"><p>A ‘scary’ SimpleRNN and intro to the LSTM</p></td>
+<td class="text-right"><p>5:35</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">RNNs_By_Hand_basic</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module4/transcripts/5509IDL_M4_08_A_scary_SimpleRNN_and_intro_to_the_LSTM.srt">transcript</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>9</p></td>
+<td class="text-left"><p>GRU and closing</p></td>
+<td class="text-right"><p>4:33</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">RNNs_By_Hand_basic</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module4/transcripts/5509IDL_M4_09_GRU_and_closing.srt">transcript</a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="m4-2-implementation-temperature-and-room-occupancy">
+<h3>M4.2 — Implementation: temperature and room occupancy<a class="headerlink" href="#m4-2-implementation-temperature-and-room-occupancy" title="Link to this heading">#</a></h3>
+<p><em>9 videos, about 67 minutes.</em></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-right"><p>#</p></th>
+<th class="head text-left"><p>Video</p></th>
+<th class="head text-right"><p>Length</p></th>
+<th class="head text-left"><p>Notebook</p></th>
+<th class="head text-left"><p></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-right"><p>10</p></td>
+<td class="text-left"><p>Intro to fitting our first univariate RNN</p></td>
+<td class="text-right"><p>5:21</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">Univariate_Temperature_RNN</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module4/transcripts/5509IDL_M4_10_Intro_to_fitting_our_first_univariate_RNN.srt">transcript</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>11</p></td>
+<td class="text-left"><p>Fitting our first SimpleRNN on univariate temperature data</p></td>
+<td class="text-right"><p>6:16</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">Univariate_Temperature_RNN</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module4/transcripts/5509IDL_M4_11_Fitting_our_first_SimpleRNN_on_univariate_temperature_data.srt">transcript</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>12</p></td>
+<td class="text-left"><p>Evaluating RNNs vs baseline models</p></td>
+<td class="text-right"><p>8:37</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">Univariate_Temperature_RNN</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module4/transcripts/5509IDL_M4_12_Evaluating_RNNs_vs_baseline_models.srt">transcript</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>13</p></td>
+<td class="text-left"><p>Occlusion and autoregressive treatment of the RNN</p></td>
+<td class="text-right"><p>7:42</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">Univariate_Temperature_RNN_pt2</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module4/transcripts/5509IDL_M4_13_Occlusion_and_autoregressive_treatment_of_the_RNN.srt">transcript</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>14</p></td>
+<td class="text-left"><p>Intro to the occupancy data for RNN classification</p></td>
+<td class="text-right"><p>7:17</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">Multivariate_Occupancy_Lags</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module4/transcripts/5509IDL_M4_14_Intro_to_the_occupancy_data_for_RNN_classification.srt">transcript</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>15</p></td>
+<td class="text-left"><p>Wrapping up occupancy with lags</p></td>
+<td class="text-right"><p>8:31</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">Multivariate_Occupancy_Lags</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module4/transcripts/5509IDL_M4_15_Wrapping_up_occupancy_with_lags.srt">transcript</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>16</p></td>
+<td class="text-left"><p>Intro to SimpleRNN for occupancy data</p></td>
+<td class="text-right"><p>8:11</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">Multivariate_Occupancy_RNN</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module4/transcripts/5509IDL_M4_16_Intro_to_SimpleRNN_for_occupancy_data.srt">transcript</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>17</p></td>
+<td class="text-left"><p>Wrapping up room occupancy with stacked RNN layers</p></td>
+<td class="text-right"><p>8:55</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">Multivariate_Occupancy_RNN</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module4/transcripts/5509IDL_M4_17_Wrapping_up_room_occupancy_with_stacked_RNN_layers.srt">transcript</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>18</p></td>
+<td class="text-left"><p>xAI for RNNs - permutation importance, occlusion and what-if</p></td>
+<td class="text-right"><p>6:19</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">Multivariate_Occupancy_RNN_pt2</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module4/transcripts/5509IDL_M4_18_xAI_for_RNNs_permutation_importance_occlusion_and_whatif.srt">transcript</a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="m4-3-advanced-topics">
+<h3>M4.3 — Advanced topics<a class="headerlink" href="#m4-3-advanced-topics" title="Link to this heading">#</a></h3>
+<p><em>8 videos, about 50 minutes.</em></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-right"><p>#</p></th>
+<th class="head text-left"><p>Video</p></th>
+<th class="head text-right"><p>Length</p></th>
+<th class="head text-left"><p>Notebook</p></th>
+<th class="head text-left"><p></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-right"><p>19</p></td>
+<td class="text-left"><p>Treatment of time, Conv1D and pooling</p></td>
+<td class="text-right"><p>4:44</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">A1_Primer_for_Advanced_Topics</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module4/transcripts/5509IDL_M4_19_Treatment_of_time_Conv1D_and_pooling.srt">transcript</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>20</p></td>
+<td class="text-left"><p>Dropout, recurrent dropout, and bidirectional layers</p></td>
+<td class="text-right"><p>8:40</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">A1_Primer_for_Advanced_Topics</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module4/transcripts/5509IDL_M4_20_Dropout_recurrent_dropout_and_bidirectional_layers.srt">transcript</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>21</p></td>
+<td class="text-left"><p>Our first ConvLSTM on univariate data (early models)</p></td>
+<td class="text-right"><p>5:44</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">A2_Univariate_Temperature_Advanced</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module4/transcripts/5509IDL_M4_21_Our_first_ConvLSTM_on_univariate_data_early_models.srt">transcript</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>22</p></td>
+<td class="text-left"><p>Bidirectional layers, stacking convolutional layers, baselines</p></td>
+<td class="text-right"><p>8:10</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">A2_Univariate_Temperature_Advanced</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module4/transcripts/5509IDL_M4_22_Bidirectional_layers_stacking_convolutional_layers_baselines.srt">transcript</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>23</p></td>
+<td class="text-left"><p>Intro to the multivariate problem and first model</p></td>
+<td class="text-right"><p>6:44</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">A3_Multivariate_Energy_RNN</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module4/transcripts/5509IDL_M4_23_Intro_to_the_multivariate_problem_and_first_model.srt">transcript</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>24</p></td>
+<td class="text-left"><p>ConvLSTM, dropout and bidirectional for multivariate</p></td>
+<td class="text-right"><p>4:00</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">A3_Multivariate_Energy_RNN</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module4/transcripts/5509IDL_M4_24_ConvLSTM_dropout_and_bidirectional_for_multivariate.srt">transcript</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>25</p></td>
+<td class="text-left"><p>One shared model for two outputs</p></td>
+<td class="text-right"><p>3:40</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">A4_Many_to_Many_Energy</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module4/transcripts/5509IDL_M4_25_One_shared_model_for_two_outputs.srt">transcript</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>26</p></td>
+<td class="text-left"><p>Many to many and recursive time series forecasting</p></td>
+<td class="text-right"><p>7:52</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">A5_Multi_Step_Forecasting</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module4/transcripts/5509IDL_M4_26_Many_to_many_and_recursive_time_series_forecasting.srt">transcript</a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="chapter-5-recurrent-networks-for-text">
+<h2>Chapter 5 — Recurrent networks for text<a class="headerlink" href="#chapter-5-recurrent-networks-for-text" title="Link to this heading">#</a></h2>
+<p><em>13 videos, 1:19. Read the chapter: <a class="reference internal" href="m5_rnn_text/index.html"><span class="doc">Chapter 5 — Recurrent Networks for Text</span></a>.</em></p>
+<section id="m5-1-text-as-a-bag-of-words">
+<h3>M5.1 — Text as a bag of words<a class="headerlink" href="#m5-1-text-as-a-bag-of-words" title="Link to this heading">#</a></h3>
+<p><em>6 videos, about 40 minutes.</em></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-right"><p>#</p></th>
+<th class="head text-left"><p>Video</p></th>
+<th class="head text-right"><p>Length</p></th>
+<th class="head text-left"><p>Notebook</p></th>
+<th class="head text-left"><p></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-right"><p>1</p></td>
+<td class="text-left"><p>Intro to Storm Classification dataset</p></td>
+<td class="text-right"><p>6:15</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">EDA_ML_Storms</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module5/transcripts/5509IDL_M5_01_Intro_to_Storm_Classification_dataset.srt">transcript</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>2</p></td>
+<td class="text-left"><p>Your ML Text processing methodology</p></td>
+<td class="text-right"><p>8:52</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">EDA_ML_Storms</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module5/transcripts/5509IDL_M5_02_Your_ML_Text_processing_methodology.srt">transcript</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>3</p></td>
+<td class="text-left"><p>Bag of Words</p></td>
+<td class="text-right"><p>6:49</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">EDA_ML_Storms</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module5/transcripts/5509IDL_M5_03_Bag_of_Words.srt">transcript</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>4</p></td>
+<td class="text-left"><p>Building a model, TF-IDF and closing ML approaches to text</p></td>
+<td class="text-right"><p>5:13</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">EDA_ML_Storms</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module5/transcripts/5509IDL_M5_04_Building_a_model_TFIDF_and_closing_ML_approaches_to_text.srt">transcript</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>5</p></td>
+<td class="text-left"><p>Using Keras to do basic text processing</p></td>
+<td class="text-right"><p>6:25</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">Tokenizer_FFNN_Storms</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module5/transcripts/5509IDL_M5_05_Using_Keras_to_do_basic_text_processing.srt">transcript</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>6</p></td>
+<td class="text-left"><p>Text sequence data wrap-up with FFNNs</p></td>
+<td class="text-right"><p>6:25</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">Tokenizer_FFNN_Storms</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module5/transcripts/5509IDL_M5_06_Text_sequence_data_wrapup_with_FFNNs.srt">transcript</a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="m5-2-text-as-a-sequence-embeddings-and-rnns">
+<h3>M5.2 — Text as a sequence: embeddings and RNNs<a class="headerlink" href="#m5-2-text-as-a-sequence-embeddings-and-rnns" title="Link to this heading">#</a></h3>
+<p><em>7 videos, about 40 minutes.</em></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-right"><p>#</p></th>
+<th class="head text-left"><p>Video</p></th>
+<th class="head text-right"><p>Length</p></th>
+<th class="head text-left"><p>Notebook</p></th>
+<th class="head text-left"><p></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-right"><p>7</p></td>
+<td class="text-left"><p>Welcome to Module 5.2 Advanced Topics</p></td>
+<td class="text-right"><p>4:44</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">M5_2a_GloVe_Geometry</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module5/transcripts/5509IDL_M5_07_Welcome_to_Module_52_Advanced_Topics.srt">transcript</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>8</p></td>
+<td class="text-left"><p>The Geometry of an Embedding</p></td>
+<td class="text-right"><p>7:26</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">M5_2a_GloVe_Geometry</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module5/transcripts/5509IDL_M5_08_The_Geometry_of_an_Embedding.srt">transcript</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>9</p></td>
+<td class="text-left"><p>Wrapping up geometry of embeddings</p></td>
+<td class="text-right"><p>4:45</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">M5_2a_GloVe_Geometry</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module5/transcripts/5509IDL_M5_09_Wrapping_up_geometry_of_embeddings.srt">transcript</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>10</p></td>
+<td class="text-left"><p>Embeddings and one-hot encoding</p></td>
+<td class="text-right"><p>6:57</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">M5_2b_Word_Embeddings</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module5/transcripts/5509IDL_M5_10_Embeddings_and_one_hot_encoding_v2.srt">transcript</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>11</p></td>
+<td class="text-left"><p>Embeddings and SimpleRNN and the sports gambling analogy (real-time odds)</p></td>
+<td class="text-right"><p>6:20</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">M5_2c_Understanding_RNNs</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module5/transcripts/5509IDL_M5_11_Embeddings_and_SimpleRNN_and_the_sports_gambling_analogy_realtime_odds.srt">transcript</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>12</p></td>
+<td class="text-left"><p>“Monster” LSTMs for text data and wrapping up class</p></td>
+<td class="text-right"><p>2:59</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">M5_2c_Understanding_RNNs</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module5/transcripts/5509IDL_M5_12_Monster_LSTMs_for_text_data_and_wrapping_up_class.srt">transcript</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>13</p></td>
+<td class="text-left"><p>A real-world capstone of RNNs and text with Bluesky</p></td>
+<td class="text-right"><p>6:23</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">Who_Posted_It_Bluesky</span></code></p></td>
+<td class="text-left"><p><a class="reference external" href="https://github.com/drdave-teaching/opim5509-transcripts/blob/main/fall2026_idl/module5/transcripts/5509IDL_M5_13_A_realword_capstone_of_RNNstext_with_Bluesky.srt">transcript</a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr class="docutils" />
+<p><em>Chapter 6 (special topics) has no Fall 2026 videos yet. The notebooks named above are linked, with Colab buttons, at the top of each chapter.</em></p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="m6_special/index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Chapter 6 — Special Topics</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#at-a-glance">At a glance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chapter-1-refresher-eda-and-machine-learning">Chapter 1 — Refresher: EDA and machine learning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chapter-2-dense-neural-networks">Chapter 2 — Dense neural networks</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#m2-1-theory-by-hand">M2.1 — Theory, by hand</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#m2-2-regression-in-keras">M2.2 — Regression in Keras</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#m2-3-classification-in-keras">M2.3 — Classification in Keras</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chapter-3-convolutional-neural-networks">Chapter 3 — Convolutional neural networks</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#m3-1-convnet-theory-and-the-math">M3.1 — ConvNet theory and the math</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#m3-2-cats-vs-dogs-and-what-the-model-is-looking-at">M3.2 — Cats vs. dogs, and what the model is looking at</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#m3-3-transfer-learning-and-autoencoders">M3.3 — Transfer learning and autoencoders</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chapter-4-recurrent-networks-for-numeric-sequences">Chapter 4 — Recurrent networks for numeric sequences</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#m4-1-theory-the-window-method-simplernn-lstm-gru">M4.1 — Theory: the window method, SimpleRNN, LSTM, GRU</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#m4-2-implementation-temperature-and-room-occupancy">M4.2 — Implementation: temperature and room occupancy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#m4-3-advanced-topics">M4.3 — Advanced topics</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chapter-5-recurrent-networks-for-text">Chapter 5 — Recurrent networks for text</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#m5-1-text-as-a-bag-of-words">M5.1 — Text as a bag of words</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#m5-2-text-as-a-sequence-embeddings-and-rnns">M5.2 — Text as a sequence: embeddings and RNNs</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Dr. Dave Wanik · University of Connecticut (OPIM 5509)
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <p style="font-size:0.9em;opacity:0.85"><strong>⚠️ Work in progress.</strong> These are living draft materials — actively being written and revised. Expect rough edges, gaps, and changes; this is a teaching companion, not a final or official reference.</p>
+<p><em>OPIM 5509 — Introduction to Deep Learning. Built from Dr. Wanik's lecture
+transcripts and course notebooks. A casual-but-rigorous, code-first textbook.</em></p>
+
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
