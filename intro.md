@@ -26,6 +26,7 @@ The book follows the arc of the course, from the simplest neural network to the 
 - **Chapter 4 — Recurrent Networks for Numeric Sequences.** The window method, SimpleRNN → LSTM → GRU, bidirectional layers, 1-D convolutions, and many-to-many forecasting.
 - **Chapter 5 — Recurrent Networks for Text.** Classic NLP (bag-of-words, TF-IDF), word embeddings, and RNNs that read.
 - **Chapter 6 — Special Topics.** Image segmentation with U-Nets, and deep recommender systems.
+- **The Video Lectures.** A guide to the 89 lecture videos behind Chapters 1–5 — what each one covers, how long it runs, and a link to its transcript: {doc}`videos`.
 
 ## How to read it
 
